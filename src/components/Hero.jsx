@@ -51,9 +51,8 @@ export default function Hero() {
                 initial={{ y: '-100%' }}
                 animate={{ y: showContent ? 0 : '-100%' }}
                 transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-                className="relative z-10 w-full bg-white flex items-center justify-center top-0 pt-32 pb-24 md:pt-30 md:pb-40 overflow-hidden"
+                className="relative z-10 w-full bg-white flex items-center justify-center top-0 pt-32 pb-24 md:pt-30 md:pb-24 overflow-hidden h-[85vh] md:h-[76vh]"
                 style={{
-                    height: '85vh',
                     clipPath: 'url(#arch-clip)'
                 }}
             >

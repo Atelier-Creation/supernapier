@@ -57,11 +57,12 @@ export default function OurProduct() {
                                     className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center justify-center cursor-pointer"
                                     onClick={() => setCurrentIndex(index)}
                                 >
-                                    <div className="relative w-64 md:w-100 h-auto filter">
+                                    <div className="relative w-64 md:w-100 h-auto filter drop-shadow-2xl">
                                         <img
-                                            src="/seeds-package.png"
+                                            src="seeds-package-removebg-preview.png"
+                                            // src="/seeds-package.png"
                                             alt={product.name}
-                                            className="w-full h-auto object-contain"
+                                            className="w-full h-auto object-contain "
                                         />
                                         {/* Optional: Add text overlay if needed, although the image might already have "Corn Seeds" etc. 
                                             If the seed-package.png is blank, we could superimpose text here. */}
