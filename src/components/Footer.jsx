@@ -12,10 +12,10 @@ export default function Footer() {
     return (
         <footer className="bg-white text-gray-900 pt-24 pb-8 border-t border-gray-100 flex flex-col justify-between align-center relative w-full overflow-hidden">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="grid grid-cols-1 md:grid-cols-4 mb-24 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16 md:mb-24 relative z-10">
                     {/* Left Column */}
-                    <div className="flex flex-col space-y-8">
-                        <h2 className="text-4xl md:text-4xl font-black uppercase tracking-tight leading-[1.5]">
+                    <div className="flex flex-col space-y-6 md:space-y-8">
+                        <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight leading-[1.3] md:leading-[1.5]">
                             Fueling Growth,<br />
                             Rooted in<br />
                             Quality.
@@ -28,20 +28,20 @@ export default function Footer() {
                     </div>
 
                     {/* Middle Column (Pills) */}
-                    <div className="flex flex-col col-span-2 justify-center items-center">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <a href="/products" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">Product</a>
-                            <a href="/" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">About Us</a>
-                            <a href="/contact" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">Contact Us</a>
-                            <a href="/blog" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">Blogs</a>
-                            <a href="/partnership" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">Partnership</a>
-                            <a href="#testimonials" className="bg-[#111] hover:bg-black text-white px-8 py-3 rounded-full font-bold text-sm transition-colors text-center">Testimonials</a>
+                    <div className="flex flex-col md:col-span-2 justify-center items-center mt-4 md:mt-0">
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full md:w-auto">
+                            <a href="/products" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Product</a>
+                            <a href="/" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">About Us</a>
+                            <a href="/contact" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Contact Us</a>
+                            <a href="/blog" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Blogs</a>
+                            <a href="/partnership" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Partnership</a>
+                            <a href="#testimonials" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Testimonials</a>
                         </div>
                     </div>
 
                     {/* Right Column */}
-                    <div className="flex flex-col md:pl-12">
-                        <h4 className="text-xl font-bold mb-6 text-gray-900">Contact</h4>
+                    <div className="flex flex-col md:pl-12 mt-4 md:mt-0 items-center md:items-start text-center md:text-left">
+                        <h4 className="text-xl font-bold mb-4 md:mb-6 text-gray-900">Contact</h4>
                         <div className="text-sm text-gray-800 space-y-4 font-medium leading-relaxed">
                             <div>
                                 <p className="font-bold text-gray-900">Super Napier HQ</p>
@@ -49,8 +49,8 @@ export default function Footer() {
                                 <p>Springhaven, CA 92845</p>
                                 <p>United States</p>
                             </div>
-                            <div className="pt-2">
-                                <a href="mailto:supernapierglobal@gmail.com" className="block hover:text-[#16a34a] transition-colors">supernapierglobal@gmail.com</a>
+                            <div className="pt-2 flex flex-col items-center md:items-start space-y-2 md:space-y-0">
+                                <a href="mailto:supernapierglobal@gmail.com" className="block hover:text-[#16a34a] transition-colors break-all">supernapierglobal@gmail.com</a>
                                 <a href="tel:+16675642637" className="block hover:text-[#16a34a] transition-colors">+1 (667) 564-2637</a>
                             </div>
                         </div>

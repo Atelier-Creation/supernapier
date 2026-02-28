@@ -28,7 +28,7 @@ export default function Hero() {
             {/* SVG Arc Clip Path */}
             <svg width="0" height="0" className="absolute">
                 <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 1,0 L 1,1 Q 0.5,0.6 0,1 Z" />
+                    <path d="M 0,0 L 1,0 L 1,1 Q 0.5,0.85 0,1 Z" />
                 </clipPath>
             </svg>
 
@@ -51,9 +51,9 @@ export default function Hero() {
                 initial={{ y: '-100%' }}
                 animate={{ y: showContent ? 0 : '-100%' }}
                 transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-                className="relative z-10 w-full bg-white flex items-center justify-center top-0 pt-30 pb-40 overflow-hidden"
+                className="relative z-10 w-full bg-white flex items-center justify-center top-0 pt-32 pb-24 md:pt-30 md:pb-40 overflow-hidden"
                 style={{
-                    height: '80vh',
+                    height: '85vh',
                     clipPath: 'url(#arch-clip)'
                 }}
             >

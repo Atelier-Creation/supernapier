@@ -20,7 +20,7 @@ export default function OurProduct() {
     };
 
     return (
-        <section className="py-24 bg-white">
+        <section className="py-24 bg-white overflow-hidden">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <div className="mb-16 max-w-4xl mx-auto">
                     <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight mb-6">OUR PRODUCT</h2>
@@ -73,7 +73,7 @@ export default function OurProduct() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.3 }}
-                                            className="absolute bottom-0 bg-[#16a34a] hover:bg-[#15803d] text-white px-8 py-3 rounded-full font-bold shadow-lg transition-colors z-40"
+                                            className="absolute md:bottom-0 -bottom-8 bg-[#16a34a] hover:bg-[#15803d] text-white px-8 py-3 rounded-full font-bold shadow-lg transition-colors z-40"
                                         >
                                             Buy Now
                                         </motion.button>
@@ -85,7 +85,7 @@ export default function OurProduct() {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-12 md:space-x-40 mt-0 relative z-40">
+                <div className="flex items-center justify-center space-x-40 mt-0 relative z-40">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"
