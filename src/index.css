@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-green-primary: #1B5E20;
+  --color-brown-earth: #5D4037;
+  --color-beige-soft: #F1F8E9;
+  --color-accent-lime: #a3e635; /* Custom accent */
+}
+
+body {
+  background-color: var(--color-beige-soft);
+  color: #333;
+}
