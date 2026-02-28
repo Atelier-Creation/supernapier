@@ -21,7 +21,7 @@ export default function TestimonialsSection() {
                     OUR HAPPY FARMERS!
                 </h2>
 
-                <div className="relative w-full flex items-center justify-center h-[550px] md:h-[500px] mb-8">
+                <div className="relative w-full flex items-center justify-center h-[650px] md:h-[500px] mb-8">
                     <div className="flex w-full items-center justify-center relative h-full">
                         {mockTestimonials.map((test, index) => {
                             let position = 'next';
@@ -42,7 +42,7 @@ export default function TestimonialsSection() {
                                         zIndex: isActive ? 30 : 10,
                                     }}
                                     transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-                                    className="absolute top-1/2 -translate-y-1/2 flex flex-col md:flex-row items-center justify-center w-[90%] md:w-[850px] bg-[#ecf3e1] p-6 md:p-8 rounded-tl-2xl rounded-tr-[4rem] rounded-bl-[4rem] rounded-br-2xl shadow-sm text-left gap-8 md:gap-12"
+                                    className="absolute top-1/2 -translate-y-1/2 flex flex-col md:flex-row items-center justify-center w-[90%] md:w-[850px] bg-[#ecf3e1] p-6 md:p-8 rounded-tl-2xl rounded-tr-[4rem] rounded-bl-[4rem] rounded-br-2xl shadow-sm text-left gap-4 md:gap-12"
                                 >
                                     {/* Left Image */}
                                     <div className="w-full md:w-6/12 h-[200px] rounded-tr-3xl rounded-bl-3xl rounded-tl-md rounded-br-md overflow-hidden md:h-[450px] flex-shrink-0">
@@ -54,12 +54,12 @@ export default function TestimonialsSection() {
                                     </div>
 
                                     {/* Right Content */}
-                                    <div className="w-full md:w-7/12 flex flex-col justify-center pr-4 py-4">
-                                        <div className="bg-white rounded-md px-4 py-2 flex items-center shadow-sm w-fit mb-8">
+                                    <div className="w-full md:w-7/12 flex flex-col justify-center pr-2 md:pr-4 py-2 md:py-4">
+                                        <div className="bg-white rounded-md px-4 py-2 flex items-center shadow-sm w-fit mb-4 md:mb-8">
                                             <span className="font-bold text-gray-900 leading-none">{test.name}</span>
                                             <span className="text-gray-500 italic text-sm ml-2 leading-none">- {test.role}</span>
                                         </div>
-                                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-6 w-full md:w-[95%]">
+                                        <h3 className="text-xl md:text-3xl font-bold text-gray-900 leading-snug mb-4 md:mb-6 w-full md:w-[95%]">
                                             {test.heading}
                                         </h3>
                                         <p className="text-sm md:text-[15px] text-gray-600 leading-relaxed font-medium">
@@ -73,7 +73,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-20 relative z-40">
+                <div className="flex items-center justify-center space-x-12 md:space-x-20 relative z-40">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"

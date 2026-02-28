@@ -39,7 +39,7 @@ export default function CategoriesSection() {
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 whileHover={{ y: -5 }}
-                                className={`${styleClass} rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl p-10 flex flex-col items-center justify-center text-center group border shadow-sm hover:shadow-xl transition-all`}
+                                className={`${styleClass} rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl p-6 md:p-10 flex flex-col items-center justify-center text-center group border shadow-sm hover:shadow-xl transition-all`}
                             >
                                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-md group-hover:bg-[#1B5E20] transition-colors stroke-[1.5]">
                                     <Sprout className="w-8 h-8 text-[#1B5E20] group-hover:text-white transition-colors" />

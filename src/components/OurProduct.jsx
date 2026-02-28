@@ -29,7 +29,7 @@ export default function OurProduct() {
                     </p>
                 </div>
 
-                <div className="relative w-full max-w-full mx-auto flex items-center justify-center h-[500px]">
+                <div className="relative w-full max-w-full mx-auto flex items-center justify-center h-[350px] md:h-[500px]">
                     {/* Container for products */}
                     <div className="flex w-full items-center justify-center relative h-full">
                         {products.map((product, index) => {
@@ -85,7 +85,7 @@ export default function OurProduct() {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-40 mt-0 relative z-40">
+                <div className="flex items-center justify-center space-x-12 md:space-x-40 mt-0 relative z-40">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"

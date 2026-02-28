@@ -99,9 +99,14 @@ export default function Navbar({ cartCount, onOpenCart }) {
                     </div>
 
                     {/* Mobile Menu Toggle */}
-                    <div className="lg:hidden flex items-center space-x-4">
-                        <button onClick={onOpenCart} className="relative p-2 text-gray-900">
+                    <div className="lg:hidden flex items-center space-x-2">
+                        <button onClick={onOpenCart} className="relative p-2 text-gray-900 border border-gray-200 rounded-lg">
                             <ShoppingCart className="h-5 w-5" />
+                            {cartCount > 0 && (
+                                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold text-white transform translate-x-1/4 -translate-y-1/4 bg-red-500 rounded-full">
+                                    {cartCount}
+                                </span>
+                            )}
                         </button>
                         <button className="p-2 text-gray-900 bg-gray-100 rounded-lg" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
