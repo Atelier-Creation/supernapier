@@ -37,7 +37,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-white font-sans text-gray-800">
+      <div className="flex flex-col min-h-screen bg-[#FAFCF8] font-sans text-gray-800">
         <Navbar cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} onOpenCart={() => setCartOpen(true)} />
 
         <main className="flex-grow">

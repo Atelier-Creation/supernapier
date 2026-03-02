@@ -46,10 +46,11 @@ export const mockProducts = [
 ];
 
 export const mockCategories = [
-    { id: 1, name: "Vegetable Seeds", icon: "Carrot" },
-    { id: 2, name: "Grain Seeds", icon: "Wheat" },
-    { id: 3, name: "Hybrid Seeds", icon: "Leaf" },
-    { id: 4, name: "Organic Seeds", icon: "Sprout" }
+    { id: 1, name: "Vegetable Seeds", icon: "Carrot", image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500" },
+    { id: 2, name: "Grain Seeds", icon: "Wheat", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=500" },
+    { id: 3, name: "Hybrid Seeds", icon: "Leaf", image: "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?auto=format&fit=crop&q=80&w=500" },
+    { id: 4, name: "Organic Seeds", icon: "Sprout", image: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&q=80&w=500" },
+    { id: 5, name: "Specialty Seeds", icon: "Flower", image: "https://images.unsplash.com/photo-1530836369250-ef71a4f5f9ed?auto=format&fit=crop&q=80&w=500" }
 ];
 
 export const mockTestimonials = [

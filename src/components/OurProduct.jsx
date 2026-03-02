@@ -20,8 +20,10 @@ export default function OurProduct() {
     };
 
     return (
-        <section className="py-24 bg-white overflow-hidden">
-            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="py-24 bg-[#FAFCF8] overflow-hidden relative">
+            {/* Palm Shadow Right */}
+            <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -left-64 scale-x-[-1] h-full object-contain opacity-60 pointer-events-none z-0" />
+            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <div className="mb-16 max-w-4xl mx-auto">
                     <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight mb-6">OUR PRODUCT</h2>
                     <p className="text-sm md:text-base text-gray-500 leading-relaxed font-medium">

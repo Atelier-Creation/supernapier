@@ -10,7 +10,7 @@ const WhatsAppIcon = ({ className }) => (
 
 export default function Footer() {
     return (
-        <footer className="bg-white text-gray-900 pt-24 pb-8 border-t border-gray-100 flex flex-col justify-between align-center relative w-full overflow-hidden">
+        <footer className="bg-[#FAFCF8] text-gray-900 pt-24 pb-8 border-t border-gray-100 flex flex-col justify-between align-center relative w-full overflow-hidden">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16 md:mb-24 relative z-10">
                     {/* Left Column */}
@@ -47,7 +47,7 @@ export default function Footer() {
                                 <p className="font-bold text-gray-900">Super Napier HQ</p>
                                 <p>25 Harvest Lane, Greenfield District</p>
                                 <p>Springhaven, CA 92845</p>
-                                <p>United States</p>
+                                <p>India</p>
                             </div>
                             <div className="pt-2 flex flex-col items-center md:items-start space-y-2 md:space-y-0">
                                 <a href="mailto:supernapierglobal@gmail.com" className="block hover:text-[#16a34a] transition-colors break-all">supernapierglobal@gmail.com</a>

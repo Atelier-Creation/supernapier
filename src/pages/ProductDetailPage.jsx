@@ -24,7 +24,7 @@ export default function ProductDetailPage({ addToCart }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="py-12 bg-white"
+            className="py-12 bg-[#FAFCF8]"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <Link to="/products" className="inline-flex items-center space-x-2 text-[#1B5E20] font-medium hover:text-[#5D4037] mb-8 transition-colors">

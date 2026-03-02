@@ -48,7 +48,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
             initial={{ y: isLanding ? '-100%' : 0 }}
             animate={{ y: showNav ? (isHidden ? '-100%' : 0) : '-100%' }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-            className={`fixed top-0 w-full z-50 ${isLanding ? 'bg-white' : 'bg-white/90 backdrop-blur-md'} border-b border-gray-50`}
+            className={`fixed top-0 w-full z-50 ${isLanding ? 'bg-[#FAFCF8]' : 'bg-[#FAFCF8]/90 backdrop-blur-md'} border-b border-gray-50`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-24">

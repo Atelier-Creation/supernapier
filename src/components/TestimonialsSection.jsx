@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { mockTestimonials } from '../data/mockData';
@@ -14,9 +14,18 @@ export default function TestimonialsSection() {
         setCurrentIndex((prev) => (prev === mockTestimonials.length - 1 ? 0 : prev + 1));
     };
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            handleNext();
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
-        <section className="py-24 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="py-24 bg-[#FAFCF8] overflow-hidden relative">
+            {/* Palm Shadow Left */}
+            <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -left-64 h-full object-contain opacity-[0.04] pointer-events-none z-0 scale-x-[-1]" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-16 uppercase tracking-tight">
                     OUR HAPPY FARMERS!
                 </h2>
