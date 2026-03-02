@@ -58,7 +58,7 @@ export default function CategoriesSection() {
                                 <div className={`relative z-10 flex flex-col ${index === 2 ? 'items-center text-center mt-10' : 'items-start'}`}>
                                     <p className="text-red-500 font-bold mb-2 text-sm">Get 30% off</p>
                                     <h3 className="font-extrabold text-gray-900 text-xl md:text-2xl leading-tight mb-4 max-w-[150px]">{cat.name}<br />Collection</h3>
-                                    <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg font-bold text-sm shadow-md transition-colors mt-2">
+                                    <button className="bg-[#1B5E20] hover:bg-[#0f9c40] text-white px-6 py-2 rounded-lg font-bold text-sm shadow-md transition-colors mt-2">
                                         Shop Now
                                     </button>
                                 </div>
@@ -66,8 +66,8 @@ export default function CategoriesSection() {
                                     src={cat.image}
                                     alt={cat.name}
                                     className={`absolute object-cover rounded-xl shadow-lg mix-blend-multiply ${index === 2
-                                            ? 'bottom-2 w-[80%] right-[10%] h-[50%]'
-                                            : 'bottom-[-10%] -right-4 w-[60%] h-[80%]'
+                                        ? 'bottom-2 w-[80%] right-[10%] h-[50%]'
+                                        : 'bottom-[-10%] -right-4 w-[60%] h-[80%]'
                                         }`}
                                     style={{
                                         WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))'
