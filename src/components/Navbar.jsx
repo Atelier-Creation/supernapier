@@ -57,7 +57,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                     <div className="hidden lg:flex space-x-8 flex-1">
                         <Link to="/products" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">Product</Link>
                         <Link to="/blog" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">Technology</Link>
-                        <Link to="/" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">About Us</Link>
+                        <Link to="/about" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">About Us</Link>
                     </div>
 
                     {/* Center Logo */}

@@ -21,9 +21,9 @@ export default function CategoriesSection() {
             {/* Palm Shadow Left */}
             <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -right-64 h-full object-contain opacity-60 pointer-events-none z-0 " />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
                     <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight mb-6">Shop by Category</h2>
-                    <p className="text-sm md:text-base max-w-2xl mx-auto text-gray-500 leading-relaxed font-medium">
+                    <p className="text-xs md:text-base max-w-sm ml-auto text-gray-500 leading-relaxed font-medium">
                         select from our wide range of seeds, tailored to meet the diverse needs of farmers and agricultural.
                     </p>
                     {/* <div className="h-1 w-20 bg-gradient-to-r from-[#a3e635] to-[#1B5E20] mx-auto rounded-full"></div> */}
@@ -65,13 +65,13 @@ export default function CategoriesSection() {
                                 <img
                                     src={cat.image}
                                     alt={cat.name}
-                                    className={`absolute object-cover rounded-xl shadow-lg mix-blend-multiply ${index === 2
+                                    className={`absolute object-cover rounded-xl  mix-blend-multiply ${index === 2
                                         ? 'bottom-2 w-[80%] right-[10%] h-[50%]'
                                         : 'bottom-[-10%] -right-4 w-[60%] h-[80%]'
                                         }`}
-                                    style={{
-                                        WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))'
-                                    }}
+                                    // style={{
+                                    //     WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))'
+                                    // }}
                                 />
                             </motion.div>
                         );

@@ -46,11 +46,11 @@ export const mockProducts = [
 ];
 
 export const mockCategories = [
-    { id: 1, name: "Vegetable Seeds", icon: "Carrot", image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500" },
-    { id: 2, name: "Grain Seeds", icon: "Wheat", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=500" },
-    { id: 3, name: "Hybrid Seeds", icon: "Leaf", image: "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?auto=format&fit=crop&q=80&w=500" },
-    { id: 4, name: "Organic Seeds", icon: "Sprout", image: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&q=80&w=500" },
-    { id: 5, name: "Specialty Seeds", icon: "Flower", image: "https://images.unsplash.com/photo-1530836369250-ef71a4f5f9ed?auto=format&fit=crop&q=80&w=500" }
+    { id: 1, name: "Koli Avarai", icon: "Carrot", image: "/koli_avarai_seeds.png" },
+    { id: 2, name: "Drum Seeds", icon: "Wheat", image: "/drum-seeds.png" },
+    { id: 3, name: "Napier Grass", icon: "Leaf", image: "/napier-grass.png" },
+    { id: 4, name: "Organic Seeds", icon: "Sprout", image: "/seeds-package-removebg-preview.png" },
+    { id: 5, name: "Vegitables Seeds", icon: "Flower", image: "/special-seeds.png" }
 ];
 
 export const mockTestimonials = [

@@ -6,32 +6,46 @@ import { ShoppingCart } from 'lucide-react';
 export default function ProductCard({ product, addToCart }) {
     return (
         <motion.div
-            whileHover={{ y: -10 }}
-            className="bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300 group flex flex-col"
+            whileHover={{ y: -6 }}
+            className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col overflow-hidden"
         >
-            <Link to={`/product/${product.id}`} className="relative h-64 overflow-hidden block">
+            {/* Image */}
+            <Link to={`/product/${product.id}`} className="relative h-52 overflow-hidden block bg-[#f2fae6]">
                 <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute top-4 left-4">
-                    <span className="bg-[#F1F8E9] text-[#1B5E20] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                {/* Category badge */}
+                <div className="absolute top-3 left-3">
+                    <span className="bg-white/80 backdrop-blur-md text-[#1B5E20] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
                         {product.category}
+                    </span>
+                </div>
+                {/* Discount badge */}
+                <div className="absolute top-3 right-3">
+                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
+                        30% off
                     </span>
                 </div>
             </Link>
 
-            <div className="p-6 flex flex-col flex-grow">
+            {/* Body */}
+            <div className="p-5 flex flex-col flex-grow">
                 <Link to={`/product/${product.id}`}>
-                    <h3 className="text-xl font-bold text-[#1B5E20] mb-2 group-hover:text-[#5D4037] transition-colors line-clamp-1">{product.name}</h3>
+                    <h3 className="text-base font-extrabold text-gray-900 mb-1 group-hover:text-[#059669] transition-colors line-clamp-1 leading-tight">
+                        {product.name}
+                    </h3>
                 </Link>
-                <p className="text-gray-500 text-sm mb-4 line-clamp-2">{product.description}</p>
+                <p className="text-gray-400 text-xs mb-4 line-clamp-2 leading-relaxed">{product.description}</p>
 
-                <div className="flex items-end justify-between mt-auto pt-4 border-t border-gray-50">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                     <div>
-                        <p className="text-xs text-gray-400 uppercase font-semibold">Price</p>
-                        <p className="text-2xl font-bold text-[#5D4037]">₹{product.price.toFixed(2)}<span className='text-sm text-[#1B5E20]'>/kg</span></p>
+                        <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</p>
+                        <p className="text-xl font-black text-gray-900">
+                            ₹{product.price.toFixed(2)}
+                            <span className="text-xs font-medium text-[#059669] ml-1">/kg</span>
+                        </p>
                     </div>
 
                     <motion.button
@@ -40,9 +54,9 @@ export default function ProductCard({ product, addToCart }) {
                             e.preventDefault();
                             addToCart(product);
                         }}
-                        className="bg-[#F1F8E9] hover:bg-[#1B5E20] text-[#1B5E20] hover:text-white p-3 rounded-xl transition-colors shadow-sm"
+                        className="bg-[#111] hover:bg-[#059669] text-white p-3 rounded-full transition-colors shadow-md"
                     >
-                        <ShoppingCart className="w-6 h-6" />
+                        <ShoppingCart className="w-4 h-4" />
                     </motion.button>
                 </div>
             </div>
