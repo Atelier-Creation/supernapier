@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Package, LayoutGrid, FileSearch, Globe2 } from 'lucide-react';
 
 export default function WhyChooseUs() {
     return (
@@ -18,8 +17,8 @@ export default function WhyChooseUs() {
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                         <motion.div whileHover={{ y: -5 }} className="bg-[#FFEFE5] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-orange-200/50 p-4 rounded-full mb-6">
-                                <Package className="w-10 h-10 text-orange-600 stroke-[2]" />
+                            <div className="bg-orange-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
+                                <img src="/icons/tomato-3d.webp" alt="Tomato" className="w-16 h-16 object-contain drop-shadow-md" />
                             </div>
                             <p className="text-gray-800 text-sm font-semibold leading-relaxed">
                                 High-quality hybrid and OP vegetable, flower, herb and cover crop seeds.
@@ -27,8 +26,8 @@ export default function WhyChooseUs() {
                         </motion.div>
 
                         <motion.div whileHover={{ y: -5 }} className="bg-[#EAF5E1] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-lime-200/50 p-4 rounded-full mb-6">
-                                <LayoutGrid className="w-10 h-10 text-lime-600 stroke-[2]" />
+                            <div className="bg-lime-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
+                                <img src="/icons/plant-3d.png" alt="Plant sprout" className="w-16 h-16 object-contain drop-shadow-md" />
                             </div>
                             <p className="text-gray-800 text-sm font-semibold leading-relaxed">
                                 Offering organic, conventional, treated, untreated, and pelleted seeds.
@@ -36,8 +35,8 @@ export default function WhyChooseUs() {
                         </motion.div>
 
                         <motion.div whileHover={{ y: -5 }} className="bg-[#EBF0FA] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-blue-200/50 p-4 rounded-full mb-6">
-                                <FileSearch className="w-10 h-10 text-blue-600 stroke-[2]" />
+                            <div className="bg-blue-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
+                                <img src="/icons/medal-3d.webp" alt="Medal" className="w-16 h-16 object-contain drop-shadow-md" />
                             </div>
                             <p className="text-gray-800 text-sm font-semibold leading-relaxed">
                                 We trial seeds nationally to bring in top-performing products.
@@ -45,8 +44,8 @@ export default function WhyChooseUs() {
                         </motion.div>
 
                         <motion.div whileHover={{ y: -5 }} className="bg-[#E2F5EA] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-emerald-200/50 p-4 rounded-full mb-6">
-                                <Globe2 className="w-10 h-10 text-emerald-600 stroke-[2]" />
+                            <div className="bg-emerald-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
+                                <img src="/icons/truck-3d-icon.webp" alt="Delivery Truck" className="w-16 h-16 object-contain drop-shadow-md hover:translate-x-1 transition-transform" />
                             </div>
                             <p className="text-gray-800 text-sm font-semibold leading-relaxed">
                                 Fast, accurate seed delivery across the Asia and Canada.

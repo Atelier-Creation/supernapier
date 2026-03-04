@@ -6,6 +6,15 @@ import { ArrowUpRight, Star, Headphones } from 'lucide-react';
 export default function Hero() {
     const navigate = useNavigate();
     const [phase, setPhase] = useState('video'); // 'video' | 'hero'
+    const [bgIdx, setBgIdx] = useState(0);
+
+    const bgImages = [
+        "/agriculture-healthy-food-hero-bg-tractor.png",
+        "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&q=80&w=1920", // tractor in field
+        "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?q=80&w=1920&auto=format&fit=crop",
+        // "/hero-slider3.jpg",
+        "/hero-slider4.jpg",
+    ];
 
     useEffect(() => {
         // Lock scroll during video
@@ -22,6 +31,15 @@ export default function Hero() {
             document.body.style.overflow = 'auto';
         };
     }, []);
+
+    // Auto-slide background images in 'hero' phase
+    useEffect(() => {
+        if (phase !== 'hero') return;
+        const interval = setInterval(() => {
+            setBgIdx((prev) => (prev + 1) % bgImages.length);
+        }, 5000); // 5 seconds per slide
+        return () => clearInterval(interval);
+    }, [phase, bgImages.length]);
 
     return (
         <div className="relative w-full min-h-[100dvh] overflow-hidden bg-black">
@@ -59,16 +77,24 @@ export default function Hero() {
                         transition={{ duration: 1.2, ease: 'easeInOut' }}
                         className="relative z-10 w-full min-h-[100dvh] flex flex-col justify-end pt-32 pb-6 md:pb-10"
                     >
-                        {/* Background image */}
-                        <div className="absolute inset-0">
-                            <img
-                                src="/agriculture-healthy-food-hero-bg-tractor.png"
-                                alt="Agriculture hero"
-                                className="w-full h-full object-cover object-center"
-                            />
+                        {/* Background slider */}
+                        <div className="absolute inset-0 overflow-hidden bg-black">
+                            <AnimatePresence mode="popLayout">
+                                <motion.img
+                                    key={bgIdx}
+                                    initial={{ opacity: 0, scale: 1.05 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 1.5, ease: 'easeOut' }}
+                                    src={bgImages[bgIdx]}
+                                    alt={`Hero background ${bgIdx + 1}`}
+                                    className="absolute inset-0 w-full h-full object-cover object-center"
+                                />
+                            </AnimatePresence>
+
                             {/* Dark gradient overlay — stronger on left for text legibility */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-black/5" />
-                            <div className="absolute lg:hidden inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-black/5 z-0" />
+                            <div className="absolute lg:hidden inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-0" />
                         </div>
 
                         {/* Content */}

@@ -1,91 +1,115 @@
-import React from 'react';
-import { Instagram, Sprout, Twitter } from 'lucide-react';
-
-// Custom WhatsApp Icon since lucide doesn't have a perfect match
-const WhatsAppIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-    </svg>
-);
+import React, { useState } from 'react';
+import { Mail, Facebook, Instagram, Navigation, Phone } from 'lucide-react';
 
 export default function Footer() {
+    const [logoError, setLogoError] = useState(false);
+
     return (
-        <footer className="bg-[#FAFCF8] text-gray-900 pt-24 pb-8 border-t border-gray-100 flex flex-col justify-between align-center relative w-full overflow-hidden">
-            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16 md:mb-24 relative z-10">
-                    {/* Left Column */}
-                    <div className="flex flex-col space-y-6 md:space-y-8">
-                        <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight leading-[1.3] md:leading-[1.5]">
-                            Fueling Growth,<br />
-                            Rooted in<br />
-                            Quality.
-                        </h2>
-                        <div className="flex space-x-6 items-center">
-                            <a href="#" className="text-gray-900 hover:text-[#16a34a] transition-colors"><Twitter className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" /></a>
-                            <a href="#" className="text-gray-900 hover:text-[#16a34a] transition-colors"><Instagram className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" /></a>
-                            <a href="#" className="text-gray-900 hover:text-[#16a34a] transition-colors"><WhatsAppIcon className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" /></a>
+        <footer className="relative w-full text-white bg-[#02a9af] md:bg-white overflow-hidden pt-[50px] md:pt-[450px]">
+            {/* Background Image */}
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+                <img src="/footer-bg-image.png" alt="Footer Background" className="w-full h-full object-cover object-top md:object-bottom" />
+                {/* Gradient overlay to ensure text legibility at bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#0e1411] via-[#0e1411]/90 to-transparent"></div>
+            </div>
+
+            <div className="relative z-10 max-w-full mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+                <div className="flex flex-col lg:flex-row justify-between items-end mb-8 md:mb-12">
+
+                    {/* Links Columns */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16 w-full lg:w-auto mb-10 lg:mb-0">
+                        {/* Col 1 */}
+                        <div className="flex flex-col">
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <div className="h-[2px] w-full bg-white mb-4"></div>
+                            <ul className="space-y-2 text-sm text-gray-300 font-semibold">
+                                <li><a href="/contact" className="hover:text-white transition-colors">Contact us</a></li>
+                                <li><a href="/support" className="hover:text-white transition-colors">Support Forum</a></li>
+                                <li><a href="/free-trial" className="hover:text-white transition-colors">Free Trial</a></li>
+                            </ul>
+                        </div>
+
+                        {/* Col 2 */}
+                        <div className="flex flex-col">
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <div className="h-[2px] w-full bg-white mb-4"></div>
+                            <ul className="space-y-2 text-sm text-gray-300 font-semibold">
+                                <li><a href="/careers" className="hover:text-white transition-colors">Careers</a></li>
+                                <li><a href="/blog" className="hover:text-white transition-colors">Our Blog</a></li>
+                                <li><a href="/affiliates" className="hover:text-white transition-colors">Affiliates</a></li>
+                            </ul>
+                        </div>
+
+                        {/* Col 3 */}
+                        <div className="flex flex-col col-span-2 md:col-span-1">
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <div className="h-[2px] w-full max-w-[50%] md:max-w-full bg-white mb-4"></div>
+                            <ul className="space-y-2 text-sm text-gray-300 font-semibold">
+                                <li><a href="/eula" className="hover:text-white transition-colors">EULA</a></li>
+                                <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                                <li><a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a></li>
+                            </ul>
                         </div>
                     </div>
 
-                    {/* Middle Column (Pills) */}
-                    <div className="flex flex-col md:col-span-2 justify-center items-center mt-4 md:mt-0">
-                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full md:w-auto">
-                            <a href="/products" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Product</a>
-                            <a href="/" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">About Us</a>
-                            <a href="/contact" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Contact Us</a>
-                            <a href="/blog" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Blogs</a>
-                            <a href="/partnership" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Partnership</a>
-                            <a href="#testimonials" className="bg-[#111] hover:bg-black text-white px-4 md:px-8 py-3 rounded-full font-bold text-xs md:text-sm transition-colors text-center w-full">Testimonials</a>
+                    {/* Socials & Contact */}
+                    <div className="flex flex-col md:flex-row items-start md:items-end lg:items-end justify-between lg:justify-end gap-8 md:gap-16 w-full lg:w-auto">
+                        {/* Socials */}
+                        <div className="flex space-x-4 mb-2 lg:mb-0 pb-2">
+                            <a href="#" className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                                <Mail className="w-4 h-4" />
+                            </a>
+                            <a href="#" className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                                <Facebook className="w-4 h-4" />
+                            </a>
+                            <a href="#" className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                                <Instagram className="w-4 h-4" />
+                            </a>
                         </div>
-                    </div>
 
-                    {/* Right Column */}
-                    <div className="flex flex-col md:pl-12 mt-4 md:mt-0 items-center md:items-start text-center md:text-left">
-                        <h4 className="text-xl font-bold mb-4 md:mb-6 text-gray-900">Contact</h4>
-                        <div className="text-sm text-gray-800 space-y-4 font-medium leading-relaxed">
-                            <div>
-                                <p className="font-bold text-gray-900">Super Napier HQ</p>
-                                <p>25 Harvest Lane, Greenfield District</p>
-                                <p>Springhaven, CA 92845</p>
-                                <p>India</p>
-                            </div>
-                            <div className="pt-2 flex flex-col items-center md:items-start space-y-2 md:space-y-0">
-                                <a href="mailto:supernapierglobal@gmail.com" className="block hover:text-[#16a34a] transition-colors break-all">supernapierglobal@gmail.com</a>
-                                <a href="tel:+16675642637" className="block hover:text-[#16a34a] transition-colors">+1 (667) 564-2637</a>
-                            </div>
+                        {/* Contact Info */}
+                        <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
+                            <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">SuperNapier.com</h4>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">25 Harvest Lane, Greenfield District <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Springhaven, CA 92845 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: +1 667 564 2637 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: support@supernapier.com <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
                         </div>
                     </div>
                 </div>
 
-                {/* Big Bottom Logo Area */}
-                <div className="relative w-full flex flex-col items-center justify-center mt-20 mb-8 z-10">
-                    <img
-                        src="/logo1.png"
-                        alt="Super Napier Background Logo"
-                        className="w-full max-w-full h-auto object-contain opacity-90 drop-shadow-sm mb-4"
-                        onError={(e) => {
-                            // Fallback if logo is missing 
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                        }}
-                    />
-                    <div className="hidden text-[clamp(4rem,10vw,12rem)] font-black text-gray-900 tracking-tighter leading-none justify-center items-center w-full">
-                        Super<span className="text-[#16a34a]">Napier</span>
-                        <Sprout className="h-40 w-40 text-[#16a34a] ml-1" />
+                {/* Bottom Bar */}
+                <div className="relative z-10 border-t border-gray-600/50 pt-6 flex flex-col lg:flex-row items-center justify-between text-xs text-gray-300 gap-6">
+                    <div className="flex flex-col md:flex-row items-center gap-6 font-bold w-full lg:w-auto">
+                        {logoError ? (
+                            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tighter">Super<span className="text-orange-500">Napier</span> </h2>
+                        ) : (
+                            <img
+                                src="/logo.png"
+                                alt="Super Napier Logo"
+                                className="h-6 md:h-8 w-auto object-contain"
+                                onError={() => setLogoError(true)}
+                            />
+                        )}
+                        <div className="flex flex-wrap justify-center gap-4 text-[11px] md:text-[13px]">
+                            <a href="/eula" className="hover:text-white transition-colors">End User License Agreement</a>
+                            <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+                            <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto mt-2 lg:mt-0">
+                        {/* Payment Icons (mock styled text cards) */}
+                        <div className="flex gap-2 mb-2 md:mb-0">
+                            <div className="bg-gradient-to-br from-red-500 to-orange-400 px-2.5 py-1 rounded text-[10px] font-black italic text-white shadow">MasterCard</div>
+                            <div className="bg-blue-700 px-2.5 py-1 rounded text-[10px] font-black italic text-white shadow">VISA</div>
+                            <div className="bg-[#003087] px-2.5 py-1 rounded text-[10px] font-bold text-white shadow">PayPal</div>
+                            <div className="bg-blue-400 px-2.5 py-1 rounded text-[10px] font-bold text-white shadow">AMEX</div>
+                        </div>
+
+                        <p className="text-center md:text-right font-medium text-[11px]">Coded and designed by Atelier. All rights reserved to SuperNapier.</p>
                     </div>
                 </div>
-
-                {/* Bottom Bar Texts */}
-                <div className="flex flex-col md:flex-row items-center justify-between text-gray-500 text-xs md:text-sm font-semibold relative z-20 w-full px-4 mt-6">
-                    <p>&copy; {new Date().getFullYear()} Super Napier</p>
-                    <div className="flex space-x-8 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-gray-900 transition-colors">Terms and Conditions</a>
-                    </div>
-                    <div className="flex space-x-8 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-gray-900 transition-colors">Privacy Policy</a>
-                    </div>
-                </div>
-
             </div>
         </footer>
     );
