@@ -20,7 +20,7 @@ export default function Footer() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16 w-full lg:w-auto mb-10 lg:mb-0">
                         {/* Col 1 */}
                         <div className="flex flex-col">
-                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Contact</h4>
                             <div className="h-[2px] w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
                                 <li><a href="/contact" className="hover:text-white transition-colors">Contact us</a></li>
@@ -31,7 +31,7 @@ export default function Footer() {
 
                         {/* Col 2 */}
                         <div className="flex flex-col">
-                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Resources</h4>
                             <div className="h-[2px] w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
                                 <li><a href="/careers" className="hover:text-white transition-colors">Careers</a></li>
@@ -42,10 +42,10 @@ export default function Footer() {
 
                         {/* Col 3 */}
                         <div className="flex flex-col col-span-2 md:col-span-1">
-                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Links</h4>
+                            <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Legal</h4>
                             <div className="h-[2px] w-full max-w-[50%] md:max-w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
-                                <li><a href="/eula" className="hover:text-white transition-colors">EULA</a></li>
+                                <li><a href="/eula" className="hover:text-white transition-colors">End User License Agreement</a></li>
                                 <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
                                 <li><a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a></li>
                             </ul>
@@ -69,7 +69,7 @@ export default function Footer() {
 
                         {/* Contact Info */}
                         <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
-                            <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">SuperNapier.com</h4>
+                            <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">Super<span className="text-orange-500">Napier</span>.com</h4>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">25 Harvest Lane, Greenfield District <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Springhaven, CA 92845 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: +1 667 564 2637 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
