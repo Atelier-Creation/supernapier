@@ -1,128 +1,249 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Sprout, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ShoppingCart, Menu, X, Search, Sprout } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const NAV_LINKS = [
+    { label: 'Product', to: '/products' },
+    { label: 'Technology', to: '/blog' },
+    { label: 'About Us', to: '/about' },
+];
 
 export default function Navbar({ cartCount, onOpenCart }) {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const [showNav, setShowNav] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [imageError, setImageError] = useState(false);
     const location = useLocation();
     const lastScrollY = React.useRef(0);
 
-    // Check if we are on the landing page
     const isLanding = location.pathname === '/';
 
+    // Close mobile menu on route change
+    useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+    // Show-after-hero-animation logic
     useEffect(() => {
         if (isLanding) {
-            // Delay exactly like the Hero animation
-            const timer = setTimeout(() => {
-                setShowNav(true);
-            }, 5500);
-            return () => clearTimeout(timer);
+            const t = setTimeout(() => setShowNav(true), 5500);
+            return () => clearTimeout(t);
         } else {
             setShowNav(true);
         }
     }, [isLanding]);
 
+    // Hide on scroll-down, reveal on scroll-up
     useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            // Hide if scrolling down and past the navbar height a bit
-            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-                setIsHidden(true);
-            } else {
-                // Show if scrolling up or near top
-                setIsHidden(false);
-            }
-            lastScrollY.current = currentScrollY;
+        const onScroll = () => {
+            const cur = window.scrollY;
+            setIsHidden(cur > lastScrollY.current && cur > 80);
+            lastScrollY.current = cur;
         };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    const Logo = () =>
+        !imageError ? (
+            <img
+                src="/logo.png"
+                alt="Super Napier Logo"
+                className="h-12 w-auto"
+                onError={() => setImageError(true)}
+            />
+        ) : (
+            <span className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-1">
+                Super<span className="text-[#16a34a]">Napier</span>
+                <Sprout className="h-5 w-5 text-[#16a34a]" />
+            </span>
+        );
+
     return (
-        <motion.nav
-            initial={{ y: isLanding ? '-100%' : 0 }}
-            animate={{ y: showNav ? (isHidden ? '-100%' : 0) : '-100%' }}
-            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-            className={`fixed top-0 w-full z-50 ${isLanding ? 'bg-[#FAFCF8]' : 'bg-[#FAFCF8]/90 backdrop-blur-md'} border-b border-gray-50`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-24">
+        <>
+            <motion.nav
+                initial={{ y: isLanding ? '-100%' : 0 }}
+                animate={{ y: showNav ? (isHidden ? '-100%' : 0) : '-100%' }}
+                transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100"
+            >
+                <div className="max-w-full mx-auto px-6 sm:px-10">
+                    <div className="flex items-center justify-between h-18">
 
-                    {/* Left Links */}
-                    <div className="hidden lg:flex space-x-8 flex-1">
-                        <Link to="/products" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">Product</Link>
-                        <Link to="/blog" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">Technology</Link>
-                        <Link to="/about" className="text-gray-900 hover:text-[#16a34a] font-bold leading-tight text-sm tracking-wide uppercase">About Us</Link>
-                    </div>
+                        {/* ── Desktop Left: Nav Links ── */}
+                        <div className="hidden lg:flex items-center gap-8 flex-1">
+                            {NAV_LINKS.map(({ label, to }) => (
+                                <Link
+                                    key={label}
+                                    to={to}
+                                    className={`text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${location.pathname === to
+                                            ? 'text-[#1B5E20]'
+                                            : 'text-gray-700 hover:text-[#1B5E20]'
+                                        }`}
+                                >
+                                    {label}
+                                </Link>
+                            ))}
+                        </div>
 
-                    {/* Center Logo */}
-                    <Link to="/" className="flex flex-1 justify-center items-center space-x-2">
-                        {!imageError ? (
-                            <img
-                                src="/logo.png"
-                                alt="Super Napier Logo"
-                                className="h-15 w-auto"
-                                onError={() => setImageError(true)}
-                            />
-                        ) : (
-                            <span className="text-2xl font-black text-gray-900 tracking-tight flex items-center">
-                                Super<span className="text-[#16a34a]">Napier</span>
-                                <Sprout className="h-6 w-6 text-[#16a34a] ml-1" />
-                            </span>
-                        )}
-                    </Link>
+                        {/* ── Center: Logo ── */}
+                        <Link to="/" className="flex items-center justify-center lg:flex-1">
+                            <Logo />
+                        </Link>
 
-                    {/* Right Section */}
-                    <div className="hidden lg:flex flex-1 justify-end items-center space-x-6">
-                        {/* <div className="flex items-center space-x-1 cursor-pointer group">
-                            <span className="text-gray-900 font-medium text-sm tracking-wide group-hover:text-[#16a34a] transition-colors">Choose Your Region</span>
-                            <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-[#16a34a]" />
-                        </div> */}
+                        {/* ── Desktop Right: Sign In + Icons ── */}
+                        <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
+                            <Link
+                                to="/about"
+                                className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
+                            >
+                                Sign In
+                            </Link>
 
-                        <button onClick={onOpenCart} className="relative bg-[#111] hover:bg-black text-white p-4 rounded-tl-lg rounded-br-lg transition-colors shadow-sm cursor-pointer">
-                            <ShoppingCart className="h-5 w-5" />
-                            {cartCount > 0 && (
-                                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold text-white transform translate-x-1/4 -translate-y-1/4 bg-red-500 rounded-full">
-                                    {cartCount}
-                                </span>
-                            )}
-                        </button>
+                            {/* Search */}
+                            <button className="text-gray-600 hover:text-[#1B5E20] transition-colors">
+                                <Search className="w-5 h-5" />
+                            </button>
 
-                        {/* <button className="bg-[#111] hover:bg-black text-white p-3 rounded-lg transition-colors shadow-sm">
-                            <Menu className="w-5 h-5" />
-                        </button> */}
-                    </div>
+                            {/* Cart */}
+                            <button
+                                onClick={onOpenCart}
+                                className="relative text-gray-600 hover:text-[#1B5E20] transition-colors"
+                            >
+                                <ShoppingCart className="w-5 h-5" />
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 w-4 h-4 text-[9px] font-bold text-white bg-red-500 rounded-full flex items-center justify-center">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </button>
 
-                    {/* Mobile Menu Toggle */}
-                    <div className="lg:hidden flex items-center space-x-2">
-                        <button onClick={onOpenCart} className="relative p-2 text-gray-900 border border-gray-200 rounded-lg">
-                            <ShoppingCart className="h-5 w-5" />
-                            {cartCount > 0 && (
-                                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold text-white transform translate-x-1/4 -translate-y-1/4 bg-red-500 rounded-full">
-                                    {cartCount}
-                                </span>
-                            )}
-                        </button>
-                        <button className="p-2 text-gray-900 bg-gray-100 rounded-lg" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                        </button>
+                            {/* Hamburger (desktop) */}
+                            {/* <button
+                                onClick={() => setMenuOpen(true)}
+                                className="text-gray-600 hover:text-[#1B5E20] transition-colors"
+                            >
+                                <Menu className="w-5 h-5" />
+                            </button> */}
+                        </div>
+
+                        {/* ── Mobile Right: Hamburger only ── */}
+                        <div className="lg:hidden flex items-center">
+                            <button
+                                onClick={() => setMenuOpen(true)}
+                                className="text-gray-700 hover:text-[#1B5E20] transition-colors p-1"
+                            >
+                                <Menu className="w-6 h-6" />
+                            </button>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            </motion.nav>
 
-            {/* Mobile Menu Content */}
-            {isMobileMenuOpen && (
-                <div className="lg:hidden bg-white shadow-xl absolute w-full left-0 border-t border-gray-100 p-6 flex flex-col space-y-6">
-                    <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-900 text-lg font-bold">Product</Link>
-                    <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-900 text-lg font-bold">Technology</Link>
-                    <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-900 text-lg font-bold">About Us</Link>
-                </div>
-            )}
-        </motion.nav>
+            {/* ── Mobile / Side Drawer Panel ── */}
+            <AnimatePresence>
+                {menuOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            key="backdrop"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="fixed inset-0 bg-black/30 z-[60] backdrop-blur-sm"
+                            onClick={() => setMenuOpen(false)}
+                        />
+
+                        {/* Slide-in Panel */}
+                        <motion.div
+                            key="panel"
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+                            className="fixed top-0 right-0 h-full w-72 bg-white z-[70] flex flex-col shadow-2xl"
+                        >
+                            {/* Close button */}
+                            <div className="flex justify-end p-5">
+                                <button
+                                    onClick={() => setMenuOpen(false)}
+                                    className="text-gray-500 hover:text-gray-900 transition-colors"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                            {/* Nav Links — centered */}
+                            <nav className="flex flex-col items-center gap-6 pt-4 px-6">
+                                {NAV_LINKS.map(({ label, to }) => (
+                                    <Link
+                                        key={label}
+                                        to={to}
+                                        onClick={() => setMenuOpen(false)}
+                                        className={`text-base font-semibold uppercase tracking-widest transition-colors ${location.pathname === to
+                                                ? 'text-[#1B5E20]'
+                                                : 'text-gray-800 hover:text-[#1B5E20]'
+                                            }`}
+                                    >
+                                        {label}
+                                    </Link>
+                                ))}
+                            </nav>
+
+                            {/* Divider */}
+                            <div className="border-t border-gray-100 mx-6 mt-8" />
+
+                            {/* Center Logo in panel */}
+                            <div className="flex justify-center mt-8">
+                                <Link to="/" onClick={() => setMenuOpen(false)}>
+                                    <Logo />
+                                </Link>
+                            </div>
+
+                            {/* Sign In */}
+                            <div className="flex justify-center mt-8">
+                                <Link
+                                    to="/about"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
+                                >
+                                    Sign In
+                                </Link>
+                            </div>
+
+                            {/* Bottom icons */}
+                            <div className="mt-auto border-t border-gray-100 p-6 flex items-center justify-center gap-8">
+                                {/* Search */}
+                                <button className="text-gray-500 hover:text-[#1B5E20] transition-colors">
+                                    <Search className="w-5 h-5" />
+                                </button>
+
+                                {/* Cart */}
+                                <button
+                                    onClick={() => { setMenuOpen(false); onOpenCart(); }}
+                                    className="relative text-gray-500 hover:text-[#1B5E20] transition-colors"
+                                >
+                                    <ShoppingCart className="w-5 h-5" />
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 w-4 h-4 text-[9px] font-bold text-white bg-red-500 rounded-full flex items-center justify-center">
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {/* Close / Menu icon */}
+                                <button
+                                    onClick={() => setMenuOpen(false)}
+                                    className="text-gray-500 hover:text-[#1B5E20] transition-colors"
+                                >
+                                    <Menu className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
     );
 }

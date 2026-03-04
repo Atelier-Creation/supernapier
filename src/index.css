@@ -9,6 +9,10 @@
   /* Custom accent */
 }
 
+button{
+  cursor: pointer !important;
+}
+
 body {
   background-color: var(--color-beige-soft);
   color: #333;
