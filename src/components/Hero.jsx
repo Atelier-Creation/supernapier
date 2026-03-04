@@ -1,93 +1,161 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowUpRight, Star, Headphones } from 'lucide-react';
 
 export default function Hero() {
-    const [showContent, setShowContent] = useState(false);
+    const navigate = useNavigate();
+    const [phase, setPhase] = useState('video'); // 'video' | 'hero'
 
     useEffect(() => {
-        // Prevent scrolling while video plays
+        // Lock scroll during video
         document.body.style.overflow = 'hidden';
 
-        // Video plays for 10 seconds before content reveals
-        const timer = setTimeout(() => {
-            setShowContent(true);
-            // Restore scrolling after delay
+        // After 5 s, fade out video → fade in hero banner
+        const t = setTimeout(() => {
+            setPhase('hero');
             document.body.style.overflow = 'auto';
         }, 5000);
 
         return () => {
-            clearTimeout(timer);
-            // Ensure scrolling is always re-enabled if component unmounts
+            clearTimeout(t);
             document.body.style.overflow = 'auto';
         };
     }, []);
 
     return (
-        <div className="relative w-full h-[100vh] overflow-hidden flex flex-col justify-start">
-            {/* SVG Arc Clip Path */}
-            <svg width="0" height="0" className="absolute">
-                <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 1,0 L 1,1 Q 0.5,0.85 0,1 Z" />
-                </clipPath>
-            </svg>
+        <div className="relative w-full h-screen overflow-hidden">
 
-            {/* Background Video */}
-            <div className="absolute inset-0 z-0 bg-black">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover opacity-90"
-                >
-                    <source src="/168401-839220651_medium.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+            {/* ─── Phase 1: Intro Video ─── */}
+            <AnimatePresence>
+                {phase === 'video' && (
+                    <motion.div
+                        key="video"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.2, ease: 'easeInOut' }}
+                        className="absolute inset-0 z-20 bg-black"
+                    >
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover opacity-90"
+                        >
+                            <source src="/168401-839220651_medium.mp4" type="video/mp4" />
+                        </video>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Sliding Arc Overlay */}
-            <motion.div
-                initial={{ y: '-100%' }}
-                animate={{ y: showContent ? 0 : '-100%' }}
-                transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-                className="relative z-10 w-full bg-[#FAFCF8] flex items-center justify-center top-0 pt-32 pb-24 md:pt-30 md:pb-24 overflow-hidden h-[85vh] md:h-[76vh]"
-                style={{
-                    clipPath: 'url(#arch-clip)'
-                }}
-            >
+            {/* ─── Phase 2: Hero Banner ─── */}
+            <AnimatePresence>
+                {phase === 'hero' && (
+                    <motion.div
+                        key="hero"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1.2, ease: 'easeInOut' }}
+                        className="absolute inset-0 z-10"
+                    >
+                        {/* Background image */}
+                        <div className="absolute inset-0">
+                            <img
+                                src="/agriculture-healthy-food-hero-bg-tractor.png"
+                                alt="Agriculture hero"
+                                className="w-full h-full object-cover object-center"
+                            />
+                            {/* Dark gradient overlay — stronger on left for text legibility */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-black/5" />
+                            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" /> */}
+                        </div>
 
-                {/* SVG Cross Pattern Background */}
-                <div className="absolute inset-0 opacity-5">
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-                        }}
-                    />
-                </div>
+                        {/* Content */}
+                        <div className="relative h-full max-w-full mx-auto px-6 sm:px-10 flex items-end pb-20 md:pb-10">
+                            <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-10">
 
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                    animate={{ opacity: showContent ? 1 : 0, scale: showContent ? 1 : 0.95, y: showContent ? 0 : 30 }}
-                    transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
-                    className="max-w-4xl mx-auto px-4 text-center"
-                >
-                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-[1.2] mb-6 uppercase tracking-tight">
-                        Building a Sustainable <br />
-                        Future Through The Power <br />
-                        Of Quality <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a]">Seeds</span>
-                    </h1>
-                    <p className="text-gray-500 mb-5 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Committed to delivering the freshest, field-grown produce, straight from the farm to your table, ensuring quality and sustainability every step of the way.
-                    </p>
-                    <Link to="/products">
-                        <button className="bg-[#111] hover:bg-black text-white px-10 py-4 rounded-full font-bold transition-all mx-auto shadow-lg hover:scale-105">
-                            Buy Now
-                        </button>
-                    </Link>
-                </motion.div>
-            </motion.div>
+                                {/* ── Left: Headline + CTA ── */}
+                                <div className="max-w-full">
+                                    <motion.h1
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3, duration: 0.8 }}
+                                        className="text-5xl md:text-4xl lg:text-[52px] font-black text-white leading-[1.1] mb-6 tracking-tight"
+                                    >
+                                        Growing Smarter<br />
+                                        Farming Better.
+                                    </motion.h1>
+
+                                    <motion.p
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.45, duration: 0.7 }}
+                                        className="text-gray-200 text-sm md:text-base leading-relaxed mb-8 max-w-md pr-4"
+                                    >
+                                        Empowering farmers with sustainable solutions modern technology and data driven insights
+                                    </motion.p>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.6, duration: 0.7 }}
+                                    >
+                                        <Link to="/products">
+                                            <button className="group inline-flex items-center gap-2 bg-[#fde047] hover:bg-[#facc15] text-black font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-xl shadow-[#fde047]/20 hover:scale-105 text-sm">
+                                                Get Started
+                                                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                            </button>
+                                        </Link>
+                                    </motion.div>
+                                </div>
+
+                                {/* ── Right: Floating Card ── */}
+                                <div className="flex flex-col md:items-end w-full md:w-auto mt-10 md:mt-0">
+                                    <motion.div
+                                        initial={{ opacity: 0, x: 40 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.75, duration: 0.7 }}
+                                        className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[24px] p-4 flex flex-col gap-5 w-[300px] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                                    >
+                                        {/* Top Image */}
+                                        <div className="w-full h-36 rounded-2xl overflow-hidden relative">
+                                            <img
+                                                src="/napierStems.webp"
+                                                alt="Fresh produce"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+
+                                        {/* Stats Row */}
+                                        <div className="flex items-center justify-between px-2">
+                                            {/* Overlapping Avatars */}
+                                            <div className="flex -space-x-2">
+                                                <img className="w-8 h-8 rounded-full border-2 border-[#24331e] object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=100&h=100" alt="Farmer" />
+                                                <img className="w-8 h-8 rounded-full border-2 border-[#24331e] object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?fit=crop&w=100&h=100" alt="Farmer" />
+                                                <img className="w-8 h-8 rounded-full border-2 border-[#24331e] object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=100&h=100" alt="Farmer" />
+                                            </div>
+
+                                            {/* Stars and Text */}
+                                            <div className="flex flex-col items-start lg:items-end">
+                                                <div className="flex text-[#fde047] mb-0.5">
+                                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
+                                                </div>
+                                                <p className="text-gray-300 text-[10px] font-medium tracking-wide">Trusted by 100K+ Farmer</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom Yellow Button */}
+                                        <button onClick={() => navigate("/products")} className="w-full bg-[#fde047]  hover:bg-[#facc15] text-black font-semibold text-xs py-3.5 rounded-[14px] transition-colors duration-200">
+                                            Start Your Journey
+                                        </button>
+                                    </motion.div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

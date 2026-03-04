@@ -36,7 +36,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
     useEffect(() => {
         const onScroll = () => {
             const cur = window.scrollY;
-            setIsHidden(cur > lastScrollY.current && cur > 80);
+            setIsHidden(cur > lastScrollY.current && cur > 100);
             lastScrollY.current = cur;
         };
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -61,10 +61,10 @@ export default function Navbar({ cartCount, onOpenCart }) {
     return (
         <>
             <motion.nav
-                initial={{ y: isLanding ? '-100%' : 0 }}
-                animate={{ y: showNav ? (isHidden ? '-100%' : 0) : '-100%' }}
+                initial={{ y: isLanding ? '-150%' : 0 }}
+                animate={{ y: showNav ? (isHidden ? '-150%' : 0) : '-150%' }}
                 transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100"
+                className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-full z-50 bg-white/95 backdrop-blur-md border border-gray-100 rounded-full shadow-md"
             >
                 <div className="max-w-full mx-auto px-6 sm:px-10">
                     <div className="flex items-center justify-between h-18">
@@ -76,8 +76,8 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                     key={label}
                                     to={to}
                                     className={`text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${location.pathname === to
-                                            ? 'text-[#1B5E20]'
-                                            : 'text-gray-700 hover:text-[#1B5E20]'
+                                        ? 'text-[#1B5E20]'
+                                        : 'text-gray-700 hover:text-[#1B5E20]'
                                         }`}
                                 >
                                     {label}
@@ -93,7 +93,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                         {/* ── Desktop Right: Sign In + Icons ── */}
                         <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
                             <Link
-                                to="/about"
+                                to="#"
                                 className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
                             >
                                 Sign In
@@ -182,8 +182,8 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                         to={to}
                                         onClick={() => setMenuOpen(false)}
                                         className={`text-base font-semibold uppercase tracking-widest transition-colors ${location.pathname === to
-                                                ? 'text-[#1B5E20]'
-                                                : 'text-gray-800 hover:text-[#1B5E20]'
+                                            ? 'text-[#1B5E20]'
+                                            : 'text-gray-800 hover:text-[#1B5E20]'
                                             }`}
                                     >
                                         {label}
