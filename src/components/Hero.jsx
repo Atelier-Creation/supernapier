@@ -24,7 +24,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <div className="relative w-full h-screen overflow-hidden">
+        <div className="relative w-full min-h-[100dvh] overflow-hidden bg-black">
 
             {/* ─── Phase 1: Intro Video ─── */}
             <AnimatePresence>
@@ -57,7 +57,7 @@ export default function Hero() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1.2, ease: 'easeInOut' }}
-                        className="absolute inset-0 z-10"
+                        className="relative z-10 w-full min-h-[100dvh] flex flex-col justify-end pt-32 pb-6 md:pb-10"
                     >
                         {/* Background image */}
                         <div className="absolute inset-0">
@@ -68,12 +68,12 @@ export default function Hero() {
                             />
                             {/* Dark gradient overlay — stronger on left for text legibility */}
                             <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-black/5" />
-                            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" /> */}
+                            <div className="absolute lg:hidden inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent" />
                         </div>
 
                         {/* Content */}
-                        <div className="relative h-full max-w-full mx-auto px-6 sm:px-10 flex items-end pb-20 md:pb-10">
-                            <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-10">
+                        <div className="relative w-full max-w-full mx-auto px-6 sm:px-10">
+                            <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10">
 
                                 {/* ── Left: Headline + CTA ── */}
                                 <div className="max-w-full">
@@ -111,12 +111,12 @@ export default function Hero() {
                                 </div>
 
                                 {/* ── Right: Floating Card ── */}
-                                <div className="flex flex-col md:items-end w-full md:w-auto mt-10 md:mt-0">
+                                <div className="flex flex-col md:items-end w-full md:w-auto mt-8 md:mt-0">
                                     <motion.div
                                         initial={{ opacity: 0, x: 40 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.75, duration: 0.7 }}
-                                        className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[24px] p-4 flex flex-col gap-5 w-[300px] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                                        className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[24px] p-4 flex flex-col gap-5 w-full md:w-[300px] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
                                     >
                                         {/* Top Image */}
                                         <div className="w-full h-36 rounded-2xl overflow-hidden relative">
