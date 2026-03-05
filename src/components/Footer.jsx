@@ -5,7 +5,7 @@ export default function Footer() {
     const [logoError, setLogoError] = useState(false);
 
     return (
-        <footer className="relative w-full text-white bg-[#02a9af] md:bg-white overflow-hidden pt-[50px] md:pt-[450px]">
+        <footer className="relative w-full text-white bg-[#02a9af] md:bg-[#fafcf8] overflow-hidden pt-[50px] md:pt-[450px]">
             {/* Background Image */}
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
                 <img src="/footer-bg-image.png" alt="Footer Background" className="w-full h-full object-cover object-top md:object-bottom" />
@@ -23,7 +23,7 @@ export default function Footer() {
                             <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Contact</h4>
                             <div className="h-[2px] w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
-                                <li><a href="/contact" className="hover:text-white transition-colors">Contact us</a></li>
+                                <li><a href="/#contact" className="hover:text-white transition-colors">Contact us</a></li>
                                 <li><a href="/support" className="hover:text-white transition-colors">Support Forum</a></li>
                                 <li><a href="/free-trial" className="hover:text-white transition-colors">Free Trial</a></li>
                             </ul>
@@ -70,9 +70,9 @@ export default function Footer() {
                         {/* Contact Info */}
                         <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
                             <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">Super<span className="text-orange-500">Napier</span>.com</h4>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">25 Harvest Lane, Greenfield District <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Springhaven, CA 92845 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: +1 667 564 2637 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">25 Gandhi Nagar, Greenfield District <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Springhaven, in 692 845 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: +91 98765 43210 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: support@supernapier.com <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
                         </div>
                     </div>
