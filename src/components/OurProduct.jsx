@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-export default function OurProduct() {
+export default function OurProduct({ addToCart }) {
     const [currentIndex, setCurrentIndex] = useState(1);
 
     const products = [
-        { id: 1, name: 'Rice Seeds' },
-        { id: 2, name: 'Corn Seeds' },
-        { id: 3, name: 'Wheat Seeds' },
+        { id: 101, name: 'Rice Seeds', price: 45.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 102, name: 'Corn Seeds', price: 35.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 103, name: 'Wheat Seeds', price: 55.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
     ];
 
     const handlePrev = () => {
@@ -84,7 +84,13 @@ export default function OurProduct() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.3 }}
-                                            className="absolute md:bottom-0 -bottom-8 bg-[#16a34a] hover:bg-[#15803d] text-white px-8 py-3 rounded-full font-bold shadow-lg transition-colors z-40"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (addToCart) {
+                                                    addToCart(product);
+                                                }
+                                            }}
+                                            className="absolute md:bottom-0 cursor-pointer -bottom-8 bg-[#16a34a] hover:bg-[#15803d] text-white px-8 py-3 rounded-full font-bold shadow-lg transition-colors z-40"
                                         >
                                             Buy Now
                                         </motion.button>

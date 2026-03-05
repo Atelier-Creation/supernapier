@@ -129,7 +129,7 @@ export default function Hero() {
                                     >
                                         <Link to="/products">
                                             <button className="group inline-flex items-center gap-2 bg-[#fde047] hover:bg-[#facc15] text-black font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-xl shadow-[#fde047]/20 hover:scale-105 text-sm">
-                                                Get Started
+                                                Explore Products
                                                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                             </button>
                                         </Link>
@@ -172,8 +172,8 @@ export default function Hero() {
                                         </div>
 
                                         {/* Bottom Yellow Button */}
-                                        <button onClick={() => navigate("/products")} className="w-full bg-[#fde047]  hover:bg-[#facc15] text-black font-semibold text-xs py-3.5 rounded-[14px] transition-colors duration-200">
-                                            Start Your Journey
+                                        <button onClick={() => navigate("/products")} className="w-full bg-[#fde047]  hover:bg-[#facc15] text-black font-semibold text-md py-3 rounded-full transition-colors duration-200">
+                                            Buy Now
                                         </button>
                                     </motion.div>
                                 </div>

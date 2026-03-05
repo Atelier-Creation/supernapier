@@ -23,9 +23,9 @@ export default function Footer() {
                             <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Contact</h4>
                             <div className="h-[2px] w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
-                                <li><a href="/#contact" className="hover:text-white transition-colors">Contact us</a></li>
+                                <li><a href="/contact" className="hover:text-white transition-colors">Contact us</a></li>
                                 <li><a href="/support" className="hover:text-white transition-colors">Support Forum</a></li>
-                                <li><a href="/free-trial" className="hover:text-white transition-colors">Free Trial</a></li>
+                                <li><a href="/contact" className="hover:text-white transition-colors">Bulk Order</a></li>
                             </ul>
                         </div>
 
@@ -95,6 +95,7 @@ export default function Footer() {
                             <a href="/eula" className="hover:text-white transition-colors">End User License Agreement</a>
                             <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
                             <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
+                            <a href="/refund" className="hover:text-white transition-colors">Refund & Return Policy</a>
                         </div>
                     </div>
 
