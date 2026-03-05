@@ -10,6 +10,7 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import AboutPage from './pages/AboutPage';
 import CartDrawer from './components/CartDrawer';
 import { AnimatePresence } from 'framer-motion';
+import ContactUs from './pages/ContactUs';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -51,6 +52,7 @@ function App() {
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:id" element={<BlogDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactUs />} />
             </Routes>
           </AnimatePresence>
         </main>
