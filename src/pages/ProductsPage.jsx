@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../data/mockData';
 import { motion } from 'framer-motion';
@@ -12,8 +13,27 @@ const fadeIn = {
 };
 
 export default function ProductsPage({ addToCart }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const querySearch = searchParams.get('search') || '';
+
     const [filter, setFilter] = useState('All');
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(querySearch);
+
+    // Sync state if URL changes
+    useEffect(() => {
+        setSearch(searchParams.get('search') || '');
+    }, [searchParams]);
+
+    // Update URL when search changes
+    const handleSearchChange = (e) => {
+        const val = e.target.value;
+        setSearch(val);
+        if (val) {
+            setSearchParams({ search: val });
+        } else {
+            setSearchParams({});
+        }
+    };
 
     const filteredProducts = mockProducts.filter(p => {
         const matchCategory = filter === 'All' || p.category.includes(filter);
@@ -68,8 +88,8 @@ export default function ProductsPage({ addToCart }) {
                             type="text"
                             placeholder="Search products..."
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="pl-11 pr-5 py-3 bg-white rounded-full border border-gray-200 w-full sm:w-72 focus:ring-2 focus:ring-[#059669] outline-none text-sm shadow-sm transition-shadow"
+                            onChange={handleSearchChange}
+                            className="w-full md:w-64 bg-white border border-gray-200 rounded-full py-2.5 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                         />
                     </div>
                 </motion.div>
@@ -86,8 +106,8 @@ export default function ProductsPage({ addToCart }) {
                             key={f}
                             onClick={() => setFilter(f)}
                             className={`px-5 py-2 rounded-full text-sm font-bold transition-all border ${filter === f
-                                    ? 'bg-[#111] text-white border-[#111] shadow-md'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                ? 'bg-[#111] text-white border-[#111] shadow-md'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                                 }`}
                         >
                             {f}

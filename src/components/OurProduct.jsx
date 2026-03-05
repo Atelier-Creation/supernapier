@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -18,6 +18,14 @@ export default function OurProduct() {
     const handleNext = () => {
         setCurrentIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1));
     };
+
+    useEffect(() => {
+        const autoSlide = setInterval(() => {
+            handleNext();
+        }, 3000);
+
+        return () => clearInterval(autoSlide);
+    }, []);
 
     return (
         <section className="py-24 bg-[#FAFCF8] overflow-hidden relative">

@@ -9,7 +9,7 @@
   /* Custom accent */
 }
 
-button{
+button {
   cursor: pointer !important;
 }
 
@@ -25,9 +25,43 @@ h4,
 h5,
 h6 {
   font-weight: 800;
-    font-family: "Montserrat", sans-serif;
-    letter-spacing: 1px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 1px;
 }
-p,span,input,textarea,button,a,li,ul,ol,div{
+
+p,
+span,
+input,
+textarea,
+button,
+a,
+li,
+ul,
+ol,
+div {
   font-family: "Outfit", sans-serif;
+}
+
+/* Hide Default Google Translate UI Elements */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none !important;
+}
+
+.skiptranslate {
+  display: none !important;
 }

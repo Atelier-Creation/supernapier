@@ -55,8 +55,8 @@ export default function ContactSection() {
                                 <div className="h-[1px] w-full bg-gray-200 mb-4"></div>
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-gray-500 space-y-1 font-medium">
-                                        <p>25 Harvest Lane, Greenfield District</p>
-                                        <p>Springhaven, CA 92845</p>
+                                        <p>25 Gandhi nagar Lane, Greenfield District</p>
+                                        <p>SpringField, IN 692845</p>
                                     </div>
                                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#0f9c40] transition-colors" />
                                 </div>
@@ -76,7 +76,7 @@ export default function ContactSection() {
                                 <div className="h-[1px] w-full bg-gray-200 mb-4"></div>
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-gray-500 space-y-1 font-medium">
-                                        <p>Phone: +1 667 564 2637</p>
+                                        <p>Phone: +91 63675 642637</p>
                                         <p>Mobile: +91 98765 43210</p>
                                     </div>
                                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#0f9c40] transition-colors" />

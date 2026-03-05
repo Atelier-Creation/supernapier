@@ -1,21 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, Sprout } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ShoppingCart, Menu, X, Search, Sprout, Globe, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_LINKS = [
     { label: 'Product', to: '/products' },
     { label: 'Technology', to: '/blog' },
     { label: 'About Us', to: '/about' },
+    { label: 'Contact Us', to: '/contact' },
+];
+
+const LANGS = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'te', label: 'తెలుగు' },
+    { code: 'ta', label: 'தமிழ்' },
+    { code: 'kn', label: 'ಕನ್ನಡ' },
+    { code: 'ml', label: 'മലയാളം' },
 ];
 
 export default function Navbar({ cartCount, onOpenCart }) {
+    const [currentLang, setCurrentLang] = useState('en');
     const [menuOpen, setMenuOpen] = useState(false);
     const [showNav, setShowNav] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const location = useLocation();
-    const lastScrollY = React.useRef(0);
+    const navigate = useNavigate();
+    const lastScrollY = useRef(0);
 
     const isLanding = location.pathname === '/';
 
@@ -58,6 +73,61 @@ export default function Navbar({ cartCount, onOpenCart }) {
             </span>
         );
 
+    const handleLangChange = (langCode) => {
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+            select.value = langCode;
+            select.dispatchEvent(new Event('change'));
+        }
+        setCurrentLang(langCode);
+        setLangOpen(false);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+            setSearchOpen(false);
+            setSearchQuery('');
+            setMenuOpen(false); // Close mobile menu if open
+        }
+    };
+
+    const LanguageSwitcher = () => (
+        <div className="relative">
+            <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1 text-gray-600 hover:text-[#1B5E20] transition-colors"
+                title="Change Language"
+            >
+                <Globe className="w-5 h-5" />
+                <span className="text-sm font-semibold hidden sm:block uppercase notranslate">{currentLang}</span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+                {langOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-32 bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden py-2 z-50"
+                    >
+                        {LANGS.map((lang) => (
+                            <button
+                                key={lang.code}
+                                onClick={() => handleLangChange(lang.code)}
+                                className={`block w-full text-left px-4 py-2 text-sm transition-colors notranslate ${currentLang === lang.code ? 'bg-[#ecf3e1] text-[#1B5E20] font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+
     return (
         <>
             <motion.nav
@@ -92,6 +162,8 @@ export default function Navbar({ cartCount, onOpenCart }) {
 
                         {/* ── Desktop Right: Sign In + Icons ── */}
                         <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
+                            <LanguageSwitcher />
+
                             <Link
                                 to="#"
                                 className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
@@ -100,9 +172,36 @@ export default function Navbar({ cartCount, onOpenCart }) {
                             </Link>
 
                             {/* Search */}
-                            <button className="text-gray-600 hover:text-[#1B5E20] transition-colors">
-                                <Search className="w-5 h-5" />
-                            </button>
+                            <div className="relative flex items-center">
+                                <AnimatePresence>
+                                    {searchOpen && (
+                                        <motion.form
+                                            initial={{ width: 0, opacity: 0 }}
+                                            animate={{ width: 200, opacity: 1 }}
+                                            exit={{ width: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            onSubmit={handleSearch}
+                                            className="overflow-hidden"
+                                        >
+                                            <input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                onBlur={() => setTimeout(() => setSearchOpen(false), 5000)}
+                                                placeholder="Search products..."
+                                                className="w-full bg-gray-100 rounded-full py-1.5 px-4 text-sm focus:outline-none focus:ring-0 focus:ring-[#1B5E20]/50"
+                                                autoFocus
+                                            />
+                                        </motion.form>
+                                    )}
+                                </AnimatePresence>
+                                <button
+                                    onClick={() => setSearchOpen(!searchOpen)}
+                                    className={`text-gray-600 hover:text-[#1B5E20] transition-colors ${searchOpen ? 'ml-2 text-[#1B5E20]' : ''}`}
+                                >
+                                    <Search className="w-5 h-5" />
+                                </button>
+                            </div>
 
                             {/* Cart */}
                             <button
@@ -127,7 +226,9 @@ export default function Navbar({ cartCount, onOpenCart }) {
                         </div>
 
                         {/* ── Mobile Right: Hamburger only ── */}
-                        <div className="lg:hidden flex items-center">
+                        <div className="lg:hidden flex items-center gap-4">
+                            <LanguageSwitcher />
+
                             <button
                                 onClick={() => setMenuOpen(true)}
                                 className="text-gray-700 hover:text-[#1B5E20] transition-colors p-1"
@@ -214,10 +315,37 @@ export default function Navbar({ cartCount, onOpenCart }) {
 
                             {/* Bottom icons */}
                             <div className="mt-auto border-t border-gray-100 p-6 flex items-center justify-center gap-8">
-                                {/* Search */}
-                                <button className="text-gray-500 hover:text-[#1B5E20] transition-colors">
-                                    <Search className="w-5 h-5" />
-                                </button>
+                                {/* Mobile Search */}
+                                <div className="relative flex items-center justify-center">
+                                    <AnimatePresence>
+                                        {searchOpen && (
+                                            <motion.form
+                                                initial={{ width: 0, opacity: 0 }}
+                                                animate={{ width: 140, opacity: 1 }}
+                                                exit={{ width: 0, opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                                onSubmit={handleSearch}
+                                                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 overflow-hidden"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    value={searchQuery}
+                                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                                    onBlur={() => setTimeout(() => setSearchOpen(false), 5000)}
+                                                    placeholder="Search..."
+                                                    className="w-full bg-gray-100 border border-gray-200 shadow-sm rounded-full py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20]/50"
+                                                    autoFocus
+                                                />
+                                            </motion.form>
+                                        )}
+                                    </AnimatePresence>
+                                    <button
+                                        onClick={() => setSearchOpen(!searchOpen)}
+                                        className={`text-gray-500 hover:text-[#1B5E20] transition-colors ${searchOpen ? 'text-[#1B5E20]' : ''}`}
+                                    >
+                                        <Search className="w-5 h-5" />
+                                    </button>
+                                </div>
 
                                 {/* Cart */}
                                 <button

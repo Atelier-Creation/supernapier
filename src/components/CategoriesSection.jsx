@@ -53,7 +53,7 @@ export default function CategoriesSection() {
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 whileHover={{ y: -5 }}
-                                className={`${styleClass} ${gridClass} rounded-3xl p-6 md:p-8 flex flex-col group border shadow-sm hover:shadow-xl transition-all relative overflow-hidden h-full ${index === 2 ? 'min-h-[380px] md:min-h-0 justify-start md:justify-center' : 'min-h-[220px] md:min-h-[250px] justify-center md:justify-between'}`}
+                                className={`${styleClass} ${gridClass} rounded-3xl p-6 md:p-8 flex flex-col group border shadow-sm hover:shadow-xl transition-all relative overflow-hidden h-full ${index === 2 ? 'min-h-[380px] md:min-h-0 justify-start md:justify-start' : 'min-h-[220px] md:min-h-[250px] justify-center md:justify-between'}`}
                             >
                                 <div className={`relative z-10 flex flex-col ${index === 2 ? 'items-center text-center mt-2 md:mt-10' : 'items-start max-w-[55%] md:max-w-[60%]'}`}>
                                     <p className="text-red-500 font-bold mb-2 text-sm">Get 30% off</p>
