@@ -9,6 +9,7 @@ import BestSellers from '../components/BestSellers';
 import FeaturesSection from '../components/FeaturesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BlogSection from '../components/BlogSection';
+import ContactSection from '../components/ContactSection';
 import { mockProducts } from '../data/mockData';
 
 export default function LandingPage({ addToCart }) {
@@ -25,6 +26,7 @@ export default function LandingPage({ addToCart }) {
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />
             <BlogSection />
             <TestimonialsSection />
+            <ContactSection />
         </motion.div>
     );
 }

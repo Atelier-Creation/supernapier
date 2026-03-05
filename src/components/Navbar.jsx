@@ -75,7 +75,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                 <Link
                                     key={label}
                                     to={to}
-                                    className={`text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${location.pathname === to
+                                    className={`text-md font-semibold tracking-wide capitalize transition-colors duration-200 ${location.pathname === to
                                         ? 'text-[#1B5E20]'
                                         : 'text-gray-700 hover:text-[#1B5E20]'
                                         }`}
