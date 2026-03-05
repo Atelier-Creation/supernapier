@@ -6,9 +6,9 @@ export default function OurProduct({ addToCart }) {
     const [currentIndex, setCurrentIndex] = useState(1);
 
     const products = [
-        { id: 101, name: 'Rice Seeds', price: 45.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
-        { id: 102, name: 'Corn Seeds', price: 35.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
-        { id: 103, name: 'Wheat Seeds', price: 55.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 101, name: 'Napier Seeds', price: 45.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 102, name: 'Napier Seeds', price: 35.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 103, name: 'Gaint Napier Seeds', price: 55.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
     ];
 
     const handlePrev = () => {
@@ -102,7 +102,7 @@ export default function OurProduct({ addToCart }) {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-40 mt-0 relative z-40">
+                <div className="flex items-center justify-center space-x-40 mt-0 relative z-10">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"

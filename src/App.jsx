@@ -11,6 +11,8 @@ import AboutPage from './pages/AboutPage';
 import CartDrawer from './components/CartDrawer';
 import { AnimatePresence } from 'framer-motion';
 import ContactUs from './pages/ContactUs';
+import WhatsAppFloatButton from './components/WhatsAppFloatButton';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -40,6 +42,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#FAFCF8] font-sans text-gray-800">
         <Navbar cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} onOpenCart={() => setCartOpen(true)} />
 
@@ -65,6 +68,7 @@ function App() {
           cartItems={cartItems}
           removeFromCart={removeFromCart}
         />
+        <WhatsAppFloatButton />
       </div>
     </Router>
   );

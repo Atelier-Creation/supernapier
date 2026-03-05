@@ -10,6 +10,7 @@ import FeaturesSection from '../components/FeaturesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BlogSection from '../components/BlogSection';
 import ContactSection from '../components/ContactSection';
+import AboutUsSection from '../components/AboutUsSection';
 import { mockProducts } from '../data/mockData';
 
 export default function LandingPage({ addToCart }) {
@@ -18,10 +19,11 @@ export default function LandingPage({ addToCart }) {
     return (
         <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }}>
             <Hero />
-            <WhyChooseUs />
-            <EmpoweringFarmers />
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
+            <WhyChooseUs />
+            <EmpoweringFarmers />
+            <AboutUsSection />
             <FeaturesSection />
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />
             <BlogSection />
