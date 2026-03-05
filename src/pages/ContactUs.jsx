@@ -11,7 +11,7 @@ function ContactUs() {
         <ContactHero/>
         <ContactSection/>
         <ContactForm/>
-        <ContactSlider/>
+        {/* <ContactSlider/> */}
         <MapSection/>
     </div>
   )
