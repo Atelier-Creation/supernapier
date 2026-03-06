@@ -2,7 +2,8 @@ export const mockProducts = [
     {
         id: 1,
         name: "Premium Super Napier Grass",
-        price: 49.99,
+        price: 499.99,
+        unit: "Pack of (100 sticks)",
         category: "Grain Seeds",
         image: "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=800",
         images: [
@@ -28,7 +29,8 @@ export const mockProducts = [
     {
         id: 2,
         name: "Organic Tomato Seeds",
-        price: 12.50,
+        price: 129.99,
+        unit: "Pack",
         category: "Vegetable Seeds",
         image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800",
         images: [
@@ -54,7 +56,8 @@ export const mockProducts = [
     {
         id: 3,
         name: "Agathi Keerai Seeds",
-        price: 24.00,
+        price: 249.00,
+        unit: "Pack",
         category: "Seeds",
         image: "https://m.media-amazon.com/images/I/61ZW-hKLAsL._AC_UF1000,1000_QL80_.jpg",
         images: [
@@ -80,7 +83,8 @@ export const mockProducts = [
     {
         id: 4,
         name: "Organic Lettuce Blend",
-        price: 8.99,
+        price: 89.99,
+        unit: "Pack",
         category: "Organic Seeds",
         image: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&q=80&w=800",
         images: [

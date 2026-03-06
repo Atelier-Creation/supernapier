@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import ProductHero from '../components/product/ProductHero';
 import ProductTabs from '../components/product/ProductTabs';
 import SuggestedProducts from '../components/product/SuggestedProducts';
+import HowToUseSection from '../components/product/HowToUseSection';
 
 export default function ProductDetailPage({ addToCart }) {
     const { id } = useParams();
@@ -47,6 +48,9 @@ export default function ProductDetailPage({ addToCart }) {
                 {/* ── Tabbed Info ── */}
                 <ProductTabs product={product} />
             </div>
+
+            {/* ── How to Use Section ── */}
+            <HowToUseSection />
 
             {/* ── Suggested Products ── */}
             <SuggestedProducts products={suggestedProducts} addToCart={addToCart} />

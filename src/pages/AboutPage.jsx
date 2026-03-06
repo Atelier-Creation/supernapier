@@ -64,7 +64,7 @@ export default function AboutPage() {
                 </div>
                 {/* gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0f3d1f]/90 via-gray-900/80 to-gray-900/95 pointer-events-none" />
-                {/* palm decoration right and left */} 
+                {/* palm decoration right and left */}
                 <img
                     src="/palm-tree-shadow.avif"
                     alt=""

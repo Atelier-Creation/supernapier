@@ -2,6 +2,45 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function WhyChooseUs() {
+    const features = [
+        {
+            id: 1,
+            bgClass: "bg-[#FFEFE5]",
+            iconBg: "bg-orange-200/50",
+            imgSrc: "/icons/tomato-3d.webp",
+            imgAlt: "Tomato",
+            imgClass: "w-16 h-16 object-contain drop-shadow-md",
+            description: "High-quality hybrid and OP vegetable, flower, herb and cover crop seeds."
+        },
+        {
+            id: 2,
+            bgClass: "bg-[#EAF5E1]",
+            iconBg: "bg-lime-200/50",
+            imgSrc: "/icons/plant-3d.png",
+            imgAlt: "Plant sprout",
+            imgClass: "w-16 h-16 object-contain drop-shadow-md",
+            description: "Offering organic, conventional, treated, untreated, and pelleted seeds."
+        },
+        {
+            id: 3,
+            bgClass: "bg-[#EBF0FA]",
+            iconBg: "bg-blue-200/50",
+            imgSrc: "/icons/medal-3d.webp",
+            imgAlt: "Medal",
+            imgClass: "w-16 h-16 object-contain drop-shadow-md",
+            description: "We trial seeds nationally to bring in top-performing products."
+        },
+        {
+            id: 4,
+            bgClass: "bg-[#E2F5EA]",
+            iconBg: "bg-emerald-200/50",
+            imgSrc: "/icons/truck-3d-icon.webp",
+            imgAlt: "Delivery Truck",
+            imgClass: "w-16 h-16 object-contain drop-shadow-md hover:translate-x-1 transition-transform",
+            description: "Fast, accurate seed delivery across the Asia and Canada."
+        }
+    ];
+
     return (
         <section className="py-24 bg-[#FAFCF8] relative overflow-hidden">
             {/* Palm Shadow Right */}
@@ -15,42 +54,21 @@ export default function WhyChooseUs() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        <motion.div whileHover={{ y: -5 }} className="bg-[#FFEFE5] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-orange-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
-                                <img src="/icons/tomato-3d.webp" alt="Tomato" className="w-16 h-16 object-contain drop-shadow-md" />
-                            </div>
-                            <p className="text-gray-800 text-sm font-semibold leading-relaxed">
-                                High-quality hybrid and OP vegetable, flower, herb and cover crop seeds.
-                            </p>
-                        </motion.div>
-
-                        <motion.div whileHover={{ y: -5 }} className="bg-[#EAF5E1] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-lime-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
-                                <img src="/icons/plant-3d.png" alt="Plant sprout" className="w-16 h-16 object-contain drop-shadow-md" />
-                            </div>
-                            <p className="text-gray-800 text-sm font-semibold leading-relaxed">
-                                Offering organic, conventional, treated, untreated, and pelleted seeds.
-                            </p>
-                        </motion.div>
-
-                        <motion.div whileHover={{ y: -5 }} className="bg-[#EBF0FA] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-blue-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
-                                <img src="/icons/medal-3d.webp" alt="Medal" className="w-16 h-16 object-contain drop-shadow-md" />
-                            </div>
-                            <p className="text-gray-800 text-sm font-semibold leading-relaxed">
-                                We trial seeds nationally to bring in top-performing products.
-                            </p>
-                        </motion.div>
-
-                        <motion.div whileHover={{ y: -5 }} className="bg-[#E2F5EA] p-10 flex flex-col items-center text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow">
-                            <div className="bg-emerald-200/50 w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm">
-                                <img src="/icons/truck-3d-icon.webp" alt="Delivery Truck" className="w-16 h-16 object-contain drop-shadow-md hover:translate-x-1 transition-transform" />
-                            </div>
-                            <p className="text-gray-800 text-sm font-semibold leading-relaxed">
-                                Fast, accurate seed delivery across the Asia and Canada.
-                            </p>
-                        </motion.div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                        {features.map((feature) => (
+                            <motion.div
+                                key={feature.id}
+                                whileHover={{ y: -5 }}
+                                className={`${feature.bgClass} p-10 flex flex-col items-center text-left md:text-center rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-md hover:shadow-xl transition-shadow`}
+                            >
+                                <div className={`${feature.iconBg} w-20 h-20 flex items-center justify-center rounded-full mb-6 shadow-sm`}>
+                                    <img src={feature.imgSrc} alt={feature.imgAlt} className={feature.imgClass} />
+                                </div>
+                                <p className="text-gray-800 text-sm font-semibold leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </div>

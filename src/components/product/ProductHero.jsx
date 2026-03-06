@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Star, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Star, Info, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun } from 'lucide-react';
 
 export default function ProductHero({ product, addToCart }) {
     const [qty, setQty] = useState(1);
@@ -155,29 +155,36 @@ export default function ProductHero({ product, addToCart }) {
                     <span className="text-gray-500">(128 Reviews)</span>
                 </div>
 
-                <p className="text-4xl font-black text-[#5D4037] mb-4">₹{product.price.toFixed(2)}</p>
+                <p className="text-4xl font-black text-[#5D4037] mb-4">₹{(product.price * qty).toFixed(2)} <span className="text-sm text-gray-500 font-normal">for {qty} {product?.unit}</span> </p>
 
                 <p className="text-gray-600 text-lg leading-relaxed mb-5 border-b border-gray-100 pb-2">
                     {product.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-4 mb-5">
+                <div className="grid grid-cols-3 lg:grid-cols-3 gap-3 mb-5">
                     {[
-                        { label: 'Germination', value: product.germinationRate },
-                        { label: 'Yield Potential', value: product.yieldPotential },
-                        { label: 'Season', value: product.season },
-                    ].map(({ label, value }) => (
-                        <div key={label} className="bg-[#F1F8E9] p-4 rounded-2xl flex items-start space-x-3 border border-[#1B5E20]/10">
-                            <Info className="w-5 h-5 text-[#1B5E20] flex-shrink-0 mt-0.5" />
-                            <div>
-                                <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">{label}</p>
-                                <p className="font-bold text-[#5D4037]">{value}</p>
+                        { label: 'Germination', value: product.germinationRate, icon: Sprout },
+                        { label: 'Yield Potential', value: product.yieldPotential, icon: TrendingUp },
+                        { label: 'Season', value: product.season, icon: Sun },
+                    ].map(({ label, value, icon: Icon }) => (
+                        <div key={label} className="group relative bg-[#F1F8E9] h-[52px] rounded-xl flex items-center justify-center border border-[#1B5E20]/15 overflow-hidden cursor-default transition-all duration-300 hover:bg-[#1B5E20] hover:shadow-lg hover:shadow-[#1B5E20]/20 cursor-pointer">
+
+                            {/* Default State: Icon + Value */}
+                            <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-[3px] md:gap-2.5 transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                                <Icon className="w-5 h-5 text-[#1B5E20]" />
+                                <span className="font-bold text-[#5D4037] text-xs md:text-sm">{value}</span>
                             </div>
+
+                            {/* Hover State: Label text */}
+                            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out translate-y-full group-hover:translate-y-0 text-center px-2">
+                                <span className="text-[10px] sm:text-xs text-white uppercase font-bold tracking-wider leading-tight">{label}</span>
+                            </div>
+
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-auto flex items-center space-x-6">
+                <div className="mb-5 flex items-center space-x-6">
                     <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden h-14 w-32">
                         <button
                             onClick={() => setQty(q => Math.max(1, q - 1))}
@@ -202,6 +209,12 @@ export default function ProductHero({ product, addToCart }) {
                         <ShoppingCart className="w-6 h-6" />
                         <span>Add to Cart — ₹{(product.price * qty).toFixed(2)}</span>
                     </button>
+                </div>
+                <div className={"flex gap-2 flex-wrap mb-3"}>
+                    <img alt="visa" height="32" src="/payment-icon/visa.svg" />
+                    <img alt="apple-pay" height="32" src="/payment-icon/apple-pay.svg" />
+                    <img alt="master" height="32" src="/payment-icon/master.svg" />
+                    <img alt="upisvg" height="32" src="/payment-icon/upisvg.svg" />
                 </div>
             </div>
         </div>

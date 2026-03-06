@@ -5,7 +5,7 @@ import { ArrowUpRight, Star, Headphones } from 'lucide-react';
 
 export default function Hero() {
     const navigate = useNavigate();
-    const [phase, setPhase] = useState('video'); // 'video' | 'hero'
+    const [phase, setPhase] = useState('hero'); // 'video' | 'hero'
     const [bgIdx, setBgIdx] = useState(0);
 
     const bgImages = [
@@ -16,6 +16,7 @@ export default function Hero() {
         "/hero-slider4.jpg",
     ];
 
+    /* VIDEO INTRO — commented out
     useEffect(() => {
         // Lock scroll during video
         document.body.style.overflow = 'hidden';
@@ -31,6 +32,7 @@ export default function Hero() {
             document.body.style.overflow = 'auto';
         };
     }, []);
+    */
 
     // Auto-slide background images in 'hero' phase
     useEffect(() => {
@@ -42,9 +44,9 @@ export default function Hero() {
     }, [phase, bgImages.length]);
 
     return (
-        <div className="relative w-full min-h-[100dvh] overflow-hidden bg-black">
+        <div className="relative w-full min-h-[50dvh] overflow-hidden bg-black">
 
-            {/* ─── Phase 1: Intro Video ─── */}
+            {/* ─── Phase 1: Intro Video ─── COMMENTED OUT
             <AnimatePresence>
                 {phase === 'video' && (
                     <motion.div
@@ -66,6 +68,7 @@ export default function Hero() {
                     </motion.div>
                 )}
             </AnimatePresence>
+            */}
 
             {/* ─── Phase 2: Hero Banner ─── */}
             <AnimatePresence>
@@ -99,7 +102,7 @@ export default function Hero() {
 
                         {/* Content */}
                         <div className="relative w-full max-w-full mx-auto px-6 sm:px-10">
-                            <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10">
+                            <div className="w-full flex flex-col md:flex-row item-center md:items-end justify-between gap-8 md:gap-10">
 
                                 {/* ── Left: Headline + CTA ── */}
                                 <div className="max-w-full">
@@ -107,7 +110,7 @@ export default function Hero() {
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.3, duration: 0.8 }}
-                                        className="text-5xl md:text-4xl lg:text-[52px] font-black text-white leading-[1.1] mb-6 tracking-tight"
+                                        className="text-4xl md:text-4xl lg:text-[52px] font-black text-white leading-[1.1] mb-6 tracking-tight"
                                     >
                                         Growing Smarter<br />
                                         Farming Better.
@@ -182,6 +185,6 @@ export default function Hero() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </div >
     );
 }
