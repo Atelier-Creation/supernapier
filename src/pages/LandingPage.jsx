@@ -21,7 +21,7 @@ export default function LandingPage({ addToCart }) {
             <Hero />
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
-            <WhyChooseUs />
+            {/* <WhyChooseUs /> */}
             <EmpoweringFarmers />
             <AboutUsSection />
             <FeaturesSection />

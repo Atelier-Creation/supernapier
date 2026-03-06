@@ -116,7 +116,7 @@ export default function AboutUsSection() {
                             color: "transparent",
                             backgroundSize: "100% auto"
                         }}>
-                        Special Products<br />For Most People
+                        Who Is<br />Super Napier ?
                     </motion.h2>
                 </div>
 
@@ -140,13 +140,13 @@ export default function AboutUsSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="lg:w-[36%] flex flex-col items-center lg:items-start text-center lg:text-left z-10 relative"
+                        className="lg:w-[37%] flex flex-col items-center lg:items-start text-center lg:text-left z-10 relative"
                     >
                         <h3 className="text-4xl md:text-5xl font-black text-gray-900 leading-none uppercase mb-3 drop-shadow-sm">
-                            ABOUT SUPER
+                            ABOUT
                         </h3>
                         <h3 className="text-4xl md:text-5xl font-light text-[#eab308] opacity-70 leading-none uppercase mb-8">
-                            NAPIER SEEDS
+                            SUPER NAPIER
                         </h3>
 
                         <Link to="/about">

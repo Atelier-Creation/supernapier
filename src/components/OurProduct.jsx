@@ -28,7 +28,7 @@ export default function OurProduct({ addToCart }) {
     }, []);
 
     return (
-        <section className="py-24 bg-[#FAFCF8] overflow-hidden relative">
+        <section className="py-14 bg-[#FAFCF8] overflow-hidden relative">
             {/* Palm Shadow Right */}
             <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -left-64 scale-x-[-1] h-full object-contain opacity-60 pointer-events-none z-0" />
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
