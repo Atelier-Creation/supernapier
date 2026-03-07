@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 
 export default function EmpoweringFarmers() {
     return (
-        <section className="py-20 bg-[#FAFCF8] relative overflow-hidden">
+        <section className="py-10 md:py-20 bg-[#FAFCF8] relative overflow-hidden">
             {/* Palm Shadow Right */}
             <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -left-14 h-full object-contain opacity-60 scale-x-[-1] pointer-events-none z-0" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight">EMPOWERING FARMERS, SUSTAINING THE FUTURE</h2>
+                    <h2 className="text-2xl md:text-5xl font-black text-gray-900 uppercase tracking-tight">EMPOWERING FARMERS, SUSTAINING THE FUTURE</h2>
                 </div>
 
                 <div className="relative max-w-5xl mx-auto mt-24 md:mt-16 pb-10 md:pb-16 block items-center gap-8">

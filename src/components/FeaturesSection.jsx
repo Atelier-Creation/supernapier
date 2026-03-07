@@ -8,35 +8,35 @@ export default function FeaturesSection() {
             <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-10 md:opacity-[0.04] pointer-events-none z-0" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="bg-[#0f9c40] rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-2xl rounded-br-2xl py-20 px-8 relative overflow-hidden shadow-2xl">
+                <div className="bg-[#0f9c40] rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-2xl rounded-br-2xl py-10 md:py-20 px-4 md:px-8 relative overflow-hidden shadow-2xl">
 
                     {/* Decorative Leaves */}
                     <img
                         src="/Green-Leaf-PNG.png"
                         alt="Decorative Leaf"
-                        className="absolute -bottom-8 -left-8 w-48 h-48 md:w-64 md:h-64 object-contain opacity-30 z-0 pointer-events-none drop-shadow-2xl"
+                        className="absolute -bottom-0 md:-bottom-8 -left-0 md:-left-8 w-18 h-18 md:w-64 md:h-64 object-contain opacity-30 z-0 pointer-events-none drop-shadow-2xl"
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center text-white relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-2 md:gap-12 text-center text-white relative z-10">
                         <div className="flex flex-col items-center">
-                            <ShieldCheck className="w-16 h-16 mb-6 text-white drop-shadow-md" />
-                            <h3 className="text-xl font-bold mb-3">Certified Quality</h3>
-                            <p className="text-white/90 font-medium">Every seed batch is rigorously tested for high germination rates.</p>
+                            <ShieldCheck className="w-8 h-8 md:w-16  md:h-16 mb-6 text-white drop-shadow-md" />
+                            <h3 className="text-[11px] md:text-xl font-medium md:font-bold mb-3">Certified Quality</h3>
+                            <p className="text-white/90 text-[10px] md:text-base font-medium">Every seed batch is rigorously tested for high germination rates.</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <TrendingUp className="w-16 h-16 mb-6 text-white drop-shadow-md" />
-                            <h3 className="text-xl font-bold mb-3">High Yielding</h3>
-                            <p className="text-white/90 font-medium">Specifically bred for maximum output in diverse climates.</p>
+                            <TrendingUp className="w-8 h-8 md:w-16  md:h-16 mb-6 text-white drop-shadow-md" />
+                            <h3 className="text-[11px] md:text-xl font-medium md:font-bold mb-3">High Yielding</h3>
+                            <p className="text-white/90 text-[10px] md:text-base font-medium">Specifically bred for maximum output in diverse climates.</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <CheckCircle className="w-16 h-16 mb-6 text-white drop-shadow-md" />
-                            <h3 className="text-xl font-bold mb-3">Disease Resistant</h3>
-                            <p className="text-white/90 font-medium">Advanced genetics to protect your crops naturally.</p>
+                            <CheckCircle className="w-8 h-8 md:w-16  md:h-16 mb-6 text-white drop-shadow-md" />
+                            <h3 className="text-[11px] md:text-xl font-medium md:font-bold mb-3">Disease Resistant</h3>
+                            <p className="text-white/90 text-[10px] md:text-base font-medium">Advanced genetics to protect your crops naturally.</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <Sprout className="w-16 h-16 mb-6 text-white drop-shadow-md" />
-                            <h3 className="text-xl font-bold mb-3">Sustainable</h3>
-                            <p className="text-white/90 font-medium">Eco-friendly practices from farming to packaging.</p>
+                            <Sprout className="w-8 h-8 md:w-16  md:h-16 mb-6 text-white drop-shadow-md" />
+                            <h3 className="text-[11px] md:text-xl font-medium md:font-bold mb-3">Sustainable</h3>
+                            <p className="text-white/90 text-[10px] md:text-base font-medium">Eco-friendly practices from farming to packaging.</p>
                         </div>
                     </div>
                 </div>
