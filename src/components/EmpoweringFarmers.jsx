@@ -11,7 +11,7 @@ export default function EmpoweringFarmers() {
                     <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight">EMPOWERING FARMERS, SUSTAINING THE FUTURE</h2>
                 </div>
 
-                <div className="relative max-w-5xl mx-auto mt-24 md:mt-16 pb-0 md:pb-16 block items-center gap-8">
+                <div className="relative max-w-5xl mx-auto mt-24 md:mt-16 pb-10 md:pb-16 block items-center gap-8">
                     {/* Background Tractor Vector */}
                     <motion.img
                         initial={{ opacity: 0, x: -50 }}
@@ -37,11 +37,11 @@ export default function EmpoweringFarmers() {
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="absolute -top-12 md:top-0 left-2 md:-left-8 -mt-0 md:-mt-12 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[75%] md:w-80 text-center"
+                        className="absolute -top-10 md:top-0 left-2 md:-left-8 -mt-0 md:-mt-12 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[75%] md:w-80 text-center"
                     >
                         <p className="text-[10px] md:text-sm font-bold text-gray-800 uppercase tracking-wide mb-1 md:mb-2">Premium seeds product sold in over</p>
-                        <h3 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">+250k</h3>
-                        <p className="text-[10px] md:text-xs text-gray-500 leading-relaxed font-medium">Trusted by farmers worldwide, our premium seeds ensure exceptional quality.</p>
+                        <h3 className="text-2xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">+250k</h3>
+                        <p className="text-[8px] md:text-xs text-gray-500 leading-relaxed font-medium">Trusted by farmers worldwide, our premium seeds ensure exceptional quality.</p>
                     </motion.div>
 
                     {/* Right Stat */}
@@ -52,8 +52,8 @@ export default function EmpoweringFarmers() {
                         className="absolute top-1/3 md:top-1/2 mt-0 md:-mt-16 -right-2 md:-right-8 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[75%] md:w-80 text-center"
                     >
                         <p className="text-[10px] md:text-sm font-bold text-gray-800 uppercase tracking-wide mb-1 md:mb-2">Sold in several countries</p>
-                        <h3 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">+2k</h3>
-                        <p className="text-[10px] md:text-xs text-gray-500 leading-relaxed font-medium">Our premium seeds are the go-to choice for farmers seeking robust growth, and higher crop productivity.</p>
+                        <h3 className="text-2xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">+2k</h3>
+                        <p className="text-[8px] md:text-xs text-gray-500 leading-relaxed font-medium">Our premium seeds are the go-to choice for farmers seeking robust growth, and higher crop productivity.</p>
                     </motion.div>
 
                     {/* Bottom Center Stat */}
@@ -61,11 +61,11 @@ export default function EmpoweringFarmers() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="absolute -bottom-24 md:-bottom-16 left-1/2 -translate-x-1/2 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[85%] md:w-80 text-center"
+                        className="absolute -bottom-18 md:-bottom-16 left-1/2 -translate-x-1/2 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[85%] md:w-80 text-center"
                     >
                         <p className="text-[10px] md:text-sm font-bold text-gray-800 uppercase tracking-wide mb-1 md:mb-2">Our premium seeds,</p>
-                        <h3 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">98%</h3>
-                        <p className="text-[10px] md:text-xs text-gray-500 leading-relaxed font-medium">Germination rate, deliver exceptional quality, consistent growth, and abundant harvests— trusted by farmers globally</p>
+                        <h3 className="text-2xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">98%</h3>
+                        <p className="text-[8px] md:text-xs text-gray-500 leading-relaxed font-medium">Germination rate, deliver exceptional quality, consistent growth, and abundant harvests— trusted by farmers globally</p>
                     </motion.div>
                 </div>
             </div>

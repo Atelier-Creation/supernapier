@@ -17,7 +17,7 @@ export default function AboutUsSection() {
     }, []);
 
     return (
-        <section className="py-24 bg-[#FAFCF8] overflow-hidden relative">
+        <section className="py-10 md:py-24 bg-[#FAFCF8] overflow-hidden relative">
 
             {/* Floating Grass 1 - Top Left */}
             <motion.div
@@ -98,9 +98,9 @@ export default function AboutUsSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
                 {/* Top Text with Image Mask */}
-                <div className="text-center mb-32">
+                <div className="text-center mb-10 md:mb-32">
                     <motion.h2
-                        className="text-5xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tight leading-tight"
+                        className="text-3xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tight leading-tight"
                         animate={{
                             backgroundPosition: ["50% 40%", "50% 30%", "50% 40%"]
                         }}
@@ -121,14 +121,14 @@ export default function AboutUsSection() {
                 </div>
 
                 {/* About Content */}
-                <div className="relative flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 mt-24 lg:mt-32 w-full">
+                <div className="relative flex flex-col lg:flex-row items-center justify-between gap-0 lg:gap-8 mt-6 md:mt-24 lg:mt-32 w-full">
 
                     {/* HUGE Background Text */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 0.09, scale: 1 }}
                         transition={{ duration: 1 }}
-                        className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] md:text-[200px] lg:text-[240px] font-black tracking-tighter text-[#eab308] pointer-events-none z-0 selection:bg-transparent flex flex-col items-center justify-center w-full leading-[0.8]"
+                        className="absolute top-[40%] md:top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[90px] md:text-[200px] lg:text-[240px] font-black tracking-tighter text-[#eab308] pointer-events-none z-0 selection:bg-transparent flex flex-col items-center justify-center w-full leading-[0.8]"
                     >
                         <span className="text-gray-400">SUPER</span>
                         <span>NAPIER</span>
@@ -142,15 +142,15 @@ export default function AboutUsSection() {
                         transition={{ duration: 0.8 }}
                         className="lg:w-[37%] flex flex-col items-center lg:items-start text-center lg:text-left z-10 relative"
                     >
-                        <h3 className="text-4xl md:text-5xl font-black text-gray-900 leading-none uppercase mb-3 drop-shadow-sm">
+                        <h3 className="text-3xl md:text-5xl font-black text-gray-900 leading-none uppercase mb-3 drop-shadow-sm">
                             ABOUT
                         </h3>
-                        <h3 className="text-4xl md:text-5xl font-light text-[#eab308] opacity-70 leading-none uppercase mb-8">
+                        <h3 className="text-3xl md:text-5xl font-light text-[#eab308] opacity-70 leading-none uppercase mb-8">
                             SUPER NAPIER
                         </h3>
 
                         <Link to="/about">
-                            <button className="mt-2 bg-[#fde047] hover:bg-[#facc15] text-black font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-auto shadow-xl">
+                            <button className="mt-2 bg-[#fde047] hover:bg-[#facc15] text-sm md:text-black font-bold md:px-8 md:py-4 px-4 py-2 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-auto shadow-xl">
                                 More About
                             </button>
                         </Link>
@@ -166,12 +166,12 @@ export default function AboutUsSection() {
                     >
                         <div className="relative w-full max-w-[280px] md:max-w-[350px]">
                             {/* The Frame */}
-                            <div className="absolute inset-x-4 -inset-y-12 md:inset-x-8 md:-inset-y-16 border-[6px] border-[#fde047] z-0"></div>
+                            <div className="absolute inset-x-4 -inset-y-5 md:inset-x-8 md:-inset-y-16 border-[6px] border-[#fde047] z-0"></div>
                             {/* The Image */}
                             <img
                                 src="/sunflower_seeds_PNG32.png"
                                 alt="Super Napier Seeds"
-                                className="relative z-10 w-full h-[350px] object-contain drop-shadow-2xl"
+                                className="relative z-10 w-full h-[250px] md:h-[350px] object-contain drop-shadow-2xl"
                             />
                         </div>
                     </motion.div>

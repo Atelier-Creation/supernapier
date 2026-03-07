@@ -8,7 +8,7 @@ export default function BlogSection() {
     const latestPosts = mockPosts.slice(0, 3); // Show only the latest 3 posts
 
     return (
-        <section className="py-24 bg-[#FAFCF8]">
+        <section className="py-4 md:py-24 bg-[#FAFCF8]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div>

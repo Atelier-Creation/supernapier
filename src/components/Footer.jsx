@@ -36,7 +36,7 @@ export default function Footer() {
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
                                 <li><a href="/careers" className="hover:text-white transition-colors">Careers</a></li>
                                 <li><a href="/blog" className="hover:text-white transition-colors">Our Blog</a></li>
-                                <li><a href="/affiliates" className="hover:text-white transition-colors">Affiliates</a></li>
+                                <li><a href="/affiliates" className="hover:text-white transition-colors">How to Became Farmer?</a></li>
                             </ul>
                         </div>
 
@@ -45,7 +45,7 @@ export default function Footer() {
                             <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Legal</h4>
                             <div className="h-[2px] w-full max-w-[50%] md:max-w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
-                                <li><a href="/eula" className="hover:text-white transition-colors">End User License Agreement</a></li>
+                                <li><a href="/eula" className="hover:text-white transition-colors">Refund & Return Policy</a></li>
                                 <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
                                 <li><a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a></li>
                             </ul>
@@ -70,10 +70,10 @@ export default function Footer() {
                         {/* Contact Info */}
                         <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
                             <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">Super<span className="text-orange-500">Napier</span>.com</h4>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">25 Gandhi Nagar, Greenfield District <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Springhaven, in 692 845 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: +91 98765 43210 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: support@supernapier.com <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Virudhachalam, Cuddalore <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Vannankudikadu, Tamil Nadu 606110 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: (+91) 94889 32336 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: contact@supernapier.com <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import { ShieldCheck, TrendingUp, CheckCircle, Sprout } from 'lucide-react';
 
 export default function FeaturesSection() {
     return (
-        <section className="py-24 bg-[#FAFCF8] relative overflow-hidden">
+        <section className="py-10 md:py-24 bg-[#FAFCF8] relative overflow-hidden">
             {/* Palm Shadow */}
             <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-10 md:opacity-[0.04] pointer-events-none z-0" />
 

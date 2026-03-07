@@ -4,7 +4,7 @@ import { Mail, MapPin, PhoneCall, ArrowRight } from 'lucide-react';
 
 export default function ContactSection() {
     return (
-        <section id="contact" className="py-24 bg-[#FAFCF8] relative overflow-hidden">
+        <section id="contact" className="py-6 md:py-24 bg-[#FAFCF8] relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
@@ -97,7 +97,7 @@ export default function ContactSection() {
                                 className="absolute -bottom-8 -right-8 scale-x-[-1] w-48 h-48 md:w-64 md:h-64 object-contain opacity-30 z-0 pointer-events-none drop-shadow-2xl"
                             />
 
-                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-10 tracking-tight leading-tight relative z-10">
+                            <h2 className="text-xl md:text-5xl font-bold text-white mb-10 tracking-tight leading-tight relative z-10">
                                 Always ready to <br /> answer your questions
                             </h2>
 

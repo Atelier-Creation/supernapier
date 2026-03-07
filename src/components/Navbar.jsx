@@ -140,12 +140,12 @@ export default function Navbar({ cartCount, onOpenCart }) {
                     <div className="flex items-center justify-between h-18">
 
                         {/* ── Desktop Left: Nav Links ── */}
-                        <div className="hidden lg:flex items-center gap-8 flex-1">
+                        <div className="hidden lg:flex items-center md:gap-8 lg:gap-4 flex-1">
                             {NAV_LINKS.map(({ label, to }) => (
                                 <Link
                                     key={label}
                                     to={to}
-                                    className={`text-md font-semibold tracking-wide capitalize transition-colors duration-200 ${location.pathname === to
+                                    className={`text-base lg:text-sm font-semibold tracking-wide capitalize transition-colors duration-200 ${location.pathname === to
                                         ? 'text-[#1B5E20]'
                                         : 'text-gray-700 hover:text-[#1B5E20]'
                                         }`}
