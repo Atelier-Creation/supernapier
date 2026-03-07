@@ -16,7 +16,7 @@ export default function ContactPage() {
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
                 <div className="text-center pt-10">
-                    <h1 className="text-4xl md:text-6xl font-black text-[#1B5E20] mb-6 tracking-tight uppercase">
+                    <h1 className="text-4xl md:text-6xl font-black text-[#1B5E20] mb-6 leading-tight md:leading-tight py-2 tracking-tight uppercase">
                         Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a3e635] to-[#1B5E20]">Us</span>
                     </h1>
                     <p className="text-xl text-[#5D4037] max-w-2xl mx-auto font-medium">
