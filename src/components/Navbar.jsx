@@ -40,7 +40,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
     // Show-after-hero-animation logic
     useEffect(() => {
         if (isLanding) {
-            const t = setTimeout(() => setShowNav(true), 5500);
+            const t = setTimeout(() => setShowNav(true), 1000);
             return () => clearTimeout(t);
         } else {
             setShowNav(true);
@@ -133,7 +133,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
             <motion.nav
                 initial={{ y: isLanding ? '-150%' : 0 }}
                 animate={{ y: showNav ? (isHidden ? '-150%' : 0) : '-150%' }}
-                transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-full z-50 bg-white/95 backdrop-blur-md border border-gray-100 rounded-full shadow-md"
             >
                 <div className="max-w-full mx-auto px-6 sm:px-10">

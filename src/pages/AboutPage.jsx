@@ -57,23 +57,31 @@ export default function AboutPage() {
             className="bg-[#FAFCF8] min-h-screen"
         >
             {/* ── HERO ── */}
-            <section className="relative overflow-hidden bg-gray-900 text-white pt-32 pb-28 px-4">
+            <section className="relative overflow-hidden rounded-b-[2rem] bg-gray-900 text-white pt-32 pb-28 px-4">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/hero-slider4.jpg"
+                        alt="About Background"
+                        className="w-full h-full object-cover object-center opacity-100"
+                    />
+                </div>
                 {/* SVG pattern */}
-                <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
+                <div className="absolute inset-0 opacity-[0.06] pointer-events-none z-0">
                     <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
                 </div>
                 {/* gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0f3d1f]/90 via-gray-900/80 to-gray-900/95 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/40 pointer-events-none z-0" />
                 {/* palm decoration right and left */}
                 <img
                     src="/palm-tree-shadow.avif"
                     alt=""
-                    className="absolute invert top-0 -right-32 h-full object-contain opacity-50 pointer-events-none"
+                    className="absolute invert top-0 -right-32 h-full object-contain opacity-50 pointer-events-none z-0"
                 />
                 <img
                     src="/palm-tree-shadow.avif"
                     alt=""
-                    className="absolute invert top-0 -left-32 scale-x-[-1] h-full object-contain opacity-50 pointer-events-none"
+                    className="absolute invert top-0 -left-32 scale-x-[-1] h-full object-contain opacity-50 pointer-events-none z-0"
                 />
 
                 <div className="relative max-w-4xl mx-auto pt-15 text-center z-10">
@@ -94,7 +102,7 @@ export default function AboutPage() {
                     </motion.h1>
                     <motion.p
                         custom={2} variants={fadeUp} initial="hidden" animate="visible"
-                        className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed"
+                        className="text-gray-100 text-lg max-w-2xl mx-auto leading-relaxed"
                     >
                         Empowering Indian farmers with world-class seeds and agri-knowledge, one harvest at a time.
                     </motion.p>
@@ -102,9 +110,9 @@ export default function AboutPage() {
             </section>
 
             {/* ── OUR STORY ── */}
-            <section className="py-24 px-4 relative overflow-hidden">
+            <section className="py-24 px-4 relative overflow-hidden bg-[#FAFCF8]">
                 <div className="absolute inset-0 opacity-5 pointer-events-none">
-                    <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
+                    <div className="absolute inset-0" />
                 </div>
                 <img
                     src="/palm-tree-shadow.avif"
@@ -165,7 +173,7 @@ export default function AboutPage() {
 
             {/* ── STATS ── */}
             <section className="py-20 px-4 bg-[#f2fae6] relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
+                <div className="absolute inset-0 opacity-5 pointer-events-none">
                     <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
                 </div>
 
@@ -206,7 +214,7 @@ export default function AboutPage() {
             {/* ── VALUES ── */}
             <section className="py-24 px-4 bg-[#FAFCF8] relative overflow-hidden">
                 <div className="absolute inset-0 opacity-5 pointer-events-none">
-                    <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
+                    <div className="absolute inset-0" />
                 </div>
                 <img
                     src="/palm-tree-shadow.avif"
@@ -249,41 +257,45 @@ export default function AboutPage() {
             </section>
 
             {/* ── CTA ── */}
-            <section className="relative overflow-hidden bg-gray-900 py-24 px-4">
-                <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
-                    <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0f3d1f]/80 to-gray-900/95 pointer-events-none" />
-                <img
-                    src="/palm-tree-shadow.avif"
-                    alt=""
-                    className="absolute top-0 -right-32 h-full object-contain opacity-20 pointer-events-none"
-                />
+            <section className="py-14 bg-[#FAFCF8] relative overflow-hidden">
+                <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-10 md:opacity-[0.04] pointer-events-none z-0" />
 
-                <motion.div
-                    variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                    className="relative z-10 max-w-3xl mx-auto text-center text-white"
-                >
-                    <p className="text-xs font-bold text-[#4ade80] uppercase tracking-widest mb-4">Ready to grow?</p>
-                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight leading-tight mb-6">
-                        Join Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a]">Growing Family</span>
-                    </h2>
-                    <p className="text-gray-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-                        Thousands of farmers trust Super Napier to power their farms. Start your journey with seeds built for success.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/products">
-                            <button className="bg-[#16a34a] hover:bg-[#059669] text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:scale-105 flex items-center gap-2">
-                                Get Started Today <ArrowRight className="w-4 h-4" />
-                            </button>
-                        </Link>
-                        <a href="tel:+91XXXXXXXXXX">
-                            <button className="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-4 rounded-full font-bold transition-all flex items-center gap-2">
-                                <PhoneCall className="w-4 h-4" /> Contact Sales
-                            </button>
-                        </a>
+                <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="bg-[#0f9c40] rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-2xl rounded-br-2xl py-20 px-8 relative overflow-hidden shadow-2xl">
+
+                        {/* Decorative Leaves */}
+                        <img
+                            src="/Green-Leaf-PNG.png"
+                            alt="Decorative Leaf"
+                            className="absolute -top-8 -right-8 scale-y-[-1] scale-x-[-1] w-48 h-48 md:w-64 md:h-64 object-contain opacity-30 z-0 pointer-events-none drop-shadow-2xl"
+                        />
+
+                        <motion.div
+                            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                            className="relative z-10 max-w-3xl mx-auto text-center text-white"
+                        >
+                            <p className="text-xs font-bold text-[#dcfce7] uppercase tracking-widest mb-4">Ready to grow?</p>
+                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight leading-tight mb-6 text-white">
+                                Join Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#bbf7d0]">Growing Family</span>
+                            </h2>
+                            <p className="text-green-50 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+                                Thousands of farmers trust Super Napier to power their farms. Start your journey with seeds built for success.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link to="/products">
+                                    <button className="bg-white text-[#16a34a] hover:bg-green-50 px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:scale-105 flex items-center gap-2">
+                                        Get Started Today <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                </Link>
+                                <a href="tel:+91XXXXXXXXXX">
+                                    <button className="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-4 rounded-full font-bold transition-all flex items-center gap-2">
+                                        <PhoneCall className="w-4 h-4" /> Contact Sales
+                                    </button>
+                                </a>
+                            </div>
+                        </motion.div>
                     </div>
-                </motion.div>
+                </div>
             </section>
         </motion.div>
     );

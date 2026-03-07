@@ -6,9 +6,9 @@ export default function OurProduct({ addToCart }) {
     const [currentIndex, setCurrentIndex] = useState(1);
 
     const products = [
-        { id: 101, name: 'Napier Seeds', price: 45.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
-        { id: 102, name: 'Napier Seeds', price: 35.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
-        { id: 103, name: 'Gaint Napier Seeds', price: 55.00, image: 'seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 1, name: 'Super Napier Seeds', price: 450.00, image: '/seeds-package-removebg-preview.png', category: 'Seeds' },
+        { id: 2, name: 'Hedge Lucerne Seeds', price: 350.00, image: '/seeds-package-removebg-Hedge-Lucerne.png', category: 'Seeds' },
+        { id: 4, name: 'Leucaena Seeds', price: 550.00, image: '/seeds-package-removebg-leucaena.png', category: 'Seeds' },
     ];
 
     const handlePrev = () => {
@@ -69,7 +69,7 @@ export default function OurProduct({ addToCart }) {
                                 >
                                     <div className="relative w-64 md:w-100 h-auto filter drop-shadow-2xl">
                                         <img
-                                            src="seeds-package-removebg-preview.png"
+                                            src={product.image}
                                             // src="/seeds-package.png"
                                             alt={product.name}
                                             className="w-full h-auto object-contain "

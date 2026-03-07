@@ -116,7 +116,7 @@ export default function AboutUsSection() {
                             color: "transparent",
                             backgroundSize: "100% auto"
                         }}>
-                        Who Is<br />Super Napier ?
+                        Premium Super<br /> Napier for Farmers
                     </motion.h2>
                 </div>
 
