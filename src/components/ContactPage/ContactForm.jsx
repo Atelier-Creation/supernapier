@@ -6,8 +6,8 @@ export default function ContactSection() {
             <div className="mx-auto">
 
                 {/* Heading */}
-                <div className="mb-10 flex flex-col lg:items-end">
-                    <div className="flex items-center justify-start mb-6 lg:w-1/2 w-full">
+                <div className="mb-10 flex flex-col lg:items-center">
+                    <div className="flex items-center justify-center mb-6 lg:w-full w-full">
                         {/* Golf Ball Icon Wrapper */}
                         <div className="w-10 h-10  rounded-full flex items-center justify-center bg-white shadow-sm">
                             <img
@@ -25,7 +25,7 @@ export default function ContactSection() {
                         </div>
                     </div>
 
-                    <h2 className="text-white text-4xl md:text-6xl font-semibold leading-tight] lg:w-1/2">
+                    <h2 className="text-white text-center text-4xl md:text-6xl font-semibold leading-tight] lg:w-full">
                         Always ready to <br /> answer your questions
                     </h2>
                 </div>

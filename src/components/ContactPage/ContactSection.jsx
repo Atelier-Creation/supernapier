@@ -9,8 +9,8 @@ const ContactSection = () => {
       icon: Mail,
       content: (
         <>
-          contact@example.com <br />
-          support@example.com
+          contact@supernapier.com <br />
+          support@supernapier.com
         </>
       ),
     },
@@ -19,8 +19,7 @@ const ContactSection = () => {
       icon: MapPin,
       content: (
         <>
-          85 Preston, Inglewood, maine <br />
-          98380, Hoofddorp Noord-2132
+          Virudhachalam, Cuddalore, <br /> Vannankudikadu, Tamil Nadu 606110
         </>
       ),
     },
@@ -29,8 +28,8 @@ const ContactSection = () => {
       icon: Phone,
       content: (
         <>
-          Phone: +1-234-567-89 <br />
-          Mobile: (+01)-234-567-89
+          Phone: (+91) 94889 32336 <br />
+          Mobile: (+91) 98765 43219
         </>
       ),
     },
@@ -38,17 +37,7 @@ const ContactSection = () => {
 
   return (
     <section
-      className="
-      relative
-      md:h-[700px]
-      h-full
-      xl:h-[700px]
-      bg-[#f3f0e9]
-      bg-[url('https://cdn.prod.website-files.com/68baae3cb9467566e1b0a61c/698deb2f6d550496da24ae25_hero_2_1%202-p-2000.webp')]
-      bg-center
-      bg-no-repeat
-      bg-cover
-    "
+      className="relative md:h-[500px] h-full xl:h-[500px] bg-[#f3f0e9] bg-[url('https://cdn.prod.website-files.com/68baae3cb9467566e1b0a61c/698deb2f6d550496da24ae25_hero_2_1%202-p-2000.webp')] bg-center bg-no-repeat bg-cover"
     >
 
       {/* Gradient Overlay */}

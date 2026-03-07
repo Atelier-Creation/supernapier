@@ -2,7 +2,7 @@ import React from 'react';
 
 const ContactHero = () => {
   return (
-    <section className="bg-[#f3f0e9] pb-20 pt-40 px-4 flex flex-col items-center justify-center font-sans">
+    <section className="bg-[#f3f0e9] pb-10 pt-40 px-4 flex flex-col items-center justify-center font-sans">
       <div className="container mx-auto text-center">
         {/* Badge / Subtitle Area */}
         <div className="flex items-center justify-center mb-6">
