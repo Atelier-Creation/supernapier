@@ -95,7 +95,7 @@ export default function ProductTabs({ product }) {
                 </div>
 
                 {/* Right: Quick Info Cards */}
-                <div className="lg:col-span-2 space-y-6 mt-18">
+                <div className="lg:col-span-2 space-y-6 mt-8 lg:mt-18">
                     <QuickInfoCard title="Shipping" body="We offer domestic shipping only." />
                     <QuickInfoCard
                         title="Difficulty Level"

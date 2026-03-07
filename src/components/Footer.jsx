@@ -69,7 +69,18 @@ export default function Footer() {
 
                         {/* Contact Info */}
                         <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
-                            <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">Super<span className="text-orange-500">Napier</span>.com</h4>
+
+                            {logoError ? (
+                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.com</h4>
+                            ) : (
+                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.com</h4>
+                                // <img
+                                //     src="/logo.png"
+                                //     alt="Super Napier Logo"
+                                //     className="h-12 md:h-16 w-auto object-contain mb-4 ml-0 md:ml-auto"
+                                //     // onError={() => setLogoError(true)}
+                                // />
+                            )}
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Virudhachalam, Cuddalore <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Vannankudikadu, Tamil Nadu 606110 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
                             <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: (+91) 94889 32336 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
@@ -92,7 +103,6 @@ export default function Footer() {
                             />
                         )}
                         <div className="flex flex-wrap justify-center gap-4 text-[11px] md:text-[13px]">
-                            <a href="/eula" className="hover:text-white transition-colors">End User License Agreement</a>
                             <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
                             <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
                             <a href="/refund" className="hover:text-white transition-colors">Refund & Return Policy</a>
@@ -108,7 +118,7 @@ export default function Footer() {
                             <div className="bg-blue-400 px-2.5 py-1 rounded text-[10px] font-bold text-white shadow">AMEX</div>
                         </div>
 
-                        <p className="text-center md:text-right font-medium text-[11px]">Coded and designed by Atelier. All rights reserved to SuperNapier.</p>
+                        <p className="text-center md:text-right font-medium text-[11px]">Coded and designed by <a href="https://theateliercreation.com/" target="_blank" className='font-medium text-white hover:text-orange-500 transition-colors'>The Atelier Creation</a>. All rights reserved to SuperNapier.</p>
                     </div>
                 </div>
             </div>

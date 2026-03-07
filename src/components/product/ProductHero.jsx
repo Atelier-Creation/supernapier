@@ -53,7 +53,7 @@ export default function ProductHero({ product, addToCart }) {
                 onMouseLeave={() => setIsPaused(false)}
             >
                 {/* Main Viewer */}
-                <div className="relative rounded-3xl overflow-hidden bg-[#F1F8E9] border border-gray-100 shadow-lg h-[480px] group">
+                <div className="relative rounded-3xl overflow-hidden bg-[#F1F8E9] border border-gray-100 shadow-lg h-[350px] md:h-[480px] group">
                     <AnimatePresence custom={direction} mode="popLayout">
                         <motion.img
                             key={activeIdx}
@@ -184,27 +184,27 @@ export default function ProductHero({ product, addToCart }) {
                     ))}
                 </div>
 
-                <div className="mb-5 flex items-center space-x-6">
-                    <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden h-14 w-32">
+                <div className="mb-5 flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                    <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden h-14 w-full md:w-32">
                         <button
                             onClick={() => setQty(q => Math.max(1, q - 1))}
-                            className="cursor-pointer px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
+                            className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
                         >−</button>
                         <input
                             type="number"
                             readOnly
                             value={qty}
-                            className="w-full text-center font-bold outline-none"
+                            className="w-full flex-1 text-center font-bold outline-none"
                         />
                         <button
                             onClick={() => setQty(q => q + 1)}
-                            className="cursor-pointer px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
+                            className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
                         >+</button>
                     </div>
 
                     <button
                         onClick={() => addToCart(product, qty)}
-                        className="flex-1 bg-[#1B5E20] hover:bg-[#5D4037] text-white h-14 rounded-xl flex items-center justify-center space-x-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
+                        className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
                     >
                         <ShoppingCart className="w-6 h-6" />
                         <span>Add to Cart — ₹{(product.price * qty).toFixed(2)}</span>
