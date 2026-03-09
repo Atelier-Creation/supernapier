@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Search, Sprout, Globe, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LoginModal from '../Context/LoginModal';
 
 const NAV_LINKS = [
     { label: 'Product', to: '/products' },
@@ -31,9 +32,15 @@ export default function Navbar({ cartCount, onOpenCart }) {
     const location = useLocation();
     const navigate = useNavigate();
     const lastScrollY = useRef(0);
-
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const isLanding = location.pathname === '/';
+    const openModal = () => {
+        setIsLoginOpen(true);
+    };
 
+    const closeModal = () => {
+        setIsLoginOpen(false);
+    };
     // Close mobile menu on route change
     useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
@@ -165,7 +172,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                             <LanguageSwitcher />
 
                             <Link
-                                to="#"
+                                onClick={openModal}
                                 className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
                             >
                                 Sign In
@@ -305,8 +312,10 @@ export default function Navbar({ cartCount, onOpenCart }) {
                             {/* Sign In */}
                             <div className="flex justify-center mt-8">
                                 <Link
-                                    to="/about"
-                                    onClick={() => setMenuOpen(false)}
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        openModal();
+                                    }}
                                     className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
                                 >
                                     Sign In
@@ -372,6 +381,8 @@ export default function Navbar({ cartCount, onOpenCart }) {
                     </>
                 )}
             </AnimatePresence>
+
+            <LoginModal isOpen={isLoginOpen} onClose={closeModal} />
         </>
     );
 }
