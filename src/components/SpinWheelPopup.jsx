@@ -7,7 +7,7 @@ const segments = [
     { label: 'TRY AGAIN', color: '#166534', textColor: '#fff' },
     { label: 'FLAT ₹300 OFF', color: '#eab308', textColor: '#000' },
     { label: 'NO LUCK', color: '#14532d', textColor: '#fff' },
-    { label: '₹1000 OFF NEXT', color: '#facc15', textColor: '#000' },
+    { label: '₹1000 OFF', color: '#facc15', textColor: '#000' },
     { label: 'BETTER LUCK', color: '#15803d', textColor: '#fff' }
 ];
 
