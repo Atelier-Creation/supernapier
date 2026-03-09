@@ -21,7 +21,7 @@ export default function ProductTabs({ product }) {
     const [activeTab, setActiveTab] = useState('details');
 
     return (
-        <div className="mb-24">
+        <div className="mb-10 md:mb-24">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
 
                 {/* Left: Tab Nav + Content */}

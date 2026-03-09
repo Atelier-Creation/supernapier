@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Tractor, Sprout, Droplets, Wheat } from 'lucide-react';
 
@@ -48,7 +48,10 @@ export default function HowToUseSection() {
     const [[activeStep, direction], setStepTuple] = useState([0, 1]);
     const step = howToUseSteps[activeStep];
 
+    const hasInteracted = useRef(false);
+
     const setActiveStep = (newStep) => {
+        hasInteracted.current = true;
         if (newStep !== activeStep) {
             setStepTuple([newStep, newStep > activeStep ? 1 : -1]);
         }
@@ -84,8 +87,10 @@ export default function HowToUseSection() {
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
         if (isLeftSwipe) {
+            hasInteracted.current = true;
             setActiveStep((prev) => Math.min(prev + 1, howToUseSteps.length - 1));
         } else if (isRightSwipe) {
+            hasInteracted.current = true;
             setActiveStep((prev) => Math.max(prev - 1, 0));
         }
     };
@@ -97,14 +102,17 @@ export default function HowToUseSection() {
     };
 
     useEffect(() => {
+        if (!hasInteracted.current) {
+            return;
+        }
         const activeNavEl = document.getElementById(`step-tab-${activeStep}`);
         if (activeNavEl) {
-            activeNavEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            activeNavEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
     }, [activeStep]);
 
     return (
-        <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
+        <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 my-0 md:my-16">
             <section className="bg-[#0A2613] relative rounded-3xl text-white py-16 md:py-24 px-6 sm:px-10 lg:px-16 overflow-hidden w-full shadow-2xl">
                 {/* Decorative Leaves */}
                 <img

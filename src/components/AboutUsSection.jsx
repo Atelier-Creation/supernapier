@@ -116,7 +116,8 @@ export default function AboutUsSection() {
                             color: "transparent",
                             backgroundSize: "100% auto"
                         }}>
-                        Premium Super<br /> Napier for Farmers
+                        <span className="hidden md:inline">Premium Super<br /> Napier for Farmers</span>
+                        <span className="inline md:hidden">ABOUT<br /> SUPER NAPIER</span>
                     </motion.h2>
                 </div>
 
@@ -142,10 +143,10 @@ export default function AboutUsSection() {
                         transition={{ duration: 0.8 }}
                         className="lg:w-[37%] flex flex-col items-center lg:items-start text-center lg:text-left z-10 relative"
                     >
-                        <h3 className="text-3xl md:text-5xl font-black text-gray-900 leading-none uppercase mb-3 drop-shadow-sm">
+                        <h3 className="hidden md:block text-3xl md:text-5xl font-black text-gray-900 leading-none uppercase mb-3 drop-shadow-sm">
                             ABOUT
                         </h3>
-                        <h3 className="text-3xl md:text-5xl font-light text-[#eab308] opacity-70 leading-none uppercase mb-8">
+                        <h3 className="hidden md:block text-3xl md:text-5xl font-light text-[#eab308] opacity-70 leading-none uppercase mb-8">
                             SUPER NAPIER
                         </h3>
 

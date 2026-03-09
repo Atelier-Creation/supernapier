@@ -44,7 +44,7 @@ export default function ProductHero({ product, addToCart }) {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-16 mb-5 md:mb-20">
 
             {/* ── Left: Image Slider ── */}
             <div

@@ -128,20 +128,30 @@ export const mockTestimonials = [
     },
     {
         id: 2,
-        name: "Dona",
-        role: "Corn Farmer",
-        image: "https://images.pexels.com/photos/9268305/pexels-photo-9268305.jpeg?auto=compress&cs=tinysrgb&w=800",
-        heading: "The Seeds Not Only Delivered A Higher Yield But Also Withstood Unpredictable Weather Conditions.",
-        text: "My Profits Have Significantly Increased, And I Finally Feel Confident About The Future Of My Farm. These Seeds Truly Meet The Demands Of Modern Agriculture."
+        name: "Arun P",
+        isGoogleReview: true,
+        role: "New farm Feed Framer",
+        image: "https://lh3.googleusercontent.com/a-/ALV-UjXzQ4eW10ZETTV8nQkTGeiF9RlRFc4vOSydl1jnfCYZUvOUFHbz",
+        heading: "Genuine person. Got 2000 seeds for our farm. Planted and germinating nicely.",
+        text: "He will send you a link which contains details of how to plant and what distance we should maintain. One suggestion is if he tells how to remove weeds before planting it will be good for newbies growing super napier plants.I will buy with him again."
     },
     {
         id: 3,
-        name: "Budi",
-        role: "Rice Farmer",
-        image: "https://images.pexels.com/photos/3066025/pexels-photo-3066025.jpeg?auto=compress&cs=tinysrgb&w=800",
-        heading: "A Massive Leap In Total Output And Resistance To Local Pests.",
-        text: "I was struggling with crop failure last year, but these new seed varieties have proven to be incredibly resilient. A fantastic investment for my farming business."
-    }
+        name: "gokul krishnan",
+        isGoogleReview: true,
+        role: "Catle needs Framer",
+        image: "https://lh3.googleusercontent.com/a-/ALV-UjUlh0MpmZLohAtT178Bl18LvkPNzBXmjT4aPeb25sMHNAYEMnzr",
+        heading: "Good quality of stems at reasonable price.",
+        text: "Good quality of stems at reasonable price,they have been packed nicely and very neet delivered next day itself .planted on july 3rd, 2021."
+    },
+    {
+        id: 4,
+        name: "Dona",
+        role: "Corn Farmer",
+        image: "https://images.pexels.com/photos/9268305/pexels-photo-9268305.jpeg?auto=compress&cs=tinysrgb&w=800",
+        heading: "The Seeds Only Delivered A Higher Yield For me.",
+        text: "My Profits Have Significantly Increased, And I Finally Feel Confident About The Future Of My Farm. These Seeds Truly Meet The Demands Of Modern Agriculture."
+    },
 ];
 
 export const mockPosts = [

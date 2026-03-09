@@ -61,7 +61,7 @@ export default function EmpoweringFarmers() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="absolute -bottom-18 md:-bottom-16 left-1/2 -translate-x-1/2 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[85%] md:w-80 text-center"
+                        className="absolute -bottom-5 md:-bottom-16 left-1/2 -translate-x-1/2 bg-[#f4f6f1] p-6 md:p-10 rounded-tl-[2rem] rounded-br-[2rem] md:rounded-tl-[3rem] md:rounded-br-[3rem] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 z-20 w-[85%] md:w-80 text-center"
                     >
                         <p className="text-[10px] md:text-sm font-bold text-gray-800 uppercase tracking-wide mb-1 md:mb-2">Our premium seeds,</p>
                         <h3 className="text-2xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a] mb-2 md:mb-3">98%</h3>

@@ -13,6 +13,7 @@ import { AnimatePresence } from 'framer-motion';
 import ContactUs from './pages/ContactUs';
 import WhatsAppFloatButton from './components/WhatsAppFloatButton';
 import ScrollToTop from './components/ScrollToTop';
+import SpinWheelPopup from './components/SpinWheelPopup';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -61,6 +62,7 @@ function App() {
         </main>
 
         <Footer />
+        <SpinWheelPopup />
 
         <CartDrawer
           isOpen={cartOpen}
