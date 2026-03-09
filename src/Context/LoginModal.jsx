@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import React, { useState } from 'react';
 
 const LoginModal = ({ isOpen, onClose }) => {
@@ -10,8 +11,8 @@ const LoginModal = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className='absolute inset-0 bg-black/60 backdrop-blur-sm' />
 
-            <div className="relative flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl p-3">
-
+            <div className="relative h-auto lg:h-[80vh] flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl p-3">
+                <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-60 pointer-events-none z-0 " />
                 {/* Left Image */}
                 <div className="hidden w-1/2 md:block">
                     <img
@@ -26,9 +27,9 @@ const LoginModal = ({ isOpen, onClose }) => {
 
                     <button
                         onClick={onClose}
-                        className="absolute right-6 top-6 text-gray-400 hover:text-gray-600"
+                        className="absolute right-6 top-6 text-black hover:text-gray-600"
                     >
-                        ✕
+                        <X/>
                     </button>
 
                     {/* Title */}
