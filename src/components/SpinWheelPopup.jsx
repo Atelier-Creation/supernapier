@@ -58,21 +58,23 @@ export default function SpinWheelPopup() {
         // We subtract from 360 because the wheel moves forward, meaning the segments move "past" the pointer.
         setTimeout(() => {
             const normalizedAngle = totalRotation % 360;
-
-            // Calculate which segment is at the top (pointer is at 0 degrees/top center)
-            // Because SVG path/CSS conic starts at top right or standard math, we have to map it carefully.
-            // Let's rely on standard calculation:
             const sliceSize = 360 / segments.length;
 
-            // Segment 0 starts at top initially if we render it carefully, but let's just 
-            // calculate the index based on the final rotation.
-            // Easiest is to reverse the rotation to find what landed at the top.
-            const winningIndex = Math.floor(((360 - normalizedAngle + (sliceSize / 2)) % 360) / sliceSize);
+            // Calculate which segment is at the top (pointer is at 0 degrees/top center)
+            // The wheel rotates clockwise (forward). This means the point on the wheel 
+            // that is now at the top is (360 - normalizedAngle).
+            const pointAtTop = (360 - normalizedAngle) % 360;
 
-            setResult(segments[winningIndex].label);
+            // Map that point directly to the slice index
+            const winningIndex = Math.floor(pointAtTop / sliceSize);
+            const winningLabel = segments[winningIndex].label;
+
+            setResult(winningLabel);
             setIsSpinning(false);
-            setHasSpun(true);
-        }, 10000); // Matches the new animation duration of 10s
+            if (winningLabel !== 'TRY AGAIN') {
+                setHasSpun(true);
+            }
+        }, 15000); // Matches the new animation duration of 10s
     };
 
     // Generate conic gradient for the wheel
@@ -141,6 +143,16 @@ export default function SpinWheelPopup() {
                                         <p className={`text-3xl font-black uppercase ${result.includes('OFF') ? 'text-green-900' : 'text-red-900'}`}>{result}</p>
                                         {result.includes('OFF') ? (
                                             <p className="text-sm text-green-700 mt-2">Use code <b>FARMERWIN</b> at checkout.</p>
+                                        ) : result === 'TRY AGAIN' ? (
+                                            <div className="mt-4">
+                                                <p className="text-sm text-red-700 mb-3 font-medium">You get a second chance!</p>
+                                                <button
+                                                    onClick={handleSpin}
+                                                    className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-black tracking-wide py-2 px-6 rounded-xl transition-all active:scale-95 shadow-sm uppercase"
+                                                >
+                                                    Tap to Spin Again
+                                                </button>
+                                            </div>
                                         ) : (
                                             <p className="text-sm text-red-700 mt-2">Don't worry, try again tomorrow for better luck!</p>
                                         )}
@@ -182,7 +194,7 @@ export default function SpinWheelPopup() {
                                     className="w-full h-full relative overflow-hidden rounded-full shadow-2xl"
                                     style={{ ...wheelStyle, clipPath: 'circle(50% at 50% 50%)' }}
                                     animate={{ rotate: rotation }}
-                                    transition={{ duration: 10, ease: [0.15, 0.8, 0.1, 1] }} // Custom cubic bezier for realistic spin
+                                    transition={{ duration: 15, ease: [0.15, 0.8, 0.1, 1] }} // Custom cubic bezier for realistic spin
                                 >
                                     {/* Wheel Segments Labels */}
                                     {segments.map((segment, index) => {
