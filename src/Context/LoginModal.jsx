@@ -14,13 +14,32 @@ const LoginModal = ({ isOpen, onClose }) => {
             <div className="relative h-auto lg:h-[80vh] flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl p-3">
                 <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-60 pointer-events-none z-0 " />
                 {/* Left Image */}
-                <div className="hidden w-1/2 md:block">
+                <div className="hidden w-1/2 md:block relative rounded-2xl overflow-hidden">
                     <img
-                        src="https://img.freepik.com/premium-photo/natural-beauty-with-green-rice-fields-indonesia_80375-160.jpg"
-                        alt="Rice"
-                        className="h-full w-full object-cover rounded-2xl"
+                        src="/login_image.png"
+                        alt="Napier Farm"
+                        className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+                    <img
+                        src="/logo.png"
+                        alt="Super Napier Logo"
+                        className="absolute bottom-3 left-3 h-14 w-auto object-contain drop-shadow-xl pointer-events-none p-2"
                     />
                 </div>
+                <div
+                    className="absolute -bottom-0 md:-bottom-8 -left-0 md:-left-8 w-24 h-24 md:w-64 md:h-64 bg-[#166534] opacity-30 z-0 pointer-events-none"
+                    style={{
+                        maskImage: "url('/Green-Leaf-PNG.png')",
+                        WebkitMaskImage: "url('/Green-Leaf-PNG.png')",
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskPosition: 'bottom left',
+                        WebkitMaskPosition: 'bottom left',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                    }}
+                />
 
                 {/* Form Side */}
                 <div className="flex w-full flex-col justify-center px-3 py-12 md:w-1/2 lg:px-10">
@@ -29,7 +48,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                         onClick={onClose}
                         className="absolute right-6 top-6 text-black hover:text-gray-600"
                     >
-                        <X/>
+                        <X />
                     </button>
 
                     {/* Title */}
