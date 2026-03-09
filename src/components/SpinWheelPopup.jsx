@@ -104,7 +104,7 @@ export default function SpinWheelPopup() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 50 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-[900px] rounded-[2rem] md:rounded-[3rem] bg-white/95 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
+                        className="relative w-full max-w-[900px] max-h-[95vh] rounded-[2rem] md:rounded-[3rem] bg-white/95 backdrop-blur-xl shadow-2xl overflow-y-auto overflow-x-hidden scrollbar-hide flex flex-col md:flex-row"
                     >
                         {/* Close Button */}
                         <button
@@ -115,17 +115,17 @@ export default function SpinWheelPopup() {
                         </button>
 
                         {/* Left Content / Typography Area */}
-                        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center order-2 md:order-1 bg-[#FAFCF8]">
-                            <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-bold text-sm w-fit mb-6">
+                        <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-12 flex flex-col justify-center order-2 md:order-1 bg-[#FAFCF8]">
+                            <div className="hidden md:inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-bold text-xs sm:text-sm w-fit mb-4 sm:mb-6">
                                 <Gift className="w-4 h-4" />
                                 <span>Special Offer</span>
                             </div>
 
-                            <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight uppercase mb-4">
+                            <h2 className="text-md sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight uppercase mb-2 sm:mb-4">
                                 Spin & Win <span className="text-amber-500">Rewards!</span>
                             </h2>
 
-                            <p className="text-gray-600 mb-8 max-w-sm">
+                            <p className="text-xs sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-sm">
                                 Take a chance on our daily spin wheel to unlock exclusive discounts on your premium Super Napier seeds and more.
                             </p>
 
@@ -135,12 +135,12 @@ export default function SpinWheelPopup() {
                                         key="result"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className={`border rounded-2xl p-6 text-center ${result.includes('OFF') ? 'bg-green-100 border-green-200' : 'bg-red-50 border-red-200'}`}
+                                        className={`border rounded-2xl py-2 px-1 md:p-6 text-center ${result.includes('OFF') ? 'bg-green-100 border-green-200' : 'bg-red-50 border-red-200'}`}
                                     >
                                         <p className={`font-medium mb-1 ${result.includes('OFF') ? 'text-green-800' : 'text-red-800'}`}>
                                             {result.includes('OFF') ? 'You Won!' : 'Oops!'}
                                         </p>
-                                        <p className={`text-3xl font-black uppercase ${result.includes('OFF') ? 'text-green-900' : 'text-red-900'}`}>{result}</p>
+                                        <p className={`text-xl md:text-3xl font-black uppercase ${result.includes('OFF') ? 'text-green-900' : 'text-red-900'}`}>{result}</p>
                                         {result.includes('OFF') ? (
                                             <p className="text-sm text-green-700 mt-2">Use code <b>FARMERWIN</b> at checkout.</p>
                                         ) : result === 'TRY AGAIN' ? (
@@ -162,11 +162,11 @@ export default function SpinWheelPopup() {
                                         <button
                                             onClick={handleSpin}
                                             disabled={isSpinning || hasSpun}
-                                            className="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-black text-xl py-5 rounded-2xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_0_0_#b45309] hover:shadow-[0_4px_0_0_#b45309] hover:translate-y-1 active:shadow-none active:translate-y-2 uppercase tracking-wide"
+                                            className="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-black text-lg sm:text-xl py-4 sm:py-5 rounded-2xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_6px_0_0_#b45309] sm:shadow-[0_8px_0_0_#b45309] hover:translate-y-1 active:shadow-none active:translate-y-2 uppercase tracking-wide"
                                         >
                                             {isSpinning ? 'SPINNING...' : 'SPIN THE WHEEL NOW!'}
                                         </button>
-                                        <p className="text-center text-xs text-gray-400 mt-6 uppercase tracking-wider">
+                                        <p className="text-center text-[10px] sm:text-xs text-gray-400 mt-4 sm:mt-6 uppercase tracking-wider">
                                             * One spin per session. Terms apply.
                                         </p>
                                     </motion.div>
@@ -175,12 +175,12 @@ export default function SpinWheelPopup() {
                         </div>
 
                         {/* Right Graphic / Wheel Area */}
-                        <div className="w-full md:w-1/2 bg-[#166534] relative p-8 md:p-12 flex items-center justify-center order-1 md:order-2 overflow-hidden min-h-[350px]">
+                        <div className="w-full md:w-1/2 bg-[#166534] relative py-12 sm:p-8 md:p-12 flex items-center justify-center order-1 md:order-2 overflow-hidden min-h-[300px] sm:min-h-[350px]">
                             {/* Background Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-transparent blur-3xl mix-blend-overlay"></div>
 
                             {/* Wheel Container */}
-                            <div className="relative w-64 h-64 md:w-80 md:h-80 select-none">
+                            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 select-none">
                                 {/* Outer Ring */}
                                 <div className="absolute -inset-4 md:-inset-6 bg-amber-400 rounded-full shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)] border-8 md:border-[12px] border-amber-600 flex items-center justify-center">
                                     {/* Decorative lights around the ring could go here */}

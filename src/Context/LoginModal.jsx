@@ -11,7 +11,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className='absolute inset-0 bg-black/60 backdrop-blur-sm' />
 
-            <div className="relative h-auto lg:h-[80vh] flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl p-3">
+            <div className="relative max-h-[90vh] h-auto lg:h-[80vh] flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl p-3">
                 <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 right-0 h-full object-contain opacity-60 pointer-events-none z-0 " />
                 {/* Left Image */}
                 <div className="hidden w-1/2 md:block relative rounded-2xl overflow-hidden">
@@ -28,7 +28,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                     />
                 </div>
                 <div
-                    className="absolute -bottom-0 md:-bottom-8 -left-0 md:-left-8 w-24 h-24 md:w-64 md:h-64 bg-[#166534] opacity-30 z-0 pointer-events-none"
+                    className="absolute md:opacity-0 -bottom-0 md:-bottom-8 -left-0 md:-left-8 w-24 h-24 md:w-64 md:h-64 bg-[#166534] opacity-30 z-0 pointer-events-none"
                     style={{
                         maskImage: "url('/Green-Leaf-PNG.png')",
                         WebkitMaskImage: "url('/Green-Leaf-PNG.png')",
@@ -42,7 +42,14 @@ const LoginModal = ({ isOpen, onClose }) => {
                 />
 
                 {/* Form Side */}
-                <div className="flex w-full flex-col justify-center px-3 py-12 md:w-1/2 lg:px-10">
+                <div className="flex w-full flex-col justify-center px-3 pt-16 pb-8 md:w-1/2 lg:px-10 z-10">
+
+                    {/* Mobile Logo */}
+                    <img
+                        src="/logo.png"
+                        alt="Super Napier Logo"
+                        className={`absolute left-6 top-6 h-8 w-auto object-contain ${isSignup ? 'hidden' : 'block'} md:hidden`}
+                    />
 
                     <button
                         onClick={onClose}
@@ -52,11 +59,11 @@ const LoginModal = ({ isOpen, onClose }) => {
                     </button>
 
                     {/* Title */}
-                    <h2 className="mb-2 text-4xl font-bold text-gray-900">
+                    <h2 className="mb-2 text-3xl md:text-4xl font-bold text-gray-900">
                         {isForgot ? "Forgot Password" : isSignup ? "Sign up" : "Sign in"}
                     </h2>
 
-                    <p className="mb-8 text-gray-600">
+                    <p className="mb-2 text-sm md:text-base md:mb-8 text-gray-600">
                         {isForgot
                             ? "Enter your email to reset your password"
                             : isSignup
@@ -64,7 +71,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                                 : "Sign in if you have an account"}
                     </p>
 
-                    <form className="space-y-6">
+                    <form className="space-y-3 md:space-y-6">
 
                         {/* Name (Signup) */}
                         {isSignup && !isForgot && (
