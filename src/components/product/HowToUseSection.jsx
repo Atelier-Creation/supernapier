@@ -88,10 +88,10 @@ export default function HowToUseSection() {
         const isRightSwipe = distance < -minSwipeDistance;
         if (isLeftSwipe) {
             hasInteracted.current = true;
-            setActiveStep((prev) => Math.min(prev + 1, howToUseSteps.length - 1));
+            setActiveStep(Math.min(activeStep + 1, howToUseSteps.length - 1));
         } else if (isRightSwipe) {
             hasInteracted.current = true;
-            setActiveStep((prev) => Math.max(prev - 1, 0));
+            setActiveStep(Math.max(activeStep - 1, 0));
         }
     };
 
@@ -106,8 +106,12 @@ export default function HowToUseSection() {
             return;
         }
         const activeNavEl = document.getElementById(`step-tab-${activeStep}`);
-        if (activeNavEl) {
-            activeNavEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        if (activeNavEl && activeNavEl.parentElement) {
+            // Scroll the navigation container directly instead of using scrollIntoView
+            // which can cause the whole page to horizontally shift if constrained.
+            const container = activeNavEl.parentElement;
+            const scrollLeft = activeNavEl.offsetLeft - (container.clientWidth / 2) + (activeNavEl.clientWidth / 2);
+            container.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
         }
     }, [activeStep]);
 
@@ -179,7 +183,7 @@ export default function HowToUseSection() {
 
                         {/* CENTER: Image */}
                         <div
-                            className="order-3 md:order-2 relative overflow-hidden rounded-xl h-[120px] sm:h-[160px] md:h-full md:min-h-[400px]"
+                            className="order-3 md:order-2 relative overflow-hidden rounded-xl h-[150px] sm:h-[160px] md:h-full md:min-h-[400px]"
                             {...swipeHandlers}
                         >
                             <AnimatePresence mode="wait" custom={direction}>
