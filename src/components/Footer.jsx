@@ -5,10 +5,10 @@ export default function Footer() {
     const [logoError, setLogoError] = useState(false);
 
     return (
-        <footer className="relative w-full text-white bg-[#02a9af] md:bg-[#fafcf8] overflow-hidden pt-[50px] md:pt-[450px]">
+        <footer className="relative w-full text-white bg-[#6da62f] md:bg-[#fafcf8] overflow-hidden pt-[50px] md:pt-[450px]">
             {/* Background Image */}
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-                <img src="/footer-bg-image.png" alt="Footer Background" className="w-full h-full object-cover object-top md:object-bottom" />
+                <img src="/footer-bg-image-green.png" alt="Footer Background" className="w-full h-full object-cover object-top md:object-bottom" />
                 {/* Gradient overlay to ensure text legibility at bottom */}
                 <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#0e1411] via-[#0e1411]/90 to-transparent"></div>
             </div>
