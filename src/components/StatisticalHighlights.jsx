@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Sprout } from "lucide-react";
 
 const stats = [
   {
@@ -60,11 +61,12 @@ const StatisticalHighlights = () => {
   }, []);
 
   return (
-    <section className="relative bg-[#1a332a] text-white py-10 lg:py-20 mb-10">
+    <section className="relative py-5 lg:pt-0 mb-10 px-4">
       {/* Title */}
       <div className="text-center mb-10">
-        <p className="text-yellow-400 tracking-widest mb-4">
-          [ Benefits ]
+        <p className="text-yellow-400  mb-4 flex justify-center gap-1 text-lg uppercase items-center">
+          <span className=" rounded-full text-[#25d366]"><Sprout /></span>
+          <span> Benificial</span>
         </p>
         <h2 className="text-4xl font-bold">Measuring Growth and Progress</h2>
       </div>
@@ -94,12 +96,12 @@ const StatisticalHighlights = () => {
           >
             {/* LEFT STICKY NUMBER */}
             <div className="md:sticky md:top-40 h-fit w-1/4">
-              <h3 className="text-8xl lg:text-5xl">{stat.title}</h3>
+              <h3 className="text-8xl lg:text-5xl text-[#1B5E20]">{stat.title}</h3>
             </div>
 
             {/* RIGHT TEXT */}
             <div className="w-1/4">
-              <div className="w-12 h-[1px] bg-white mb-6 opacity-40" />
+              <div className="w-full h-[1px] bg-[#1B5E20] mb-6 opacity-40" />
               <p className="text-lg md:text-xl font-light leading-relaxed">
                 {stat.description}
               </p>
@@ -109,16 +111,17 @@ const StatisticalHighlights = () => {
       </div>
       <div className="lg:hidden flex flex-col gap-5">
         {stats.map((stat, idx) => (
-          <div className="lg:hidden flex flex-col items-start px-3">
+          <div className="lg:hidden flex flex-col items-start">
             <img
               src={stat.image}
               alt={`Stat ${stat.id}`}
               className="w-full mb-4 object-cover rounded-lg shadow-lg"
             />
-            <h3 className="text-3xl font-bold mb-2">{stat.title}</h3>
+            <h3 className="text-3xl text-[#1B5E20] font-bold mb-2">{stat.title}</h3>
             <p className="text-start text-lg font-light leading-relaxed">
               {stat.description}
             </p>
+            <div className="w-full h-[1px] bg-[#1B5E20] my-4 opacity-40" />
           </div>
         ))}
       </div>
