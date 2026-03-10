@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
@@ -7,7 +8,7 @@ const slides = [
     title:
       "We provide high-yield Super Napier grass varieties that support sustainable livestock farming.",
     desc: "With over a decade of agricultural expertise, we focus on producing premium Super Napier planting materials that help farmers achieve consistent and high-quality fodder production. Our varieties are carefully cultivated to grow faster, adapt to different soil conditions, and provide nutrient-rich feed for cattle, goats, and dairy farms. This ensures improved milk production, healthier livestock, and long-term farming sustainability.",
-    year: "12+",
+    year: "20+",
     label: "Years of Agricultural Experience",
     img: "https://images.unsplash.com/photo-1560493676-04071c5f467b",
   },
@@ -23,7 +24,7 @@ const slides = [
     id: 3,
     title: "Premium quality seeds with excellent germination rate.",
     desc: "Our Super Napier seeds and stems are carefully selected and tested to maintain up to a 98% germination success rate. This ensures faster field establishment, stronger plant growth, and significantly higher biomass yield.",
-    year: "98%",
+    year: "99.9%",
     label: "Seed Germination Success",
     img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399",
   },
@@ -31,7 +32,7 @@ const slides = [
     id: 4,
     title: "Supplying Super Napier seeds across several countries.",
     desc: "Our premium Super Napier planting materials are not only trusted locally but also exported to multiple countries. Farmers and agricultural organizations worldwide rely on our products for their high productivity and adaptability.",
-    year: "8+",
+    year: "12+",
     label: "Countries Supplied",
     img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
   },
@@ -56,16 +57,53 @@ const NewAboutSec = () => {
   const [mouseEnd, setMouseEnd] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [direction, setDirection] = useState(1);
+
   const minSwipeDistance = 50;
 
   const nextSlide = () => {
+    setDirection(1);
     setCurrent((prev) => (prev + 1) % slides.length);
     setExpanded(false);
   };
 
   const prevSlide = () => {
+    setDirection(-1);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
     setExpanded(false);
+  };
+
+  const slideVariants = {
+    enter: { opacity: 0 },
+    center: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1, duration: 0.3 }
+    },
+    exit: { opacity: 0, transition: { duration: 0.4 } },
+  };
+
+  const titleVariants = {
+    enter: (dir) => ({ x: dir > 0 ? 40 : -40, opacity: 0 }),
+    center: { x: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: (dir) => ({ x: dir < 0 ? 40 : -40, opacity: 0 }),
+  };
+
+  const cardVariants = {
+    enter: (dir) => ({ scale: 0.8, opacity: 0, y: 20 }),
+    center: { scale: 1, opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: (dir) => ({ scale: 0.8, opacity: 0, y: 20 }),
+  };
+
+  const imgVariants = {
+    enter: (dir) => ({ x: dir > 0 ? 80 : -80, opacity: 0 }),
+    center: { x: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
+    exit: (dir) => ({ x: dir < 0 ? 80 : -80, opacity: 0 }),
+  };
+
+  const textVariants = {
+    enter: (dir) => ({ y: 30, opacity: 0 }),
+    center: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: (dir) => ({ y: 30, opacity: 0 }),
   };
 
   // MOBILE SWIPE
@@ -126,18 +164,19 @@ const NewAboutSec = () => {
   }, []);
 
   return (
-    <section className="pt-10 pb-0 px-4 lg:py-24 overflow-hidden select-none">
+    <section className="pt-10 pb-0 px-4 lg:py-24 overflow-hidden select-none relative">
+      <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -right-64 h-full object-contain opacity-[0.5] pointer-events-none z-0" />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-start lg:mb-10 mb-5">
-          <span className="uppercase tracking-widest text-base font-semibold">
-            About Our Greneris Farm
+        <div className="flex justify-between items-center md:items-start lg:mb-5 mb-5">
+          <span className="text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tight">
+            Who we are ?
           </span>
         </div>
 
-        {/* Slider */}
+        {/* Slider Container */}
         <div
-          className="overflow-hidden"
+          className="relative overflow-hidden min-h-[800px] md:min-h-[600px] lg:min-h-[500px]"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -146,67 +185,75 @@ const NewAboutSec = () => {
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          <div
-            className="flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${current * 100}%)` }}
-          >
-            {slides.map((slide) => (
-              <div key={slide.id} className="min-w-full">
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute w-full top-0 left-0"
+            >
+              <div className="min-w-full">
                 {/* Title */}
-                <div className="lg:max-w-[60%] w-full ms-auto mb-10">
-                  <p className="text-3xl md:text-4xl lg:text-3xl text-gray-900">
-                    {slide.title}
+                <motion.div variants={titleVariants} custom={direction} className="lg:max-w-[55%] w-full ms-auto mb-10">
+                  <p className="text-3xl text-left md:text-4xl lg:text-4xl font-semibold text-gray-900">
+                    {slides[current].title}
                   </p>
-                </div>
+                </motion.div>
 
                 <div className="flex lg:flex-row flex-col gap-12 items-center">
                   <div className="flex lg:flex-row flex-col gap-12 items-end w-full">
                     {/* Experience Card */}
-                    <div className="lg:block hidden lg:w-1/4">
-                      <div className="bg-[#fde047] hover:bg-[#facc15] text-black p-8 rounded-xl">
-                        <p className="text-base mb-3">{slide.label}</p>
-                        <span className="text-5xl font-bold">{slide.year}</span>
+                    <motion.div variants={cardVariants} custom={direction} className="lg:block hidden lg:w-1/4 min-w-1/4">
+                      <div className="bg-[#fde047] hover:bg-[#facc15] text-black px-6 py-8 rounded-xl shadow-lg transition-colors">
+                        <p className="text-base mb-3 font-medium">{slides[current].label}</p>
+                        <span className="text-5xl font-black">{slides[current].year}</span>
                       </div>
-                    </div>
+                    </motion.div>
 
                     {/* Image */}
-                    <div className="w-full">
-                      <div className="relative rounded-2xl overflow-hidden h-[40vh] md:h-[50vh]">
-                        <div className='block lg:hidden absolute inset-0 bg-black/40 opacity-40' />
-                        <img
-                          src={slide.img}
+                    <motion.div variants={imgVariants} custom={direction} className="w-full">
+                      <div className="relative rounded-2xl overflow-hidden h-[40vh] md:h-[50vh] shadow-xl">
+                        <div className='block lg:hidden absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10' />
+                        <motion.img
+                          initial={{ scale: 1.1 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.6 }}
+                          src={slides[current].img}
                           alt=""
                           draggable="false"
                           className="w-full h-full object-cover"
                         />
 
                         {/* Mobile Card */}
-                        <div className="lg:hidden absolute bottom-4 left-4 right-4">
-                          <div className="bg-[#fde047] text-black p-6 rounded-xl md:w-1/2">
-                            <p className="text-base mb-2">{slide.label}</p>
-                            <span className="text-3xl md:text-5xl font-bold">
-                              {slide.year}
+                        <div className="lg:hidden absolute bottom-4 left-4 right-4 z-20">
+                          <div className="bg-[#fde047] text-black p-6 rounded-xl md:w-1/2 shadow-lg backdrop-blur-md">
+                            <p className="text-sm font-medium mb-1">{slides[current].label}</p>
+                            <span className="text-3xl md:text-5xl font-black">
+                              {slides[current].year}
                             </span>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Right Content */}
-                  <div className="lg:w-3/4 w-full space-y-8">
-                    <div className="text-gray-700 text-lg leading-relaxed">
-                      <p className="hidden md:block">{slide.desc}</p>
+                  <motion.div variants={textVariants} custom={direction} className="lg:w-3/4 w-full space-y-6 md:space-y-8">
+                    <div className="text-gray-700 text-base md:text-lg leading-relaxed">
+                      <p className="hidden md:block">{slides[current].desc}</p>
 
                       <p className="md:hidden">
                         {expanded
-                          ? slide.desc
-                          : `${slide.desc.substring(0, 120)}...`}
+                          ? slides[current].desc
+                          : `${slides[current].desc.substring(0, 120)}...`}
                       </p>
 
                       <button
                         onClick={() => setExpanded(!expanded)}
-                        className="md:hidden text-green-700 font-semibold mt-2"
+                        className="md:hidden text-green-700 font-bold mt-2 hover:underline"
                       >
                         {expanded ? "Read Less" : "Read More"}
                       </button>
@@ -216,23 +263,23 @@ const NewAboutSec = () => {
                     <div className="flex gap-4 mt-6">
                       <button
                         onClick={prevSlide}
-                        className="h-10 w-10 bg-[#fde047] hover:bg-[#facc15] rounded-full flex justify-center items-center"
+                        className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
                       >
-                        <ArrowLeft />
+                        <ArrowLeft className="w-5 h-5" />
                       </button>
 
                       <button
                         onClick={nextSlide}
-                        className="h-10 w-10 bg-[#fde047] hover:bg-[#facc15] rounded-full flex justify-center items-center"
+                        className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
                       >
-                        <ArrowRight />
+                        <ArrowRight className="w-5 h-5" />
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>

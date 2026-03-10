@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Star, Info, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun } from 'lucide-react';
+import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun } from 'lucide-react';
 
 export default function ProductHero({ product, addToCart }) {
     const [qty, setQty] = useState(1);
@@ -210,11 +210,22 @@ export default function ProductHero({ product, addToCart }) {
                         <span>Add to Cart — ₹{(product.price * qty).toFixed(2)}</span>
                     </button>
                 </div>
-                <div className={"flex gap-2 flex-wrap mb-3"}>
-                    <img alt="visa" height="32" src="/payment-icon/visa.svg" />
-                    <img alt="apple-pay" height="32" src="/payment-icon/apple-pay.svg" />
-                    <img alt="master" height="32" src="/payment-icon/master.svg" />
-                    <img alt="upisvg" height="32" src="/payment-icon/upisvg.svg" />
+                <div className="flex items-center justify-between flex-wrap gap-4 mb-3">
+                    <div className="flex gap-2 flex-wrap">
+                        <img alt="visa" height="32" src="/payment-icon/visa.svg" />
+                        <img alt="apple-pay" height="32" src="/payment-icon/apple-pay.svg" />
+                        <img alt="master" height="32" src="/payment-icon/master.svg" />
+                        <img alt="upisvg" height="32" src="/payment-icon/upisvg.svg" />
+                    </div>
+                    <a
+                        href="/plantation-guide.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-[#1B5E20] hover:text-[#5D4037] font-semibold underline underline-offset-2 flex items-center gap-1 transition-colors"
+                    >
+                        <CloudDownload className="w-4 h-4" />
+                        Plantation Guide PDF
+                    </a>
                 </div>
             </div>
         </div>
