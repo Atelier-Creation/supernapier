@@ -72,7 +72,7 @@ const slides = [
     desc: "Over the years, thousands of farmers have chosen our Super Napier grass for its reliability and high yield. Our customers range from small-scale dairy farmers to large commercial livestock farms. By providing high-quality planting materials and expert guidance, we help farmers maintain a continuous and abundant fodder supply throughout the year.",
     year: "25K+",
     label: "Farmers Trust Our Seeds",
-    img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9",
+    img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=800&q=80",
   },
   {
     id: 3,
@@ -80,7 +80,7 @@ const slides = [
     desc: "Our Super Napier seeds and stems are carefully selected and tested to maintain up to a 98% germination success rate. This ensures faster field establishment, stronger plant growth, and significantly higher biomass yield.",
     year: "99.9%",
     label: "Seed Germination Success",
-    img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399",
+    img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80",
   },
   {
     id: 4,
@@ -88,7 +88,7 @@ const slides = [
     desc: "Our premium Super Napier planting materials are not only trusted locally but also exported to multiple countries. Farmers and agricultural organizations worldwide rely on our products for their high productivity and adaptability.",
     year: "12+",
     label: "Countries Supplied",
-    img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+    img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
   },
   {
     id: 5,
@@ -96,7 +96,7 @@ const slides = [
     desc: "We continuously research and implement modern cultivation techniques to improve fodder farming efficiency. Our team works closely with farmers to introduce improved planting methods and crop management practices.",
     year: "1st",
     label: "Innovators in Super Napier Farming",
-    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854",
+    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
   },
 ];
 
@@ -110,6 +110,7 @@ const NewAboutSec = () => {
   const [mouseStart, setMouseStart] = useState(null);
   const [mouseEnd, setMouseEnd] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [hasDragged, setHasDragged] = useState(false);
 
   const [direction, setDirection] = useState(1);
 
@@ -185,25 +186,31 @@ const NewAboutSec = () => {
   const handleMouseDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
+    setHasDragged(false);
     setMouseStart(e.clientX);
+    setMouseEnd(e.clientX); // initialize to same spot so distance starts at 0
   };
 
   const handleMouseMove = (e) => {
     if (!isDragging) return;
+    const delta = Math.abs(e.clientX - mouseStart);
+    if (delta > 8) setHasDragged(true); // only mark as drag after real movement
     setMouseEnd(e.clientX);
   };
 
   const handleMouseUp = () => {
     if (!isDragging) return;
 
-    const distance = mouseStart - mouseEnd;
-
-    if (Math.abs(distance) > minSwipeDistance) {
-      if (distance > 0) nextSlide();
-      else prevSlide();
+    if (hasDragged) {
+      const distance = mouseStart - mouseEnd;
+      if (Math.abs(distance) > minSwipeDistance) {
+        if (distance > 0) nextSlide();
+        else prevSlide();
+      }
     }
 
     setIsDragging(false);
+    setHasDragged(false);
     setMouseStart(null);
     setMouseEnd(null);
   };
@@ -309,6 +316,8 @@ const NewAboutSec = () => {
 
                       <button
                         onClick={() => setExpanded(!expanded)}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
                         className="md:hidden text-green-700 font-bold mt-2 hover:underline"
                       >
                         {expanded ? "Read Less" : "Read More"}
@@ -319,6 +328,8 @@ const NewAboutSec = () => {
                     <div className="flex gap-4 mt-6">
                       <button
                         onClick={prevSlide}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
                         className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
                       >
                         <ArrowLeft className="w-5 h-5" />
@@ -326,6 +337,8 @@ const NewAboutSec = () => {
 
                       <button
                         onClick={nextSlide}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
                         className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
                       >
                         <ArrowRight className="w-5 h-5" />
