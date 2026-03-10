@@ -70,7 +70,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
             <img
                 src="/logo.png"
                 alt="Super Napier Logo"
-                className="h-12 w-auto"
+                className="h-8 md:h-12 w-auto"
                 onError={() => setImageError(true)}
             />
         ) : (
