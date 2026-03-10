@@ -210,8 +210,8 @@ export default function ProductHero({ product, addToCart }) {
                         <span>Add to Cart — ₹{(product.price * qty).toFixed(2)}</span>
                     </button>
                 </div>
-                <div className="flex items-center justify-between flex-wrap gap-4 mb-3">
-                    <div className="flex gap-2 flex-wrap">
+                <div className="flex items-center justify-center md:justify-between flex-wrap gap-4 mb-3">
+                    <div className="flex gap-2 flex-wrap ">
                         <img alt="visa" height="32" src="/payment-icon/visa.svg" />
                         <img alt="apple-pay" height="32" src="/payment-icon/apple-pay.svg" />
                         <img alt="master" height="32" src="/payment-icon/master.svg" />

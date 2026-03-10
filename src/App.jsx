@@ -14,6 +14,7 @@ import ContactUs from './pages/ContactUs';
 import WhatsAppFloatButton from './components/WhatsAppFloatButton';
 import ScrollToTop from './components/ScrollToTop';
 import SpinWheelPopup from './components/SpinWheelPopup';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -41,6 +42,10 @@ function App() {
     setCartItems(prev => prev.filter(item => item.id !== productId));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   return (
     <Router>
       <ScrollToTop />
@@ -57,6 +62,7 @@ function App() {
               <Route path="/blog/:id" element={<BlogDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
             </Routes>
           </AnimatePresence>
         </main>
