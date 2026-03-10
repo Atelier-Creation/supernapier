@@ -71,7 +71,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                                 : "Sign in if you have an account"}
                     </p>
 
-                    <form className="space-y-3 md:space-y-6">
+                    <form className="space-y-3 md:space-y-2">
 
                         {/* Name (Signup) */}
                         {isSignup && !isForgot && (
