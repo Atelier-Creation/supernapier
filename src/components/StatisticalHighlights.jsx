@@ -61,14 +61,14 @@ const StatisticalHighlights = () => {
   }, []);
 
   return (
-    <section className="relative py-10 lg:py-20 mb-10">
+    <section className="relative py-5 lg:py-20 mb-10 px-4">
       {/* Title */}
       <div className="text-center mb-10">
-        <p className="text-yellow-400  mb-4 flex justify-center gap-2 text-lg uppercase items-center">
-          <span className="bg-[#25d366] rounded-full p-2 text-white"><Sprout /></span>
+        <p className="text-yellow-400  mb-4 flex justify-center gap-1 text-lg uppercase items-center">
+          <span className=" rounded-full text-[#25d366]"><Sprout /></span>
           <span> Benificial</span>
         </p>
-        <h2 className="text-4xl  font-bold">Measuring Growth and Progress</h2>
+        <h2 className="text-4xl font-bold">Measuring Growth and Progress</h2>
       </div>
 
       {/* Sticky Image */}
@@ -111,7 +111,7 @@ const StatisticalHighlights = () => {
       </div>
       <div className="lg:hidden flex flex-col gap-5">
         {stats.map((stat, idx) => (
-          <div className="lg:hidden flex flex-col items-start px-3">
+          <div className="lg:hidden flex flex-col items-start">
             <img
               src={stat.image}
               alt={`Stat ${stat.id}`}
