@@ -9,7 +9,7 @@ const stats = [
     description:
       "Super Napier grass requires minimal water, making it ideal for regions facing water scarcity while still maintaining high growth and yield.",
     image:
-      "https://cdn.prod.website-files.com/68e35e4541f10182d22f5275/68f1d30095da99df5b4baa66_fact-01.avif",
+      "https://images.pexels.com/photos/34935520/pexels-photo-34935520.jpeg",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const stats = [
     description:
       "Produces abundant green fodder in a short period, improving livestock nutrition and reducing feed costs significantly.",
     image:
-      "https://cdn.prod.website-files.com/68e35e4541f10182d22f5275/68f1d3002346c9ff0c4b3155_fact-02.avif",
+      "https://images.pexels.com/photos/254178/pexels-photo-254178.jpeg",
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ const stats = [
     description:
       "Trusted by farmers for its resilience against common pests and diseases, ensuring consistent growth and reduced maintenance effort.",
     image:
-      "https://cdn.prod.website-files.com/68e35e4541f10182d22f5275/68f1d300953f066ed05c8612_fact-03.avif",
+      "https://images.pexels.com/photos/30742545/pexels-photo-30742545.jpeg?w=800&q=80",
   },
 ];
 
@@ -73,7 +73,7 @@ const StatisticalHighlights = () => {
 
       {/* Sticky Image */}
       <div className="sticky top-20 z-10 hidden lg:flex justify-center mb-20">
-        <div className="relative aspect-[4/3] w-[35%] overflow-hidden shadow-2xl">
+        <div className="relative aspect-[4/3] w-[35%] overflow-hidden ">
           {stats.map((stat, idx) => (
             <motion.img
               key={stat.id}
