@@ -172,7 +172,7 @@ const NewAboutSec = () => {
                     {/* Image */}
                     <div className="w-full">
                       <div className="relative rounded-2xl overflow-hidden h-[40vh] md:h-[50vh]">
-                        <div className='block lg:hidden absolute inset-0 bg-black/50 opacity-80' />
+                        <div className='block lg:hidden absolute inset-0 bg-black/40 opacity-40' />
                         <img
                           src={slide.img}
                           alt=""
