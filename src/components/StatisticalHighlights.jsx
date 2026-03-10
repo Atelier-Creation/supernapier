@@ -61,7 +61,7 @@ const StatisticalHighlights = () => {
   }, []);
 
   return (
-    <section className="relative py-5 lg:py-20 mb-10 px-4">
+    <section className="relative py-5 lg:pt-0 mb-10 px-4">
       {/* Title */}
       <div className="text-center mb-10">
         <p className="text-yellow-400  mb-4 flex justify-center gap-1 text-lg uppercase items-center">
