@@ -8,6 +8,7 @@ import ProductHero from '../components/product/ProductHero';
 import ProductTabs from '../components/product/ProductTabs';
 import SuggestedProducts from '../components/product/SuggestedProducts';
 import HowToUseSection from '../components/product/HowToUseSection';
+import StatisticalHighlights from '../components/StatisticalHighlights';
 
 export default function ProductDetailPage({ addToCart }) {
     const { id } = useParams();
@@ -48,7 +49,7 @@ export default function ProductDetailPage({ addToCart }) {
                 {/* ── Tabbed Info ── */}
                 <ProductTabs product={product} />
             </div>
-
+            <StatisticalHighlights/>
             {/* ── How to Use Section ── */}
             <HowToUseSection />
 
