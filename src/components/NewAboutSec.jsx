@@ -1,6 +1,60 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+// Slot machine rolling counter
+const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&!?";
+
+const SlotCounter = ({ value, duration = 1200 }) => {
+  const [display, setDisplay] = useState(value);
+  const frameRef = useRef(null);
+  const startRef = useRef(null);
+
+  useEffect(() => {
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    startRef.current = null;
+
+    const target = String(value);
+    const totalMs = duration;
+    const slowDownAt = 0.65; // fraction of duration where we start locking characters
+
+    const scramble = (timestamp) => {
+      if (!startRef.current) startRef.current = timestamp;
+      const elapsed = timestamp - startRef.current;
+      const progress = Math.min(elapsed / totalMs, 1);
+
+      const charsLocked = Math.floor(progress / (1 - slowDownAt) * target.length * 0.5);
+      const lockedCount = progress >= slowDownAt
+        ? Math.floor(((progress - slowDownAt) / (1 - slowDownAt)) * target.length)
+        : 0;
+
+      const scrambled = target
+        .split("")
+        .map((char, i) => {
+          if (i < lockedCount) return char;
+          // keep letters/symbols, scramble among similar type
+          if (/[0-9]/.test(char)) return String(Math.floor(Math.random() * 10));
+          if (/[a-zA-Z]/.test(char)) return CHARS[Math.floor(Math.random() * 26 + 10)];
+          return char; // keep +, %, . fixed
+        })
+        .join("");
+
+      setDisplay(scrambled);
+
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(scramble);
+      } else {
+        setDisplay(target);
+      }
+    };
+
+    frameRef.current = requestAnimationFrame(scramble);
+    return () => { if (frameRef.current) cancelAnimationFrame(frameRef.current); };
+  }, [value, duration]);
+
+  return <span className="font-mono tracking-wide">{display}</span>;
+};
+
 
 const slides = [
   {
@@ -209,7 +263,9 @@ const NewAboutSec = () => {
                     <motion.div variants={cardVariants} custom={direction} className="lg:block hidden lg:w-1/4 min-w-1/4">
                       <div className="bg-[#fde047] hover:bg-[#facc15] text-black px-6 py-8 rounded-xl shadow-lg transition-colors">
                         <p className="text-base mb-3 font-medium">{slides[current].label}</p>
-                        <span className="text-5xl font-black">{slides[current].year}</span>
+                        <span className="text-5xl font-black">
+                          <SlotCounter key={current} value={slides[current].year} duration={1400} />
+                        </span>
                       </div>
                     </motion.div>
 
@@ -232,7 +288,7 @@ const NewAboutSec = () => {
                           <div className="bg-[#fde047] text-black p-6 rounded-xl md:w-1/2 shadow-lg backdrop-blur-md">
                             <p className="text-sm font-medium mb-1">{slides[current].label}</p>
                             <span className="text-3xl md:text-5xl font-black">
-                              {slides[current].year}
+                              <SlotCounter key={current} value={slides[current].year} duration={1400} />
                             </span>
                           </div>
                         </div>
