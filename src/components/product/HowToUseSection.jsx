@@ -10,7 +10,7 @@ const howToUseSteps = [
         heading: 'Creating the perfect foundation for growth.',
         description: 'Super Napier requires well-drained soil rich in organic matter. Plough the land deeply and mix in farm yard manure to ensure strong root development from day one.',
         bullets: ['Deep ploughing (2-3 times)', 'Mix organic manure thoroughly', 'Maintain soil pH between 5.5 - 7.0'],
-        image: '/soil-prep.jpg',
+        image: 'https://agriplanting.com/wp-content/uploads/2024/05/5-Steps-in-Land-Preparation-in-Agriculture.jpg',
         icon: Tractor,
     },
     {
@@ -19,7 +19,7 @@ const howToUseSteps = [
         heading: 'Positioning slips for maximum yield.',
         description: 'Proper spacing is essential. Plant the slips at an angle, burying two nodes in the soil and leaving one node above ground to encourage rapid sprouting.',
         bullets: ['Maintain 3x2 ft spacing', 'Plant at a 45-degree angle', 'Ensure good soil-to-slip contact'],
-        image: '/irrigation.jpg',
+        image: 'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=800',
         icon: Sprout,
     },
     {
@@ -28,7 +28,7 @@ const howToUseSteps = [
         heading: 'Consistent moisture for rapid multiplication.',
         description: 'Super Napier demands regular watering, especially right after planting. Ensure steady irrigation to accelerate the sprouting and tillering processes.',
         bullets: ['Water immediately after planting', 'Irrigate every 7-10 days', 'Keep field weed-free initially'],
-        image: '/pest-control.jpg',
+        image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80',
         icon: Droplets,
     },
     {
@@ -37,7 +37,7 @@ const howToUseSteps = [
         heading: 'Reaping the high-protein reward.',
         description: 'The first cut should happen a bit later to establish the plant. After the first harvest, the grass will regrow rapidly, allowing for frequent subsequent cuts.',
         bullets: ['First cut at 75-90 days', 'Subsequent cuts every 45-60 days', 'Leave 2-3 inches of stalk above ground'],
-        image: '/harvesting.jpg',
+        image: 'https://images.pexels.com/photos/247597/pexels-photo-247597.jpeg?w=800&q=80',
         icon: Wheat,
     },
 ];
@@ -181,9 +181,9 @@ export default function HowToUseSection() {
                             </nav>
                         </div>
 
-                        {/* CENTER: Image */}
+                        {/* CENTER: Image — Desktop only */}
                         <div
-                            className="order-3 md:order-2 relative overflow-hidden rounded-xl h-[150px] sm:h-[160px] md:h-full md:min-h-[400px]"
+                            className="order-3 md:order-2 hidden md:block relative overflow-hidden rounded-xl md:h-full md:min-h-[400px]"
                             {...swipeHandlers}
                         >
                             <AnimatePresence mode="wait" custom={direction}>
@@ -205,9 +205,66 @@ export default function HowToUseSection() {
                             </AnimatePresence>
                         </div>
 
-                        {/* RIGHT: White info card */}
+                        {/* MOBILE: Image background + text overlay */}
                         <div
-                            className="order-2 md:order-3 relative flex flex-col justify-center"
+                            className="order-2 md:hidden relative overflow-hidden rounded-2xl min-h-[340px] sm:min-h-[400px]"
+                            {...swipeHandlers}
+                        >
+                            {/* Background Image */}
+                            <AnimatePresence mode="wait" custom={direction}>
+                                <motion.img
+                                    key={`mob-img-${activeStep}`}
+                                    custom={direction}
+                                    src={step.image}
+                                    alt={step.title}
+                                    variants={imageVariants}
+                                    initial="enter"
+                                    animate="center"
+                                    exit="exit"
+                                    transition={{ duration: 0.35, ease: "easeOut" }}
+                                    className="absolute inset-0 w-full h-full object-cover object-center"
+                                    onError={e => {
+                                        e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80';
+                                    }}
+                                />
+                            </AnimatePresence>
+
+                            {/* Gradient separator overlay — top is transparent, bottom is solid white */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent" />
+
+                            {/* Text content on top */}
+                            <AnimatePresence mode="wait" custom={direction}>
+                                <motion.div
+                                    key={`mob-card-${activeStep}`}
+                                    custom={direction}
+                                    variants={cardVariants}
+                                    initial="enter"
+                                    animate="center"
+                                    exit="exit"
+                                    transition={{ duration: 0.35, ease: "easeOut" }}
+                                    className="absolute bottom-0 left-0 right-0 p-5 text-white"
+                                >
+                                    <h3 className="font-bold text-lg leading-snug mb-1.5">
+                                        {step.heading}
+                                    </h3>
+                                    <p className="text-white/90 text-sm leading-relaxed mb-3">
+                                        {step.description}
+                                    </p>
+                                    <ul className="space-y-1.5">
+                                        {step.bullets.map((b, i) => (
+                                            <li key={i} className="flex items-start gap-2 text-sm sm:text-xs text-white/80 font-medium">
+                                                <Check className="w-3.5 h-3.5 text-[#a3c46a] flex-shrink-0 mt-[1px] stroke-[2.5]" />
+                                                {b}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
+                        {/* RIGHT: White info card — Desktop only */}
+                        <div
+                            className="order-2 md:order-3 relative flex-col justify-center hidden md:flex"
                             {...swipeHandlers}
                         >
                             <AnimatePresence mode="wait" custom={direction}>
@@ -221,10 +278,10 @@ export default function HowToUseSection() {
                                     transition={{ duration: 0.35, ease: "easeOut" }}
                                     className="bg-white rounded-xl p-4 sm:p-6 md:p-10 lg:p-12 flex flex-col justify-center h-full gap-3 sm:gap-4 md:gap-5 shadow-xl text-left"
                                 >
-                                    <h3 className="text-[#0A2613] font-bold text-[15px] sm:text-lg md:text-2xl lg:text-[28px] leading-snug lg:leading-snug mb-1 md:mb-2">
+                                    <h3 className="text-[#0A2613] font-bold text-md sm:text-lg md:text-2xl lg:text-[28px] leading-snug lg:leading-snug mb-1 md:mb-2">
                                         {step.heading}
                                     </h3>
-                                    <p className="text-gray-500 text-[11px] sm:text-sm md:text-base leading-relaxed mb-2 md:mb-4">
+                                    <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                                         {step.description}
                                     </p>
                                     <ul className="space-y-1.5 md:space-y-3">

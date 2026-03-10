@@ -72,9 +72,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                     <span className="text-gray-500 font-medium">Subtotal</span>
                                     <span className="text-3xl font-bold text-[#1B5E20]">₹{total.toFixed(2)}</span>
                                 </div>
-                                <button className="w-full bg-[#1B5E20] hover:bg-[#5D4037] text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-lg">
+                                <Link
+                                    to="/checkout"
+                                    onClick={onClose}
+                                    className="w-full bg-[#1B5E20] hover:bg-[#5D4037] text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-lg flex items-center justify-center"
+                                >
                                     Proceed to Checkout
-                                </button>
+                                </Link>
                             </div>
                         )}
                     </motion.div>
