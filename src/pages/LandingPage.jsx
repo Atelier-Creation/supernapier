@@ -12,6 +12,7 @@ import BlogSection from '../components/BlogSection';
 import ContactSection from '../components/ContactSection';
 import AboutUsSection from '../components/AboutUsSection';
 import { mockProducts } from '../data/mockData';
+import NewAboutSec from '../components/NewAboutSec';
 
 export default function LandingPage({ addToCart }) {
     const bestSellers = mockProducts.slice(0, 4);
@@ -22,7 +23,7 @@ export default function LandingPage({ addToCart }) {
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
             {/* <WhyChooseUs /> */}
-            <EmpoweringFarmers />
+            <NewAboutSec />
             <AboutUsSection />
             <FeaturesSection />
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />
