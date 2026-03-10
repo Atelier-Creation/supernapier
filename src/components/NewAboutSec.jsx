@@ -194,7 +194,7 @@ const NewAboutSec = () => {
                   </div>
 
                   {/* Right Content */}
-                  <div className="lg:w-3/4 space-y-8">
+                  <div className="lg:w-3/4 w-full space-y-8">
                     <div className="text-gray-700 text-lg leading-relaxed">
                       <p className="hidden md:block">{slide.desc}</p>
 
