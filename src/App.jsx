@@ -15,6 +15,9 @@ import WhatsAppFloatButton from './components/WhatsAppFloatButton';
 import ScrollToTop from './components/ScrollToTop';
 import SpinWheelPopup from './components/SpinWheelPopup';
 import CheckoutPage from './pages/CheckoutPage';
+import TermsAndCondition from './pages/TermsAndCondition';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundReturnPolicy from './pages/RefundReturnPolicy';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -62,6 +65,9 @@ function App() {
               <Route path="/blog/:id" element={<BlogDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/terms" element={<TermsAndCondition />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/refund" element={<RefundReturnPolicy />} />
               <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
             </Routes>
           </AnimatePresence>
