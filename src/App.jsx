@@ -18,6 +18,9 @@ import CheckoutPage from './pages/CheckoutPage';
 import TermsAndCondition from './pages/TermsAndCondition';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundReturnPolicy from './pages/RefundReturnPolicy';
+import ProfileLayout from './components/ProfilePage/ProfileLayout';
+import PersonalInfo from './components/ProfilePage/PersonalInfo';
+import Orders from './components/ProfilePage/Orders';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -68,6 +71,13 @@ function App() {
               <Route path="/terms" element={<TermsAndCondition />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/refund" element={<RefundReturnPolicy />} />
+              <Route path="/profile" element={<ProfileLayout />}>
+                <Route index element={<PersonalInfo />} />
+                <Route path="orders" element={<Orders />} />
+                {/* <Route path="address" element={<Address />} />
+                <Route path="payment" element={<Payment />} />
+                <Route path="password" element={<Password />} /> */}
+              </Route>
               <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
             </Routes>
           </AnimatePresence>
