@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../data/mockData';
 import { motion } from 'framer-motion';
@@ -13,12 +13,18 @@ const fadeIn = {
 };
 
 export default function ProductsPage({ addToCart }) {
+    const location = useLocation()
+    const categoryName = location.state?.category
     const [searchParams, setSearchParams] = useSearchParams();
     const querySearch = searchParams.get('search') || '';
 
-    const [filter, setFilter] = useState('All');
+    const [filter, setFilter] = useState(categoryName || 'All');
     const [search, setSearch] = useState(querySearch);
-
+    useEffect(() => {
+        if (categoryName) {
+            setFilter(categoryName);
+        }
+    }, [categoryName]);
     // Sync state if URL changes
     useEffect(() => {
         setSearch(searchParams.get('search') || '');

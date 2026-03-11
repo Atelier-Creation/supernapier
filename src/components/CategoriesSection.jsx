@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sprout } from 'lucide-react';
 import { mockCategories } from '../data/mockData';
+import { useNavigate } from 'react-router-dom';
 
 const fadeIn = {
     hidden: { opacity: 0, y: 50 },
@@ -9,6 +10,7 @@ const fadeIn = {
 };
 
 export default function CategoriesSection() {
+    const navigate = useNavigate()
     const cardStyles = [
         "bg-[#fff4ed] border-orange-50/50 text-gray-800 hover:border-orange-200",
         "bg-[#f2fae6] border-lime-50/50 text-gray-800 hover:border-lime-200",
@@ -29,7 +31,7 @@ export default function CategoriesSection() {
                     {/* <div className="h-1 w-20 bg-gradient-to-r from-[#a3e635] to-[#1B5E20] mx-auto rounded-full"></div> */}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 hover:cursor-pointer min-h-[600px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6  min-h-[600px]">
                     {mockCategories.map((cat, index) => {
                         const styleClass = cardStyles[index % cardStyles.length];
 
@@ -52,8 +54,9 @@ export default function CategoriesSection() {
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
+                               onClick={() => navigate('/products', { state: { category: cat.name } })}
                                 whileHover={{ y: -5 }}
-                                className={`${styleClass} ${gridClass} rounded-3xl p-6 md:p-8 flex flex-col group border shadow-sm hover:shadow-xl transition-all relative overflow-hidden h-full ${index === 2 ? 'min-h-[220px] md:min-h-0 justify-center md:justify-start' : 'min-h-[220px] md:min-h-[250px] justify-center md:justify-between'}`}
+                                className={`${styleClass} ${gridClass} cursor-pointer rounded-3xl p-6 md:p-8 flex flex-col group border shadow-sm hover:shadow-xl transition-all relative overflow-hidden h-full ${index === 2 ? 'min-h-[220px] md:min-h-0 justify-center md:justify-start' : 'min-h-[220px] md:min-h-[250px] justify-center md:justify-between'}`}
                             >
                                 <div className={`relative z-10 flex flex-col ${index === 2 ? 'items-start md:items-center text-left md:text-center mt-0 md:mt-10 max-w-[55%] md:max-w-full' : 'items-start max-w-[55%] md:max-w-[60%]'}`}>
                                     <p className="text-red-500 font-bold mb-2 text-sm">Get 30% off</p>
