@@ -35,7 +35,7 @@ export default function ProductTabs({ product }) {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 -mb-[2px] transition-all duration-200 whitespace-nowrap ${isActive
+                                    className={`break-all whitespace-normal flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 -mb-[2px] transition-all duration-200 ${isActive
                                         ? 'border-[#1B5E20] text-[#1B5E20]'
                                         : 'border-transparent text-gray-500 hover:text-[#1B5E20] hover:border-[#1B5E20]/30'
                                         }`}

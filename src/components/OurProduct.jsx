@@ -26,7 +26,7 @@ export default function OurProduct({ addToCart }) {
 
         return () => clearInterval(autoSlide);
     }, []);
-
+    const activeProduct = products[currentIndex];
     return (
         <section className="py-7 md:py-14 bg-[#FAFCF8] overflow-hidden relative">
             {/* Palm Shadow Right */}
@@ -78,23 +78,7 @@ export default function OurProduct({ addToCart }) {
                                             If the seed-package.png is blank, we could superimpose text here. */}
                                     </div>
 
-                                    {/* Action button only visible on active */}
-                                    {isActive && (
-                                        <motion.button
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3 }}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                if (addToCart) {
-                                                    addToCart(product);
-                                                }
-                                            }}
-                                            className="absolute md:bottom-0 cursor-pointer -bottom-8 bg-[#16a34a] hover:bg-[#15803d] text-white px-8 py-3 rounded-full font-bold shadow-lg transition-colors z-40"
-                                        >
-                                            Buy Now
-                                        </motion.button>
-                                    )}
+
                                 </motion.div>
                             );
                         })}
@@ -102,13 +86,29 @@ export default function OurProduct({ addToCart }) {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-40 mt-0 relative z-10">
+                <div className="flex items-center justify-center space-x-5 md:space-x-10 mt-0 relative z-10">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </button>
+                    {/* Action button only visible on active */}
+                    <motion.button
+                        key={activeProduct.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        onClick={() => {
+                            if (addToCart) {
+                                addToCart(activeProduct);
+                            }
+                        }}
+                        className="bg-[#16a34a] hover:bg-[#15803d] text-white px-4 md:px-8 py-3 rounded-full font-bold shadow-lg transition-colors"
+                    >
+                        Buy Now
+                    </motion.button>
+
                     <button
                         onClick={handleNext}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"

@@ -207,7 +207,7 @@ export default function HowToUseSection() {
 
                         {/* MOBILE: Image background + text overlay */}
                         <div
-                            className="order-2 md:hidden relative overflow-hidden rounded-2xl min-h-[340px] sm:min-h-[400px]"
+                            className="order-2 md:hidden relative overflow-hidden rounded-2xl"
                             {...swipeHandlers}
                         >
                             {/* Background Image */}
@@ -242,7 +242,7 @@ export default function HowToUseSection() {
                                     animate="center"
                                     exit="exit"
                                     transition={{ duration: 0.35, ease: "easeOut" }}
-                                    className="absolute bottom-0 left-0 right-0 p-5 text-white"
+                                    className="relative z-10 p-5  text-white"
                                 >
                                     <h3 className="font-bold text-lg leading-snug mb-1.5">
                                         {step.heading}

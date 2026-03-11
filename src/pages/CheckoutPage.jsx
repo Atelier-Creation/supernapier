@@ -258,7 +258,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                     <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
                                         <Tag className="w-4 h-4" /> Coupon Code
                                     </label>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col md:flex-row gap-2">
                                         <input
                                             type="text"
                                             value={coupon}

@@ -25,7 +25,7 @@ export default function ContactSection() {
                         </div>
                     </div>
 
-                    <h2 className="text-white text-center text-4xl md:text-6xl font-semibold leading-tight] lg:w-full">
+                    <h2 className="text-white text-center text-4xl md:text-6xl font-semibold leading-tight] lg:w-full break-all">
                         Always ready to <br /> answer your questions
                     </h2>
                 </div>

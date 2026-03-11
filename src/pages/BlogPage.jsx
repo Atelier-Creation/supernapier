@@ -71,7 +71,7 @@ export default function BlogPage() {
                     />
 
                     <div className="relative z-10">
-                        <h3 className="text-3xl font-black mb-4">Never Miss an Update</h3>
+                        <h3 className="text-3xl font-black mb-4 break-all">Never Miss an Update</h3>
                         <p className="text-white/90 mb-8 max-w-xl mx-auto text-lg font-medium">
                             Get seasonal planting guides, exclusive seed discounts, and agricultural news delivered straight to your inbox.
                         </p>
