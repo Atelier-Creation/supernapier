@@ -43,7 +43,7 @@ export default function ProductCard({ product, addToCart }) {
                     <div>
                         <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</p>
                         <p className="text-xl font-black text-gray-900">
-                            ₹{product.price.toFixed(2)}
+                            ₹{(product.price || 0).toFixed(2)}
                             <span className="text-xs font-medium text-[#059669] ml-1">/kg</span>
                         </p>
                     </div>

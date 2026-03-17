@@ -155,7 +155,7 @@ export default function ProductHero({ product, addToCart }) {
                     <span className="text-gray-500">(128 Reviews)</span>
                 </div>
 
-                <p className="text-4xl font-black text-[#5D4037] mb-4">₹{(product.price * qty).toFixed(2)} <span className="text-sm text-gray-500 font-normal">for {qty} {product?.unit}</span> </p>
+                <p className="text-4xl font-black text-[#5D4037] mb-4">₹{(Number(product.price || 0) * qty).toFixed(2)} <span className="text-sm text-gray-500 font-normal">for {qty} {product?.unit}</span> </p>
 
                 <p className="text-gray-600 text-lg leading-relaxed mb-5 border-b border-gray-100 pb-2">
                     {product.description}
@@ -207,7 +207,7 @@ export default function ProductHero({ product, addToCart }) {
                         className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
                     >
                         <ShoppingCart className="w-6 h-6" />
-                        <span>Add to Cart — ₹{(product.price * qty).toFixed(2)}</span>
+                        <span>Add to Cart — ₹{(Number(product.price || 0) * qty).toFixed(2)}</span>
                     </button>
                 </div>
                 <div className="flex items-center justify-center md:justify-between flex-wrap gap-4 mb-3">

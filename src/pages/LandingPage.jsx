@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Hero from '../components/Hero';
+import HeroBrutal from '../components/HeroBrutal';
+import ScrollExpansionHero from '../components/ScrollExpansionHero';
 import WhyChooseUs from '../components/WhyChooseUs';
 import EmpoweringFarmers from '../components/EmpoweringFarmers';
 import OurProduct from '../components/OurProduct';
@@ -13,13 +14,16 @@ import ContactSection from '../components/ContactSection';
 import AboutUsSection from '../components/AboutUsSection';
 import { mockProducts } from '../data/mockData';
 import NewAboutSec from '../components/NewAboutSec';
+import Hero from '../components/Hero';
 
 export default function LandingPage({ addToCart }) {
     const bestSellers = mockProducts.slice(0, 4);
 
     return (
         <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }}>
-            <Hero />
+            {/* <Hero /> */}
+            <ScrollExpansionHero />
+            {/* <HeroBrutal /> */}
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
             {/* <WhyChooseUs /> */}

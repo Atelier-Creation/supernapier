@@ -34,7 +34,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
 
     const handleFormChange = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
 
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price || 0) * item.quantity), 0);
     const discount = couponApplied ? subtotal * 0.1 : 0; // 10% off with code FARMERWIN
     const shipping = subtotal > 999 ? 0 : 99;
     const total = subtotal - discount + shipping;
@@ -244,7 +244,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                                 <p className="text-xs text-gray-400">{item.unit}</p>
                                             </div>
                                             <p className="font-bold text-[#5D4037] text-sm flex-shrink-0">
-                                                ₹{(item.price * item.quantity).toFixed(2)}
+                                                ₹{(Number(item.price || 0) * item.quantity).toFixed(2)}
                                             </p>
                                         </div>
                                     ))}
@@ -321,12 +321,12 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                 <div className="space-y-2.5 text-sm mb-6">
                                     <div className="flex justify-between text-gray-500">
                                         <span>Subtotal</span>
-                                        <span>₹{subtotal.toFixed(2)}</span>
+                                        <span>₹{(subtotal || 0).toFixed(2)}</span>
                                     </div>
                                     {couponApplied && (
                                         <div className="flex justify-between text-green-600 font-semibold">
                                             <span>Discount (10%)</span>
-                                            <span>- ₹{discount.toFixed(2)}</span>
+                                            <span>- ₹{(discount || 0).toFixed(2)}</span>
                                         </div>
                                     )}
                                     <div className="flex justify-between text-gray-500">
@@ -338,7 +338,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                     )}
                                     <div className="border-t border-gray-100 pt-3 flex justify-between font-black text-lg text-gray-900">
                                         <span>Total</span>
-                                        <span className="text-[#1B5E20]">₹{total.toFixed(2)}</span>
+                                        <span className="text-[#1B5E20]">₹{(total || 0).toFixed(2)}</span>
                                     </div>
                                 </div>
 
@@ -351,7 +351,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                     {isLoading ? (
                                         <><Loader2 className="w-5 h-5 animate-spin" /> Processing...</>
                                     ) : (
-                                        <><ShieldCheck className="w-5 h-5" /> Pay ₹{total.toFixed(2)} Securely</>
+                                        <><ShieldCheck className="w-5 h-5" /> Pay ₹{(total || 0).toFixed(2)} Securely</>
                                     )}
                                 </button>
 

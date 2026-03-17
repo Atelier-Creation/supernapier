@@ -4,7 +4,7 @@ import { X, Trash2, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart }) {
-    const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const total = cartItems.reduce((acc, item) => acc + (Number(item.price || 0) * item.quantity), 0);
 
     return (
         <AnimatePresence>
@@ -53,7 +53,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                         <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg shadow-sm" />
                                         <div className="flex-1">
                                             <h3 className="font-bold text-[#5D4037] line-clamp-1">{item.name}</h3>
-                                            <p className="text-[#1B5E20] font-semibold">₹ {item.price.toFixed(2)} x {item.quantity}</p>
+                                            <p className="text-[#1B5E20] font-semibold">₹ {(Number(item.price || 0)).toFixed(2)} x {item.quantity}</p>
                                         </div>
                                         <button
                                             onClick={() => removeFromCart(item.id)}
@@ -70,7 +70,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                             <div className="border-t border-gray-100 p-6 bg-gray-50">
                                 <div className="flex justify-between items-center mb-6">
                                     <span className="text-gray-500 font-medium">Subtotal</span>
-                                    <span className="text-3xl font-bold text-[#1B5E20]">₹{total.toFixed(2)}</span>
+                                    <span className="text-3xl font-bold text-[#1B5E20]">₹{(total || 0).toFixed(2)}</span>
                                 </div>
                                 <Link
                                     to="/checkout"
