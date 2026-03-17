@@ -4,7 +4,7 @@ export const mockProducts = [
         name: "Premium Super Napier Grass",
         price: 499.99,
         unit: "Pack of (100 sticks)",
-        category: "Grain Seeds",
+        category: "Koli Avarai",
         image: "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=800",
         images: [
             "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=800",
@@ -31,7 +31,7 @@ export const mockProducts = [
         name: "Organic Tomato Seeds",
         price: 129.99,
         unit: "Pack",
-        category: "Vegetable Seeds",
+        category: "Vegitables Seeds",
         image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800",
         images: [
             "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800",
@@ -58,7 +58,7 @@ export const mockProducts = [
         name: "Agathi Keerai Seeds",
         price: 249.00,
         unit: "Pack",
-        category: "Seeds",
+        category: "Napier Grass",
         image: "https://m.media-amazon.com/images/I/61ZW-hKLAsL._AC_UF1000,1000_QL80_.jpg",
         images: [
             "https://m.media-amazon.com/images/I/61ZW-hKLAsL._AC_UF1000,1000_QL80_.jpg",

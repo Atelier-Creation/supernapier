@@ -68,7 +68,7 @@ const StatisticalHighlights = () => {
           <span className=" rounded-full text-[#25d366]"><Sprout /></span>
           <span> Benificial</span>
         </p>
-        <h2 className="text-4xl font-bold">Measuring Growth and Progress</h2>
+        <h2 className="text-4xl font-bold break-all">Measuring Growth and Progress</h2>
       </div>
 
       {/* Sticky Image */}
@@ -96,7 +96,7 @@ const StatisticalHighlights = () => {
           >
             {/* LEFT STICKY NUMBER */}
             <div className="md:sticky md:top-40 h-fit w-1/4">
-              <h3 className="text-8xl lg:text-5xl text-[#1B5E20]">{stat.title}</h3>
+              <h3 className="text-8xl lg:text-5xl text-[#1B5E20] break-all">{stat.title}</h3>
             </div>
 
             {/* RIGHT TEXT */}
@@ -117,7 +117,7 @@ const StatisticalHighlights = () => {
               alt={`Stat ${stat.id}`}
               className="w-full mb-4 object-cover rounded-lg shadow-lg"
             />
-            <h3 className="text-3xl text-[#1B5E20] font-bold mb-2">{stat.title}</h3>
+            <h3 className="text-3xl text-[#1B5E20] font-bold mb-2 break-all">{stat.title}</h3>
             <p className="text-start text-lg font-light leading-relaxed">
               {stat.description}
             </p>

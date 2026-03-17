@@ -72,10 +72,10 @@ export default function TestimonialsSection() {
                                                 {test.isGoogleReview && <FcGoogle title="Google Review" className="ml-1.5 text-[14px] md:text-[18px] flex-shrink-0" />}
                                             </span>
                                         </div>
-                                        <h3 className="text-xs md:text-3xl font-bold text-gray-900 leading-snug mb-4 md:mb-6 w-full md:w-[95%]">
+                                        <h3 className="text-xs md:text-xl font-bold text-gray-900 leading-snug mb-4 md:mb-6 w-full md:w-[95%]">
                                             {test.heading}
                                         </h3>
-                                        <p className="text-[10px] md:text-[15px] text-gray-600 leading-relaxed font-medium">
+                                        <p className="text-[10px] md:text-sm text-gray-600 leading-relaxed font-medium">
                                             {test.text}
                                         </p>
                                     </div>
@@ -86,7 +86,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center bottom-5 md:bottom-0 justify-center space-x-6 md:space-x-20 relative z-40">
+                <div className="flex items-center -bottom-2 md:bottom-0 justify-center space-x-6 md:space-x-20 relative z-40">
                     <button
                         onClick={handlePrev}
                         className="w-8 h-8 md:w-12  md:h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"

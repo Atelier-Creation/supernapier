@@ -127,8 +127,8 @@ export default function AboutPage() {
                             variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
                         >
                             <p className="text-xs font-bold text-[#059669] uppercase tracking-widest mb-2">Who We Are</p>
-                            <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight leading-tight mb-6">
-                                Rooted In <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a]">Purpose</span>
+                            <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tight leading-tight mb-6 break-all">
+                                Rooted In <span className=" text-transparent bg-clip-text bg-gradient-to-r from-[#4ade80] to-[#16a34a]">Purpose</span>
                             </h2>
                             <p className="text-gray-500 leading-relaxed mb-5">
                                 Super Napier was founded with a single mission — to put the most productive, resilient seeds into the hands of every farmer in India. Over more than a decade we've grown from a small nursery to a trusted agri-brand serving tens of thousands of farmers across the country.

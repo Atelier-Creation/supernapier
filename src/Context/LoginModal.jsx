@@ -1,10 +1,11 @@
 import { X } from 'lucide-react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ isOpen, onClose }) => {
     const [isSignup, setIsSignup] = useState(false);
     const [isForgot, setIsForgot] = useState(false);
-
+const navigate = useNavigate()
     if (!isOpen) return null;
 
     return (
@@ -132,6 +133,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                         <div className="pt-4 text-center">
                             <button
                                 type="submit"
+                                onClick={()=>navigate("/profile")}
                                 className="w-full bg-[#fde047] hover:bg-[#facc15] text-black font-semibold text-md py-3 rounded-full transition-colors duration-200"
                             >
                                 {isForgot

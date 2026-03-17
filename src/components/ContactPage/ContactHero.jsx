@@ -24,7 +24,7 @@ const ContactHero = () => {
         </div>
 
         {/* Heading */}
-        <h1 className="text-5xl md:text-7xl font-semibold text-[#0B2C1F] tracking-tight leading-tight md:leading-tight py-2">
+        <h1 className="break-all text-5xl md:text-7xl font-semibold text-[#0B2C1F] tracking-tight leading-tight md:leading-tight py-2">
           Contact us
         </h1>
       </div>

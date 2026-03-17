@@ -15,6 +15,16 @@ import WhatsAppFloatButton from './components/WhatsAppFloatButton';
 import ScrollToTop from './components/ScrollToTop';
 import SpinWheelPopup from './components/SpinWheelPopup';
 import CheckoutPage from './pages/CheckoutPage';
+import TermsAndCondition from './pages/TermsAndCondition';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundReturnPolicy from './pages/RefundReturnPolicy';
+import ProfileLayout from './components/ProfilePage/ProfileLayout';
+import PersonalInfo from './components/ProfilePage/PersonalInfo';
+import Orders from './components/ProfilePage/Orders';
+import AddressManager from './components/ProfilePage/AddressManager';
+import PaymentMethods from './components/ProfilePage/PaymentMethods';
+import PasswordUpdateForm from './components/ProfilePage/PasswordUpdateForm';
+import LogoutPage from './components/ProfilePage/LogoutPage';
 
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -62,6 +72,17 @@ function App() {
               <Route path="/blog/:id" element={<BlogDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/terms" element={<TermsAndCondition />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/refund" element={<RefundReturnPolicy />} />
+              <Route path="/profile" element={<ProfileLayout />}>
+                <Route index element={<PersonalInfo />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="address" element={<AddressManager />} />
+                <Route path="payment" element={<PaymentMethods />} />
+                <Route path="password" element={<PasswordUpdateForm />} />
+                <Route path="logout" element={<LogoutPage />} />
+              </Route>
               <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
             </Routes>
           </AnimatePresence>

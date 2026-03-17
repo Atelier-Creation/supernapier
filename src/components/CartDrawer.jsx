@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, ShoppingBag } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart }) {
-    const total = cartItems.reduce((acc, item) => acc + (Number(item.price || 0) * item.quantity), 0);
-
+    const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const navigate = useNavigate()
     return (
         <AnimatePresence>
             {isOpen && (
@@ -48,12 +48,24 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                     <motion.div
                                         layout
                                         key={item.id}
-                                        className="flex items-center space-x-4 bg-[#F1F8E9]/50 p-4 rounded-xl border border-gray-100"
+
+                                        className=" flex items-center space-x-4 bg-[#F1F8E9]/50 p-4 rounded-xl border border-gray-100"
                                     >
-                                        <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg shadow-sm" />
+                                        <img onClick={() => {
+                                            onClose();
+                                            navigate(`/product/${item.id}`)
+                                        }}
+                                            src={item.image}
+                                            alt={item.name}
+                                            className="cursor-pointer w-20 h-20 object-cover rounded-lg shadow-sm" />
                                         <div className="flex-1">
-                                            <h3 className="font-bold text-[#5D4037] line-clamp-1">{item.name}</h3>
-                                            <p className="text-[#1B5E20] font-semibold">₹ {(Number(item.price || 0)).toFixed(2)} x {item.quantity}</p>
+                                            <h3
+                                                onClick={() => {
+                                                    onClose();
+                                                    navigate(`/product/${item.id}`)
+                                                }}
+                                                className="cursor-pointer font-bold text-[#5D4037] line-clamp-1">{item.name}</h3>
+                                            <p className="text-[#1B5E20] font-semibold">₹ {item.price.toFixed(2)} x {item.quantity}</p>
                                         </div>
                                         <button
                                             onClick={() => removeFromCart(item.id)}

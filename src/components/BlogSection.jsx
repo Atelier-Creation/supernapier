@@ -15,7 +15,7 @@ export default function BlogSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div>
-                        <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight">
+                        <h2 className="text-3xl  md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight break-all whitespace-normal">
                             Latest Agricultural Insights
                         </h2>
                         <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-medium">
