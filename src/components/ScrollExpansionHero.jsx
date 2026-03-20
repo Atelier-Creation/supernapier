@@ -6,7 +6,7 @@ const ScrollExpansionHero = () => {
     // Media content tailored for Super Napier
     const superNapierContent = {
         mediaType: 'video',
-        src: '/supergrowth.mp4',
+        src: '/super_napier_hero_video.mp4',
         background: '/water_falls.webp',
         title: "India's Super Napier",
         date: 'Premium Fodder',
