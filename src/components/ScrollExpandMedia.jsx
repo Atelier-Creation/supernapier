@@ -4,7 +4,7 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ScrollExpandMedia = ({
   mediaType = 'video',
@@ -16,6 +16,13 @@ const ScrollExpandMedia = ({
   scrollToExpand,
   textBlend,
   children,
+  onFullyExpanded,
+  onVideoEnded,
+  mediaXOffset = 0,
+  sliderImages = [],
+  sliderIndex = 0,
+  overlayContent,
+  lockScroll = false,
 }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
@@ -68,9 +75,12 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          if (onFullyExpanded) onFullyExpanded();
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
+      } else if (lockScroll && e.deltaY > 0) {
+        e.preventDefault();
       }
     };
 
@@ -100,11 +110,14 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          if (onFullyExpanded) onFullyExpanded();
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
 
         setTouchStartY(touchY);
+      } else if (lockScroll && deltaY > 0) {
+        e.preventDefault();
       }
     };
 
@@ -113,7 +126,7 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = () => {
-      if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded || lockScroll) {
         window.scrollTo(0, 0);
       }
     };
@@ -131,7 +144,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY, lockScroll]);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -154,10 +167,11 @@ const ScrollExpandMedia = ({
   return (
     <div
       ref={sectionRef}
-      className='transition-colors duration-700 ease-in-out overflow-x-hidden'
+      className='transition-colors duration-700 ease-in-out overflow-x-hidden '
     >
       <section className='relative flex flex-col items-center justify-start min-h-[90dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[90dvh]'>
+          {overlayContent}
           <motion.div
             className='absolute inset-0 z-0 h-full'
             initial={{ opacity: 0 }}
@@ -183,7 +197,7 @@ const ScrollExpandMedia = ({
                 maxHeight: '100vh',
                 boxShadow: scrollProgress < 0.98 ? '0px 0px 50px rgba(0, 0, 0, 0.3)' : 'none',
                 opacity: Math.min(1, scrollProgress * 2),
-                transform: `scale(${0.5 + scrollProgress * 0.5})`,
+                transform: `scale(${0.5 + scrollProgress * 0.5}) translateX(${mediaXOffset}px)`,
                 borderRadius: `${(1 - scrollProgress) * 24}px`,
               }}
             >
@@ -222,6 +236,7 @@ const ScrollExpandMedia = ({
                       preload='auto'
                       className='w-full h-full object-cover rounded-xl'
                       controls={false}
+                      onEnded={onVideoEnded}
                     />
                     <motion.div
                       className='absolute inset-0 bg-black/30 rounded-xl'
@@ -231,6 +246,22 @@ const ScrollExpandMedia = ({
                     />
                   </div>
                 )
+              ) : mediaType === 'slider' ? (
+                <div className='relative w-full h-full'>
+                    <AnimatePresence mode="popLayout">
+                        <motion.img
+                            key={sliderIndex}
+                            initial={{ opacity: 0, scale: 1.05 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1.5, ease: 'easeOut' }}
+                            src={sliderImages[sliderIndex]}
+                            alt={`Slider ${sliderIndex}`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-black/20" />
+                </div>
               ) : (
                 <div className='relative w-full h-full'>
                   <img
