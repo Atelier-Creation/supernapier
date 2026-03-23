@@ -13,21 +13,21 @@ const SLIDES_DATA = [
     id: 2,
     title: "Farmer Network",
     desc: "Over the years, thousands of farmers have chosen our Super Napier grass for its reliability and high yield. Our customers range from small-scale dairy farmers to large commercial farms.",
-    img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=1200",
+    img: "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2153246387/settings_images/1a8087c-77f8-7275-585-5357d625c2ab_9_-_INSIGHTS.jpeg",
     tag: "25K+ Trust"
   },
   {
     id: 3,
     title: "Seed Quality",
     desc: "Our Super Napier seeds and stems are carefully selected and tested to maintain up to a 98% germination success rate. This ensures faster field establishment and stronger plant growth.",
-    img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200",
+    img: "https://images.pexels.com/photos/2495651/pexels-photo-2495651.jpeg",
     tag: "99.9% Success"
   },
   {
     id: 4,
     title: "Global Reach",
     desc: "Our premium Super Napier planting materials are not only trusted locally but also exported to multiple countries. Farmers worldwide rely on our products.",
-    img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200",
+    img: "https://plus.unsplash.com/premium_photo-1674019234994-eceabbdd091d?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGdyZWVuJTIwZmFybXxlbnwwfHwwfHx8MA%3D%3D",
     tag: "12+ Countries"
   },
   {

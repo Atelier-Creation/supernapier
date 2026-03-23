@@ -28,10 +28,10 @@ export default function LandingPage({ addToCart }) {
             {/* <HeroBrutal /> */}
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
-            <WhyChooseUs />
+            {/* <WhyChooseUs /> */}
             <CategorySliderDemo />
             {/* <SemiPieSliderDemo/> */}
-            <NewAboutSec />
+            {/* <NewAboutSec /> */}
             <AboutUsSection />
             <FeaturesSection />
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />

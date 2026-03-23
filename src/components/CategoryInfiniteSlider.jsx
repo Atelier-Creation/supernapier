@@ -58,6 +58,17 @@ const CategoryInfiniteSlider = ({ categories = [], interval = 4500 }) => {
                 <motion.div
                   key={cat.id}
                   layout
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(_, info) => {
+                    const threshold = 50;
+                    if (info.offset.x < -threshold) {
+                      setIndex((prev) => (prev + 1) % categories.length);
+                    } else if (info.offset.x > threshold) {
+                      setIndex((prev) => (prev - 1 + categories.length) % categories.length);
+                    }
+                  }}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ 
                     opacity: 1, 
@@ -70,7 +81,7 @@ const CategoryInfiniteSlider = ({ categories = [], interval = 4500 }) => {
                     opacity: { duration: 0.4 },
                     x: { duration: 0.5 }
                   }}
-                  className="relative cursor-pointer overflow-hidden rounded-[32px] md:rounded-[40px] h-full shadow-lg shrink-0"
+                  className="relative cursor-pointer overflow-hidden rounded-[32px] md:rounded-[40px] h-full shadow-lg shrink-0 touch-pan-y"
                 >
                   {/* Background Image */}
                   <motion.img
@@ -101,9 +112,9 @@ const CategoryInfiniteSlider = ({ categories = [], interval = 4500 }) => {
                         <motion.div 
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
-                          className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black shrink-0 shadow-xl"
+                          className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 shadow-xl"
                         >
-                          <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+                          <img src="/apple-icon-57x57.png" alt="icon" className="w-7 h-7 md:w-8 md:h-8 object-contain" />
                         </motion.div>
                       )}
                     </div>
