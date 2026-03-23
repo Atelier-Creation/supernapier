@@ -83,8 +83,12 @@ const ScrollExpandMedia = ({
 
   useEffect(() => {
     const handleWheel = (e) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      if (mediaFullyExpanded && e.deltaY < 0 && !lockScroll && window.scrollY <= 5) {
+        // Only allow shrinking if scroll is NOT locked (i.e. video not playing/already ended)
         setMediaFullyExpanded(false);
+        e.preventDefault();
+      } else if (mediaFullyExpanded && e.deltaY < 0 && lockScroll) {
+        // Prevent scrolling up if locked
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -109,8 +113,12 @@ const ScrollExpandMedia = ({
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      if (mediaFullyExpanded && deltaY < -20 && !lockScroll && window.scrollY <= 5) {
+        // Only allow shrinking if scroll is NOT locked
         setMediaFullyExpanded(false);
+        e.preventDefault();
+      } else if (mediaFullyExpanded && deltaY < -20 && lockScroll) {
+        // Prevent scrolling up if locked
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -174,7 +182,7 @@ const ScrollExpandMedia = ({
   const wrapperOpacity = useTransform(smoothProgress, [0, 0.5], [0, 1]);
   const bgOpacity = useTransform(smoothProgress, [0, 1], [1, 0]);
   const hintOpacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
-  const titleOpacity = useTransform(smoothProgress, [0.7, 0.95], [1, 0]);
+  const titleOpacity = useTransform(smoothProgress, [0, 0.95], [1, 0]);
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';

@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SemiPieSlider from "./SemiPieSlider";
 
 // Slot machine rolling counter
 const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&!?";
@@ -16,14 +17,13 @@ const SlotCounter = ({ value, duration = 1200 }) => {
 
     const target = String(value);
     const totalMs = duration;
-    const slowDownAt = 0.65; // fraction of duration where we start locking characters
+    const slowDownAt = 0.65;
 
     const scramble = (timestamp) => {
       if (!startRef.current) startRef.current = timestamp;
       const elapsed = timestamp - startRef.current;
       const progress = Math.min(elapsed / totalMs, 1);
 
-      const charsLocked = Math.floor(progress / (1 - slowDownAt) * target.length * 0.5);
       const lockedCount = progress >= slowDownAt
         ? Math.floor(((progress - slowDownAt) / (1 - slowDownAt)) * target.length)
         : 0;
@@ -32,10 +32,9 @@ const SlotCounter = ({ value, duration = 1200 }) => {
         .split("")
         .map((char, i) => {
           if (i < lockedCount) return char;
-          // keep letters/symbols, scramble among similar type
           if (/[0-9]/.test(char)) return String(Math.floor(Math.random() * 10));
           if (/[a-zA-Z]/.test(char)) return CHARS[Math.floor(Math.random() * 26 + 10)];
-          return char; // keep +, %, . fixed
+          return char;
         })
         .join("");
 
@@ -59,12 +58,13 @@ const SlotCounter = ({ value, duration = 1200 }) => {
 const slides = [
   {
     id: 1,
-    title:
-      "We provide high-yield Super Napier grass varieties that support sustainable livestock farming.",
-    desc: "With over a decade of agricultural expertise, we focus on producing premium Super Napier planting materials that help farmers achieve consistent and high-quality fodder production. Our varieties are carefully cultivated to grow faster, adapt to different soil conditions, and provide nutrient-rich feed for cattle, goats, and dairy farms. This ensures improved milk production, healthier livestock, and long-term farming sustainability.",
+    title: "We provide high-yield Super Napier grass varieties for cattle farming.",
+    desc: "With over a decade of agricultural expertise, we focus on producing premium Super Napier planting materials that help farmers achieve consistent and high-quality fodder production. Our varieties are carefully cultivated to grow faster, adapt to different soil conditions, and provide nutrient-rich feed for cattle, goats.",
     year: "20+",
     label: "Years of Agricultural Experience",
-    img: "https://images.unsplash.com/photo-1560493676-04071c5f467b",
+    img: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80",
+    pieTitle: "Our Expertise",
+    pieSubtitle: "20+ Years of farming",
   },
   {
     id: 2,
@@ -73,6 +73,8 @@ const slides = [
     year: "25K+",
     label: "Farmers Trust Our Seeds",
     img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=800&q=80",
+    pieTitle: "Farmer Network",
+    pieSubtitle: "25K+ happy farmers",
   },
   {
     id: 3,
@@ -81,6 +83,8 @@ const slides = [
     year: "99.9%",
     label: "Seed Germination Success",
     img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80",
+    pieTitle: "Seed Quality",
+    pieSubtitle: "99.9% germination",
   },
   {
     id: 4,
@@ -89,6 +93,8 @@ const slides = [
     year: "12+",
     label: "Countries Supplied",
     img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
+    pieTitle: "Global Reach",
+    pieSubtitle: "12+ countries",
   },
   {
     id: 5,
@@ -97,8 +103,38 @@ const slides = [
     year: "1st",
     label: "Innovators in Super Napier Farming",
     img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
+    pieTitle: "Innovation",
+    pieSubtitle: "#1 in Super Napier",
+  },
+  {
+    id: 6,
+    title: "Leading innovation in fodder farming solutions.",
+    desc: "We continuously research and implement modern cultivation techniques to improve fodder farming efficiency. Our team works closely with farmers to introduce improved planting methods and crop management practices.",
+    year: "1st",
+    label: "Innovators in Super Napier Farming",
+    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
+    pieTitle: "Innovation",
+    pieSubtitle: "#1 in Super Napier",
+  },
+  {
+    id: 7,
+    title: "Leading innovation in fodder farming solutions.",
+    desc: "We continuously research and implement modern cultivation techniques to improve fodder farming efficiency. Our team works closely with farmers to introduce improved planting methods and crop management practices.",
+    year: "1st",
+    label: "Innovators in Super Napier Farming",
+    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
+    pieTitle: "Innovation",
+    pieSubtitle: "#1 in Super Napier",
   },
 ];
+
+// Map slides to SemiPieSlider segment format
+const pieSegments = slides.map((s) => ({
+  id: String(s.id),
+  image: s.img,
+  title: s.pieTitle,
+  subtitle: s.pieSubtitle,
+}));
 
 const NewAboutSec = () => {
   const [current, setCurrent] = useState(0);
@@ -106,12 +142,10 @@ const NewAboutSec = () => {
 
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-
   const [mouseStart, setMouseStart] = useState(null);
   const [mouseEnd, setMouseEnd] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [hasDragged, setHasDragged] = useState(false);
-
   const [direction, setDirection] = useState(1);
 
   const minSwipeDistance = 50;
@@ -128,12 +162,16 @@ const NewAboutSec = () => {
     setExpanded(false);
   };
 
+  // When SemiPieSlider segment is clicked, sync the about section
+  const handlePieSegmentChange = (idx) => {
+    setDirection(idx > current ? 1 : -1);
+    setCurrent(idx);
+    setExpanded(false);
+  };
+
   const slideVariants = {
     enter: { opacity: 0 },
-    center: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1, duration: 0.3 }
-    },
+    center: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1, duration: 0.3 } },
     exit: { opacity: 0, transition: { duration: 0.4 } },
   };
 
@@ -144,63 +182,47 @@ const NewAboutSec = () => {
   };
 
   const cardVariants = {
-    enter: (dir) => ({ scale: 0.8, opacity: 0, y: 20 }),
+    enter: () => ({ scale: 0.8, opacity: 0, y: 20 }),
     center: { scale: 1, opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-    exit: (dir) => ({ scale: 0.8, opacity: 0, y: 20 }),
-  };
-
-  const imgVariants = {
-    enter: (dir) => ({ x: dir > 0 ? 80 : -80, opacity: 0 }),
-    center: { x: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
-    exit: (dir) => ({ x: dir < 0 ? 80 : -80, opacity: 0 }),
+    exit: () => ({ scale: 0.8, opacity: 0, y: 20 }),
   };
 
   const textVariants = {
-    enter: (dir) => ({ y: 30, opacity: 0 }),
+    enter: () => ({ y: 30, opacity: 0 }),
     center: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
-    exit: (dir) => ({ y: 30, opacity: 0 }),
+    exit: () => ({ y: 30, opacity: 0 }),
   };
 
-  // MOBILE SWIPE
+  // Touch swipe
   const handleTouchStart = (e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
+  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-
     const distance = touchStart - touchEnd;
-
     if (Math.abs(distance) > minSwipeDistance) {
       if (distance > 0) nextSlide();
       else prevSlide();
     }
   };
 
-  // DESKTOP DRAG
+  // Desktop drag
   const handleMouseDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
     setHasDragged(false);
     setMouseStart(e.clientX);
-    setMouseEnd(e.clientX); // initialize to same spot so distance starts at 0
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    const delta = Math.abs(e.clientX - mouseStart);
-    if (delta > 8) setHasDragged(true); // only mark as drag after real movement
     setMouseEnd(e.clientX);
   };
-
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    if (Math.abs(e.clientX - mouseStart) > 8) setHasDragged(true);
+    setMouseEnd(e.clientX);
+  };
   const handleMouseUp = () => {
     if (!isDragging) return;
-
     if (hasDragged) {
       const distance = mouseStart - mouseEnd;
       if (Math.abs(distance) > minSwipeDistance) {
@@ -208,25 +230,25 @@ const NewAboutSec = () => {
         else prevSlide();
       }
     }
-
     setIsDragging(false);
     setHasDragged(false);
     setMouseStart(null);
     setMouseEnd(null);
   };
 
-  // AUTOPLAY
+  // Autoplay
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 30000);
-
+    const interval = setInterval(nextSlide, 30000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section className="pt-10 pb-0 px-4 lg:py-24 overflow-hidden select-none relative">
-      <img src="/palm-tree-shadow.avif" alt="Palm Shadow" className="absolute top-0 -right-64 h-full object-contain opacity-[0.5] pointer-events-none z-0" />
+      <img
+        src="/palm-tree-shadow.avif"
+        alt="Palm Shadow"
+        className="absolute top-0 -right-64 h-full object-contain opacity-[0.5] pointer-events-none z-0"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center md:items-start lg:mb-5 mb-5">
@@ -235,120 +257,117 @@ const NewAboutSec = () => {
           </span>
         </div>
 
-        {/* Slider Container */}
-        <div
-          className="relative overflow-hidden min-h-[800px] md:min-h-[600px] lg:min-h-[500px]"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-        >
-          <AnimatePresence initial={false} custom={direction}>
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute w-full top-0 left-0"
-            >
-              <div className="min-w-full">
-                {/* Title */}
-                <motion.div variants={titleVariants} custom={direction} className="lg:max-w-[55%] w-full ms-auto mb-10">
-                  <p className="text-3xl text-left md:text-4xl lg:text-4xl font-semibold text-gray-900">
+        {/* Main two-column layout: SemiPie left | Slider content right */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+
+          {/* ── Left: SemiPieSlider (synced with current slide) ─────────── */}
+          <div className="w-full lg:w-[50%] shrink-0">
+            <SemiPieSlider
+              segments={pieSegments}
+              activeIdx={current}
+              onSegmentChange={handlePieSegmentChange}
+              autoPlayInterval={30000} /* long interval — nav buttons drive it */
+              // centerLabel="Super Napier"
+              // centerLogo ='/logo.png'
+            />
+          </div>
+
+          {/* ── Right: Slider text content ───────────────────────────────── */}
+          <div
+            className="relative overflow-hidden w-full min-h-[450px]"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <AnimatePresence initial={false} custom={direction}>
+              <motion.div
+                key={current}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="absolute w-full top-0 left-0"
+              >
+                {/* Slide title */}
+                <motion.div variants={titleVariants} custom={direction} className="mb-6">
+                  <p className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900 leading-snug">
                     {slides[current].title}
                   </p>
                 </motion.div>
 
-                <div className="flex lg:flex-row flex-col gap-12 items-center">
-                  <div className="flex lg:flex-row flex-col gap-12 items-end w-full">
-                    {/* Experience Card */}
-                    <motion.div variants={cardVariants} custom={direction} className="lg:block hidden lg:w-1/4 min-w-1/4">
-                      <div className="bg-[#fde047] hover:bg-[#facc15] text-black px-6 py-8 rounded-xl shadow-lg transition-colors">
-                        <p className="text-base mb-3 font-medium">{slides[current].label}</p>
-                        <span className="text-5xl font-black">
-                          <SlotCounter key={current} value={slides[current].year} duration={1400} />
-                        </span>
-                      </div>
-                    </motion.div>
+                {/* Stat card */}
+                <motion.div variants={cardVariants} custom={direction} className="mb-6">
+                  <div className="bg-[#fde047] hover:bg-[#facc15] text-black px-6 py-5 rounded-xl shadow-md inline-block transition-colors">
+                    <p className="text-sm mb-1 font-medium">{slides[current].label}</p>
+                    <span className="text-4xl font-black">
+                      <SlotCounter key={current} value={slides[current].year} duration={1400} />
+                    </span>
+                  </div>
+                </motion.div>
 
-                    {/* Image */}
-                    <motion.div variants={imgVariants} custom={direction} className="w-full">
-                      <div className="relative rounded-2xl overflow-hidden h-[40vh] md:h-[50vh] shadow-xl">
-                        <div className='block lg:hidden absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10' />
-                        <motion.img
-                          initial={{ scale: 1.1 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.6 }}
-                          src={slides[current].img}
-                          alt=""
-                          draggable="false"
-                          className="w-full h-full object-cover"
-                        />
-
-                        {/* Mobile Card */}
-                        <div className="lg:hidden absolute bottom-4 left-4 right-4 z-20">
-                          <div className="bg-[#fde047] text-black p-6 rounded-xl md:w-1/2 shadow-lg backdrop-blur-md">
-                            <p className="text-sm font-medium mb-1">{slides[current].label}</p>
-                            <span className="text-3xl md:text-5xl font-black">
-                              <SlotCounter key={current} value={slides[current].year} duration={1400} />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
+                {/* Description */}
+                <motion.div variants={textVariants} custom={direction} className="space-y-4">
+                  <div className="text-gray-700 text-base md:text-md leading-relaxed">
+                    <p className="hidden md:block line-clamp-4 overflow-hidden">{slides[current].desc}</p>
+                    <p className="md:hidden">
+                      {expanded
+                        ? slides[current].desc
+                        : `${slides[current].desc.substring(0, 120)}...`}
+                    </p>
+                    <button
+                      onClick={() => setExpanded(!expanded)}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      className="md:hidden text-green-700 font-bold mt-2 hover:underline"
+                    >
+                      {expanded ? "Read Less" : "Read More"}
+                    </button>
                   </div>
 
-                  {/* Right Content */}
-                  <motion.div variants={textVariants} custom={direction} className="lg:w-3/4 w-full space-y-6 md:space-y-8">
-                    <div className="text-gray-700 text-base md:text-lg leading-relaxed">
-                      <p className="hidden md:block">{slides[current].desc}</p>
+                  {/* Prev / Next buttons */}
+                  <div className="flex gap-4 mt-4">
+                    <button
+                      onClick={prevSlide}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
+                    >
+                      <ArrowLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
 
-                      <p className="md:hidden">
-                        {expanded
-                          ? slides[current].desc
-                          : `${slides[current].desc.substring(0, 120)}...`}
-                      </p>
-
-                      <button
-                        onClick={() => setExpanded(!expanded)}
-                        onTouchStart={(e) => e.stopPropagation()}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        className="md:hidden text-green-700 font-bold mt-2 hover:underline"
-                      >
-                        {expanded ? "Read Less" : "Read More"}
-                      </button>
+                    {/* Slide dots */}
+                    <div className="flex items-center gap-2 ml-2">
+                      {slides.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handlePieSegmentChange(i)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          className={`rounded-full transition-all duration-300 ${
+                            i === current
+                              ? 'w-6 h-2.5 bg-green-700'
+                              : 'w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400'
+                          }`}
+                        />
+                      ))}
                     </div>
-
-                    {/* Buttons */}
-                    <div className="flex gap-4 mt-6">
-                      <button
-                        onClick={prevSlide}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onTouchStart={(e) => e.stopPropagation()}
-                        className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
-                      >
-                        <ArrowLeft className="w-5 h-5" />
-                      </button>
-
-                      <button
-                        onClick={nextSlide}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onTouchStart={(e) => e.stopPropagation()}
-                        className="h-12 w-12 bg-gray-100 hover:bg-[#fde047] rounded-full flex justify-center items-center transition-all hover:scale-105 active:scale-95 shadow-sm"
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
