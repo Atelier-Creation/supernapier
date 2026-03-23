@@ -312,7 +312,7 @@ const ScrollExpandMedia = ({
               {/* Animated Scroll Hint */}
               <motion.div
                 style={{ opacity: hintOpacity }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-30"
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 pointer-events-none z-30"
               >
                 <div className="w-[30px] h-[50px] border-2 border-white/50 rounded-full flex justify-center p-1.5">
                   <motion.div
