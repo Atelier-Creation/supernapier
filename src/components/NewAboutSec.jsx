@@ -106,26 +106,6 @@ const slides = [
     pieTitle: "Innovation",
     pieSubtitle: "#1 in Super Napier",
   },
-  {
-    id: 6,
-    title: "Leading innovation in fodder farming solutions.",
-    desc: "We continuously research and implement modern cultivation techniques to improve fodder farming efficiency. Our team works closely with farmers to introduce improved planting methods and crop management practices.",
-    year: "1st",
-    label: "Innovators in Super Napier Farming",
-    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
-    pieTitle: "Innovation",
-    pieSubtitle: "#1 in Super Napier",
-  },
-  {
-    id: 7,
-    title: "Leading innovation in fodder farming solutions.",
-    desc: "We continuously research and implement modern cultivation techniques to improve fodder farming efficiency. Our team works closely with farmers to introduce improved planting methods and crop management practices.",
-    year: "1st",
-    label: "Innovators in Super Napier Farming",
-    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80",
-    pieTitle: "Innovation",
-    pieSubtitle: "#1 in Super Napier",
-  },
 ];
 
 // Map slides to SemiPieSlider segment format
@@ -247,7 +227,7 @@ const NewAboutSec = () => {
       <img
         src="/palm-tree-shadow.avif"
         alt="Palm Shadow"
-        className="absolute top-0 -right-64 h-full object-contain opacity-[0.5] pointer-events-none z-0"
+        className="absolute top-0 -left-64 scale-x-[-1] h-full object-contain opacity-[0.5] pointer-events-none z-0"
       />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
