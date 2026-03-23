@@ -66,8 +66,8 @@ const ScrollExpansionHero = () => {
         src: '/super_napier_hero_video.mp4',
         background: '/water_falls.webp',
         title: "India's Super Napier",
-        date: 'Premium Fodder',
-        scrollToExpand: 'Scroll to Explore',
+        date: '',
+        scrollToExpand: '',
     };
 
     return (
@@ -165,9 +165,9 @@ const ScrollExpansionHero = () => {
                                                 initial={{ opacity: 0, x: 40 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: 0.75, duration: 0.7 }}
-                                                className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-6 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[300px] justify-between"
+                                                className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-4 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[50dvh] justify-between"
                                             >
-                                                <div className="flex flex-col gap-4">
+                                                <div className="flex flex-col gap-3">
                                                     <div className="flex items-center gap-3">
                                                         <img src="/google-logo.png" className="w-8 h-8" alt="Google" onError={(e) => e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png'} />
                                                         <div>
@@ -201,7 +201,7 @@ const ScrollExpansionHero = () => {
                                                 </div>
 
                                                 <div className="flex flex-col gap-4">
-                                                    <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                                                    <div className="flex items-center justify-between border-t border-white/10 pt-2">
                                                         <div className="flex -space-x-3">
                                                             {[1, 2, 3].map((i) => (
                                                                 <img key={i} className="w-8 h-8 rounded-full border-2 border-green-900 object-cover" src={`https://i.pravatar.cc/100?img=${i + 14}`} alt="Farmer" />
