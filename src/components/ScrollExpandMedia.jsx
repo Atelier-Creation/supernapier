@@ -185,7 +185,7 @@ const ScrollExpandMedia = ({
   }, []);
 
   const mediaWidth = useTransform(smoothProgress, [0, 1], [0, isMobileState ? 950 : 1550]);
-  const mediaHeight = useTransform(smoothProgress, [0, 1], [0, isMobileState ? 750 : 800]);
+  const mediaHeight = useTransform(smoothProgress, [0, 1], [0, window.innerHeight]);
   const textTranslateX = useTransform(smoothProgress, [0, 1], [0, isMobileState ? 180 : 150]);
   const textTranslateXNegative = useTransform(smoothProgress, [0, 1], [0, isMobileState ? -180 : -150], { unit: 'vw' });
   const textTranslateXPositive = useTransform(smoothProgress, [0, 1], [0, isMobileState ? 180 : 150], { unit: 'vw' });

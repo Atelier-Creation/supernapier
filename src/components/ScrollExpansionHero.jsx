@@ -165,7 +165,7 @@ const ScrollExpansionHero = () => {
                                                 initial={{ opacity: 0, x: 40 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: 0.75, duration: 0.7 }}
-                                                className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-4 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[50dvh] justify-between"
+                                                className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-4 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[40dvh] md:h-[50dvh] justify-between"
                                             >
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center gap-3">
