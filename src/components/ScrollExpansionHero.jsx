@@ -165,7 +165,7 @@ const ScrollExpansionHero = () => {
                                                 initial={{ opacity: 0, x: 40 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: 0.75, duration: 0.7 }}
-                                                className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-4 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[40dvh] md:h-[50dvh] justify-between"
+                                                className="bg-white/10 backdrop-blur-sm md:backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 flex flex-col gap-4 w-full md:w-[340px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] h-[40dvh] md:h-[50dvh] justify-between"
                                             >
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center gap-3">
@@ -229,7 +229,7 @@ const ScrollExpansionHero = () => {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: isVideoEnded ? 1 : 0, y: isVideoEnded ? 0 : 20 }}
                                         transition={{ delay: 1, duration: 1 }}
-                                        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none"
+                                        className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 pointer-events-none"
                                     >
                                         <span className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] mb-1">Scroll to Explore</span>
                                         <div className="w-[26px] h-[44px] border-2 border-white/30 rounded-full flex justify-center p-1.5">

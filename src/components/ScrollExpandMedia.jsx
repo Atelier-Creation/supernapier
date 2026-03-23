@@ -84,7 +84,7 @@ const ScrollExpandMedia = ({
   useEffect(() => {
     const handleWheel = (e) => {
       if (isMobileState) return;
-      
+
       const isAtTop = window.scrollY < 20;
 
       // Only capture wheel events if we are near the top of the page.
@@ -310,18 +310,20 @@ const ScrollExpandMedia = ({
               </div>
 
               {/* Animated Scroll Hint */}
-              <motion.div
-                style={{ opacity: hintOpacity }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 pointer-events-none z-30"
-              >
-                <div className="w-[30px] h-[50px] border-2 border-white/50 rounded-full flex justify-center p-1.5">
-                  <motion.div
-                    animate={{ y: [0, 15, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="w-1.5 h-1.5 bg-white rounded-full"
-                  />
-                </div>
-              </motion.div>
+              {!isMobileState && (
+                <motion.div
+                  style={{ opacity: hintOpacity }}
+                  className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 pointer-events-none z-30"
+                >
+                  <div className="w-[30px] h-[50px] hidden md:block border-2 border-white/50 rounded-full flex justify-center p-1.5">
+                    <motion.div
+                      animate={{ y: [0, 15, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                      className="w-1.5 h-1.5 bg-white rounded-full"
+                    />
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </div>
 
