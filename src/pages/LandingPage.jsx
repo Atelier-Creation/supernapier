@@ -29,7 +29,7 @@ export default function LandingPage({ addToCart }) {
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
             {/* <WhyChooseUs /> */}
-            <CategorySliderDemo />
+                <CategorySliderDemo />
             {/* <SemiPieSliderDemo/> */}
             {/* <NewAboutSec /> */}
             <AboutUsSection />

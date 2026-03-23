@@ -71,7 +71,7 @@ const ScrollExpansionHero = () => {
     };
 
     return (
-        <div className="w-full h-screen relative">
+        <div className="w-full h-screen relative z-0">
             <ScrollExpandMedia
                 mediaType="video"
                 mediaSrc={superNapierContent.src}

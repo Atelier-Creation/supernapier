@@ -83,8 +83,18 @@ const ScrollExpandMedia = ({
 
   useEffect(() => {
     const handleWheel = (e) => {
+      if (isMobileState) return;
+      
+      const isAtTop = window.scrollY < 20;
+
+      // Only capture wheel events if we are near the top of the page.
+      // This prevents the intro from 'reverse animating' while we are scrolling
+      // other sections deeper down.
+      if (!isAtTop && mediaFullyExpanded) return;
+      if (!isAtTop && !mediaFullyExpanded) return;
+
       if (mediaFullyExpanded && e.deltaY < 0 && !lockScroll && window.scrollY <= 5) {
-        // Only allow shrinking if scroll is NOT locked (i.e. video not playing/already ended)
+        // Only allow shrinking if scroll is NOT locked
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (mediaFullyExpanded && e.deltaY < 0 && lockScroll) {
@@ -92,7 +102,7 @@ const ScrollExpandMedia = ({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollDelta = e.deltaY * 0.0009;
+        const scrollDelta = e.deltaY * (isMobileState ? 0.005 : 0.0009);
         const newProgress = Math.min(
           Math.max(progress.get() + scrollDelta, 0),
           1
@@ -141,7 +151,9 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = () => {
-      if (!mediaFullyExpanded || lockScroll) {
+      // Only snap to top if we are actually at the top AND either intro phase or locked.
+      // If scrollY is > 100, we are browsing down, so don't trap the user.
+      if ((!mediaFullyExpanded || lockScroll) && window.scrollY > 0 && window.scrollY < 100) {
         window.scrollTo(0, 0);
       }
     };
