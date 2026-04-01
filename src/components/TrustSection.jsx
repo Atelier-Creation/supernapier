@@ -7,36 +7,36 @@ import "swiper/css";
 const TrustSection = () => {
     // LEFT SIDE
     const leftCol1 = [
-        "https://lh3.googleusercontent.com/a-/ALV-UjUmy75h6U5bRq1bE5lZ5m6Bb93sYCIqbBy5gZqB0gsVwJBnn0-1",
-        "https://lh3.googleusercontent.com/a-/ALV-UjXzQ4eW10ZETTV8nQkTGeiF9RlRFc4vOSydl1jnfCYZUvOUFHbz",
-        "https://lh3.googleusercontent.com/a-/ALV-UjUlh0MpmZLohAtT178Bl18LvkPNzBXmjT4aPeb25sMHNAYEMnzr",
-        "https://lh3.googleusercontent.com/a-/ALV-UjUC-aeQoLbRhO6eCruAj-HEcVnc0IZIoAdqiR6UwRoW7-teVvfk",
-        "https://lh3.googleusercontent.com/a-/ALV-UjWn1sh4v6553GWh0xKlvuVZ-VYHZ6kPOXvQSrAxwK4vYPQhLaly5A",
+        "https://img.freepik.com/free-photo/top-view-black-seasonings-inside-round-pot-grey-background_140725-50004.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/free-photo/top-view-bowl-with-coffee-powder_23-2148937296.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/heap-coriander-seeds-bowl-wooden-background-closeup_392895-709974.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/sprouted-kala-chana-black-brown-chickpeas-it-s-vegan-substitute-rich-protein-it-has-high-content-living-enzymes_466689-2436.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/free-photo/red-beans-wood-background-soft-focus-with-vintage-film-filter_1339-177.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
     ];
 
     const leftCol2 = [
-        "https://lh3.googleusercontent.com/a-/ALV-UjXM9QyzfmBthJcOF70JPkaVASgI82_5cwkgMGYf7zB9FYq0ANlr",
-        "https://lh3.googleusercontent.com/a-/ALV-UjVizesu_s8NQC3TyjiltPnb92QX-JYvEaw2JW9h4QiQ5eBgtaRJ",
-        "https://lh3.googleusercontent.com/a-/ALV-UjUkF0ocnFRk0igqZ6RD3GbEEcNIgdL4MlWEzFpTl83CRZAp0pethg",
-        "https://lh3.googleusercontent.com/a-/ALV-UjXRPQAY2lz46rHjHrXZKi2lFZ-_vlup2Tz52drHASVOWxjPXABS",
-        "https://lh3.googleusercontent.com/a-/ALV-UjWEhyzia8zKuHLKIsNqT9l8kIlfLe6Zkbu0FuR0RpaSdJMsoQs",
+        "https://img.freepik.com/premium-photo/black-gram-seed-udad-beans-bowl_96696-747.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/free-photo/top-view-tasty-shelled-sunflower-seeds-wooden-bowl-with-shelled-seeds-isolated_141793-88911.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/refreshing-bean-coffee-kathmandu-nepal_131480-44.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/indian-charolya-buchanania-lanzan-almondette-kernel-seeds-bowl-pile-selective-focus_466689-44653.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/sprouted-microgreens-fresh-natural-organic-wheat-germinating_271853-460.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
     ];
 
     // RIGHT SIDE
     const rightCol1 = [
-        "https://lh3.googleusercontent.com/a-/ALV-UjXDOx0-flnmyR-cOrW4s5eLP5csE66K96zDHpvgJelVV8e8qK0",
-        "https://lh3.googleusercontent.com/a-/ALV-UjXuV_KGswe0RwZTAugxSuIPmkzJGOEGT2GA1mAjrH0U_bZsl369",
-        "https://lh3.googleusercontent.com/a-/ALV-UjVAqK3AzqQpWNCERBDIp09gDpJYjMEA4NegonEPEVrbfiZvoU4TcQ",
-        "https://lh3.googleusercontent.com/a-/ALV-UjUkb1aS3QAHjqcsN588vk3nkHyQ20pEWeHILecMkYfIADPqblxm",
-        "https://lh3.googleusercontent.com/a-/ALV-UjUzMYQtOOjZmNMMdrfdys6Gi0S9o3Ehs1X0E-QgtENFzk5xcH2XPQ",
+        "https://img.freepik.com/free-photo/pile-raw-white-beans-ceramic-bowl_114579-50649.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/castor-beans-bowl-wooden-surface_525574-4120.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/free-photo/top-view-green-small-vitamin-bomb-fresh-feijoas-brown-pot_140725-150836.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/blue-bowl-with-seeds-it-blue-rim_1288657-158844.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/fenugreek-seeds-brown-ceramic-bowl-isolated-white-background_926199-3015871.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
     ];
 
     const rightCol2 = [
-        "https://lh3.googleusercontent.com/a-/ALV-UjU3KTYwOi8mxMlOOztZphJY54Mi-zg3l9RZl57FHeFsbN6_pvLQ",
-        "https://lh3.googleusercontent.com/a-/ALV-UjWzE9dwoOGF-Z1x9paD1LLtkyUWz3BuUaotBMdCdPTf9Mf-yXif",
-        "https://lh3.googleusercontent.com/a-/ALV-UjXQF6sXq8vbbc6BT2Kro9pbo_Qpuv2gYf7PoD64zlThAeFGqxcL8g",
-        "https://lh3.googleusercontent.com/a-/ALV-UjU89ERp2kQJE4W_5A32I9YwOyq50lvmk2DtlSY7bgQ9rLY2gwK9Cw",
-        "https://lh3.googleusercontent.com/a-/ALV-UjVZN9lK0vhTqKGfPaqcFcTup3qWIPFdpilbCeotc9gYuPSbdanGqg",
+        "https://img.freepik.com/premium-photo/peeled-sunflower-seeds-bowl-ingredient-making-vegetarian-food_73989-92867.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/anise-seeds-brown-ceramic-bowl-isolated-white-background_1356031-22833.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/glass-bowl-with-seeds-it-glass-bowl-with-words-sunflower-it_975681-215645.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/premium-photo/flax-seeds-bowl-wooden-table_107288-2371.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://img.freepik.com/free-photo/green-lentils-black-mini-bucket-black-stone-table-side-view_176474-2104.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
     ];
 
     return (
@@ -135,11 +135,12 @@ const TrustSection = () => {
                         }}
                         speed={2500}
                         modules={[Autoplay]}
+                        className="rounded-[40px]"
                     >
                         {[...leftCol1, ...leftCol2, ...rightCol1, ...rightCol2]
                             .concat([...leftCol1, ...leftCol2, ...rightCol1, ...rightCol2])
                             .map((img, i) => (
-                                <SwiperSlide key={i}>
+                                <SwiperSlide key={i} className="">
                                     <div className="h-40 w-28 mx-auto overflow-hidden rounded-full shadow-md border border-gray-200">
                                         <img
                                             src={img}

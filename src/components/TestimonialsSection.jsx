@@ -55,11 +55,11 @@ export default function TestimonialsSection() {
                                     className="absolute top-1/2 -translate-y-1/2 flex flex-col md:flex-row items-center justify-center w-[90%] md:w-[850px] bg-[#ecf3e1] p-6 md:p-8 rounded-tl-2xl rounded-tr-[4rem] rounded-bl-[4rem] rounded-br-2xl shadow-sm text-left gap-4 md:gap-12"
                                 >
                                     {/* Left Image */}
-                                    <div className="w-full md:w-6/12 h-[150px] rounded-tr-3xl rounded-bl-3xl rounded-tl-md rounded-br-md overflow-hidden md:h-[450px] flex-shrink-0">
+                                    <div className="w-fit md:w-6/12 h-[150px] rounded-tr-3xl rounded-bl-3xl rounded-tl-md rounded-br-md overflow-hidden md:h-[450px] flex-shrink-0">
                                         <img
                                             src={test.image}
                                             alt={test.name}
-                                            className="w-full h-full object-cover object-center shadow-sm"
+                                            className="w-full h-full object-contain md:object-cover object-center shadow-sm"
                                         />
                                     </div>
 
