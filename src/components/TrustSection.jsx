@@ -102,9 +102,15 @@ const TrustSection = () => {
                     <p className="text-gray-500 text-base lg:text-xl font-medium">
                         For Our Fusion Of Better Ingredients <br /> and Better Taste
                     </p>
-                    <button className="bg-[#16a34a] w-fit hover:bg-[#15803d] text-white px-4 md:px-8 py-3 rounded-full font-bold shadow-lg transition-colors">
+
+                    <a
+                        href="https://share.google/KEX9eNAIoOY1RRId0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[#16a34a] w-fit hover:bg-[#15803d] text-white px-4 md:px-8 py-3 rounded-full font-bold shadow-lg transition-colors"
+                    >
                         View All
-                    </button>
+                    </a>
                 </div>
 
                 {/* MOBILE SLIDER */}
@@ -194,7 +200,7 @@ const TrustSection = () => {
 
             </div>
 
-
+            {/* FLOATING DECOR IMAGES */}
             <img
                 src="/leaf.png"
                 className="absolute lg:w-30 w-20 top-10 md:top-20 md:left-1/6 rotate-[15deg] md:hidden block"
