@@ -17,6 +17,7 @@ import NewAboutSec from '../components/NewAboutSec';
 import Hero from '../components/Hero';
 import SemiPieSliderDemo from './SemiPieSliderDemo';
 import CategorySliderDemo from './CategorySliderDemo';
+import TrustSection from '../components/TrustSection';
 
 export default function LandingPage({ addToCart }) {
     const bestSellers = mockProducts.slice(0, 4);
@@ -36,6 +37,7 @@ export default function LandingPage({ addToCart }) {
             <FeaturesSection />
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />
             <BlogSection />
+            <TrustSection/>
             <TestimonialsSection />
             <ContactSection />
         </motion.div>
