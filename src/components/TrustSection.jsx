@@ -194,7 +194,7 @@ const TrustSection = () => {
 
             </div>
 
-            {/* FLOATING DECOR IMAGES */}
+
             <img
                 src="/leaf.png"
                 className="absolute lg:w-30 w-20 top-10 md:top-20 md:left-1/6 rotate-[15deg] md:hidden block"
