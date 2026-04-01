@@ -7,35 +7,45 @@ import "swiper/css";
 const TrustSection = () => {
     // LEFT SIDE
     const leftCol1 = [
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
-        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUmy75h6U5bRq1bE5lZ5m6Bb93sYCIqbBy5gZqB0gsVwJBnn0-1",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXzQ4eW10ZETTV8nQkTGeiF9RlRFc4vOSydl1jnfCYZUvOUFHbz",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUlh0MpmZLohAtT178Bl18LvkPNzBXmjT4aPeb25sMHNAYEMnzr",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUC-aeQoLbRhO6eCruAj-HEcVnc0IZIoAdqiR6UwRoW7-teVvfk",
+        "https://lh3.googleusercontent.com/a-/ALV-UjWn1sh4v6553GWh0xKlvuVZ-VYHZ6kPOXvQSrAxwK4vYPQhLaly5A",
     ];
 
     const leftCol2 = [
-        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce",
-        "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXM9QyzfmBthJcOF70JPkaVASgI82_5cwkgMGYf7zB9FYq0ANlr",
+        "https://lh3.googleusercontent.com/a-/ALV-UjVizesu_s8NQC3TyjiltPnb92QX-JYvEaw2JW9h4QiQ5eBgtaRJ",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUkF0ocnFRk0igqZ6RD3GbEEcNIgdL4MlWEzFpTl83CRZAp0pethg",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXRPQAY2lz46rHjHrXZKi2lFZ-_vlup2Tz52drHASVOWxjPXABS",
+        "https://lh3.googleusercontent.com/a-/ALV-UjWEhyzia8zKuHLKIsNqT9l8kIlfLe6Zkbu0FuR0RpaSdJMsoQs",
     ];
 
     // RIGHT SIDE
     const rightCol1 = [
-        "https://images.unsplash.com/photo-1552058544-f2b08422138a",
-        "https://images.unsplash.com/photo-1541534401786-2077eed87a74",
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXDOx0-flnmyR-cOrW4s5eLP5csE66K96zDHpvgJelVV8e8qK0",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXuV_KGswe0RwZTAugxSuIPmkzJGOEGT2GA1mAjrH0U_bZsl369",
+        "https://lh3.googleusercontent.com/a-/ALV-UjVAqK3AzqQpWNCERBDIp09gDpJYjMEA4NegonEPEVrbfiZvoU4TcQ",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUkb1aS3QAHjqcsN588vk3nkHyQ20pEWeHILecMkYfIADPqblxm",
+        "https://lh3.googleusercontent.com/a-/ALV-UjUzMYQtOOjZmNMMdrfdys6Gi0S9o3Ehs1X0E-QgtENFzk5xcH2XPQ",
     ];
 
     const rightCol2 = [
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9",
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+        "https://lh3.googleusercontent.com/a-/ALV-UjU3KTYwOi8mxMlOOztZphJY54Mi-zg3l9RZl57FHeFsbN6_pvLQ",
+        "https://lh3.googleusercontent.com/a-/ALV-UjWzE9dwoOGF-Z1x9paD1LLtkyUWz3BuUaotBMdCdPTf9Mf-yXif",
+        "https://lh3.googleusercontent.com/a-/ALV-UjXQF6sXq8vbbc6BT2Kro9pbo_Qpuv2gYf7PoD64zlThAeFGqxcL8g",
+        "https://lh3.googleusercontent.com/a-/ALV-UjU89ERp2kQJE4W_5A32I9YwOyq50lvmk2DtlSY7bgQ9rLY2gwK9Cw",
+        "https://lh3.googleusercontent.com/a-/ALV-UjVZN9lK0vhTqKGfPaqcFcTup3qWIPFdpilbCeotc9gYuPSbdanGqg",
     ];
 
     return (
-        <section className="w-full bg-white py-20 pb-10  px-4 relative overflow-hidden">
+        <section className="w-full py-20 pb-10  px-4 relative overflow-hidden">
 
 
             <div className="relative z-20 max-w-[95%] mx-auto grid grid-cols-1 md:grid-cols-3 items-center gap-10">
                 {/* Background Image */}
-                <div className="absolute inset-0 bg-[url('/google-review-bg.webp')] md:bg-contain lg:bg-cover bg-center bg-no-repeat md:block hidden"></div>
+                <div className="absolute inset-0 bg-[url('/google-review-bg-3.png')] md:bg-contain lg:bg-cover bg-center bg-no-repeat md:block hidden"></div>
                 {/* LEFT SIDE */}
                 <div className="hidden md:grid grid-cols-2 gap-4 relative z-20">
 
@@ -52,7 +62,7 @@ const TrustSection = () => {
                             }}
                             speed={2500}
                             modules={[Autoplay]}
-                            className="h-[90vh]"
+                            className="h-[90vh] rounded-full"
                         >
                             {leftCol1.concat(leftCol1).map((img, i) => (
                                 <SwiperSlide key={i}>
@@ -65,7 +75,7 @@ const TrustSection = () => {
                     </div>
 
                     {/* Column 2 */}
-                    <div className="flex flex-col gap-6 justify-center me-auto ">
+                    <div className="flex flex-col gap-6 justify-center me-auto rounded-full">
                         <Swiper
                             direction="vertical"
                             loop={true}
@@ -78,7 +88,7 @@ const TrustSection = () => {
                             }}
                             speed={2500}
                             modules={[Autoplay]}
-                            className="h-[70vh]"
+                            className="h-[70vh] rounded-full"
                         >
                             {leftCol2.concat(leftCol2).map((img, i) => (
                                 <SwiperSlide key={i} className="">
@@ -100,7 +110,7 @@ const TrustSection = () => {
                     <p className="text-gray-900 font-normal text-3xl lg:text-5xl">Millions Of People</p>
 
                     <p className="text-gray-500 text-base lg:text-xl font-medium">
-                        For Our Fusion Of Better Ingredients <br /> and Better Taste
+                        Super Napier is a premium hybrid fodder grass known for its exceptional nutritional value and high yield.
                     </p>
 
                     <a
@@ -158,7 +168,7 @@ const TrustSection = () => {
                             }}
                             speed={2500}
                             modules={[Autoplay]}
-                            className="h-[70vh]"
+                            className="h-[70vh] rounded-full"
                         >
                             {rightCol2.concat(rightCol2).map((img, i) => (
                                 <SwiperSlide key={i}>
@@ -184,7 +194,7 @@ const TrustSection = () => {
                             }}
                             speed={2500}
                             modules={[Autoplay]}
-                            className="h-[90vh]"
+                            className="h-[90vh] rounded-full"
                         >
                             {rightCol1.concat(rightCol1).map((img, i) => (
                                 <SwiperSlide key={i}>
