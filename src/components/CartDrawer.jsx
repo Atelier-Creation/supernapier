@@ -57,7 +57,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                         }}
                                             src={item.image}
                                             alt={item.name}
-                                            className="cursor-pointer w-20 h-20 object-cover rounded-lg shadow-sm" />
+                                            className={`cursor-pointer w-20 h-20 ${item.image?.toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'} rounded-lg shadow-sm`} />
                                         <div className="flex-1">
                                             <h3
                                                 onClick={() => {

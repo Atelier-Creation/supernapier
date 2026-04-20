@@ -1,31 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
+import { productApi } from '../api/productApi';
 
 export default function OurProduct({ addToCart }) {
-    const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const products = [
-        { id: 1, name: 'Super Napier Seeds', price: 450.00, image: '/seeds-package-removebg-preview.png', category: 'Seeds' },
-        { id: 2, name: 'Hedge Lucerne Seeds', price: 350.00, image: '/seeds-package-removebg-Hedge-Lucerne.png', category: 'Seeds' },
-        { id: 4, name: 'Leucaena Seeds', price: 550.00, image: '/seeds-package-removebg-leucaena.png', category: 'Seeds' },
-    ];
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await productApi.getAllProducts();
+                const productsArray = res.data.data || [];
+                setProducts(productsArray.slice(0, 5));
+            } catch (error) {
+                console.error("Error fetching products for slider:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handlePrev = () => {
+        if (products.length === 0) return;
         setCurrentIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1));
     };
 
     const handleNext = () => {
+        if (products.length === 0) return;
         setCurrentIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1));
     };
 
     useEffect(() => {
+        if (products.length === 0) return;
         const autoSlide = setInterval(() => {
             handleNext();
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(autoSlide);
-    }, []);
+    }, [products.length]);
+
+    if (loading) {
+        return (
+            <div className="h-[400px] flex items-center justify-center bg-[#FAFCF8]">
+                <Loader2 className="w-8 h-8 animate-spin text-[#16a34a]" />
+            </div>
+        );
+    }
+
+    if (products.length === 0) return null;
+
     const activeProduct = products[currentIndex];
     return (
         <section className="py-7 md:py-14 bg-[#FAFCF8] overflow-hidden relative">
@@ -53,9 +79,12 @@ export default function OurProduct({ addToCart }) {
                             const isPrev = position === 'prev';
                             const isNext = position === 'next';
 
+                            const image = product.images?.[0] || product.image || '/placeholder.png';
+                            const name = product.name?.en || product.name || 'Seeds';
+
                             return (
                                 <motion.div
-                                    key={product.id}
+                                    key={product._id || product.id}
                                     initial={false}
                                     animate={{
                                         x: isActive ? 0 : isPrev ? '-100%' : '100%',
@@ -69,16 +98,11 @@ export default function OurProduct({ addToCart }) {
                                 >
                                     <div className="relative w-64 md:w-100 h-auto filter drop-shadow-2xl">
                                         <img
-                                            src={product.image}
-                                            // src="/seeds-package.png"
-                                            alt={product.name}
+                                            src={image}
+                                            alt={name}
                                             className="w-full h-auto object-contain "
                                         />
-                                        {/* Optional: Add text overlay if needed, although the image might already have "Corn Seeds" etc. 
-                                            If the seed-package.png is blank, we could superimpose text here. */}
                                     </div>
-
-
                                 </motion.div>
                             );
                         })}

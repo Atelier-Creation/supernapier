@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { mockProducts, mockCategories } from '../data/mockData';
+import { productApi } from '../api/productApi';
+import { categoryApi } from '../api/categoryApi';
 import { motion } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const SVG_PATTERN = `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
 
@@ -13,24 +15,48 @@ const fadeIn = {
 };
 
 export default function ProductsPage({ addToCart }) {
-    const location = useLocation()
-    const categoryName = location.state?.category
+    const location = useLocation();
+    const categoryName = location.state?.category;
     const [searchParams, setSearchParams] = useSearchParams();
     const querySearch = searchParams.get('search') || '';
 
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState(categoryName || 'All');
     const [search, setSearch] = useState(querySearch);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const [prodRes, catRes] = await Promise.all([
+                productApi.getAllProducts(),
+                categoryApi.getAllCategories()
+            ]);
+            setProducts(prodRes.data.data || []);
+            setCategories(catRes.data.data || []);
+        } catch (error) {
+            toast.error('Failed to load products');
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (categoryName) {
             setFilter(categoryName);
         }
     }, [categoryName]);
-    // Sync state if URL changes
+
     useEffect(() => {
         setSearch(searchParams.get('search') || '');
     }, [searchParams]);
 
-    // Update URL when search changes
     const handleSearchChange = (e) => {
         const val = e.target.value;
         setSearch(val);
@@ -41,13 +67,13 @@ export default function ProductsPage({ addToCart }) {
         }
     };
 
-    const filteredProducts = mockProducts.filter(p => {
-        const matchCategory = filter === 'All' || p.category.includes(filter);
-        const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const filteredProducts = products.filter(p => {
+        const matchCategory = filter === 'All' || (p.category && p.category.name?.en === filter);
+        const matchSearch = p.name?.en?.toLowerCase().includes(search.toLowerCase());
         return matchCategory && matchSearch;
     });
 
-    const allFilters = ['All', ...mockCategories.map(c => c.name)];
+    const allFilters = ['All', ...categories.map(c => c.name?.en || c.name)];
 
     return (
         <motion.div

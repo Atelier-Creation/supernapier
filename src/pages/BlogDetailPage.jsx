@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { mockPosts } from '../data/mockData';
 import { ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import SEO from '../components/SEO';
 
 export default function BlogDetailPage() {
     const { id } = useParams();
@@ -32,6 +33,13 @@ export default function BlogDetailPage() {
             exit={{ opacity: 0 }}
             className="min-h-screen bg-[#FAFCF8] pt-24 pb-16"
         >
+            <SEO 
+                title={post.title} 
+                description={post.excerpt} 
+                image={post.image}
+                url={window.location.href}
+                keywords={post.category + ", agriculture blog, super napier"}
+            />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Back button */}

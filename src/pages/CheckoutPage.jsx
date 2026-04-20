@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Truck, Leaf, ChevronRight, Loader2, CheckCircle2, Tag, Lock } from 'lucide-react';
+import { ShieldCheck, Truck, Leaf, ChevronRight, Loader2, CheckCircle2, Tag, Lock, AlertCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { orderApi } from '../api/orderApi';
 
-const RAZORPAY_KEY_ID = 'YOUR_RAZORPAY_KEY_ID'; // 🔑 Replace with your actual Razorpay Key ID
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_DUMMY_KEY'; 
 
 const InputField = ({ label, id, type = 'text', placeholder, value, onChange, required = true }) => (
     <div>
@@ -22,20 +24,40 @@ const InputField = ({ label, id, type = 'text', placeholder, value, onChange, re
 
 export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart }) {
     const navigate = useNavigate();
+    const { user } = useAuth();
+    
     const [coupon, setCoupon] = useState('');
     const [couponApplied, setCouponApplied] = useState(false);
     const [couponError, setCouponError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [authError, setAuthError] = useState('');
 
     const [form, setForm] = useState({
-        name: '', email: '', phone: '',
-        address: '', city: '', state: '', pincode: '', country: '',
+        name: user?.name || '', 
+        email: user?.email || '', 
+        phone: user?.phone || '',
+        address: '', 
+        city: '', 
+        state: '', 
+        pincode: '', 
+        country: 'India',
     });
+
+    useEffect(() => {
+        if (user) {
+            setForm(prev => ({
+                ...prev,
+                name: user.name || prev.name,
+                email: user.email || prev.email,
+                phone: user.phone || prev.phone
+            }));
+        }
+    }, [user]);
 
     const handleFormChange = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
 
     const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price || 0) * item.quantity), 0);
-    const discount = couponApplied ? subtotal * 0.1 : 0; // 10% off with code FARMERWIN
+    const discount = couponApplied ? subtotal * 0.1 : 0; 
     const shipping = subtotal > 999 ? 0 : 99;
     const total = subtotal - discount + shipping;
 
@@ -43,7 +65,6 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
 
     const AVAILABLE_COUPONS = [
         { code: 'FARMERWIN', label: '10% OFF', desc: 'Spin Wheel Reward' },
-        { code: 'NAPIER50', label: '₹50 OFF', desc: 'First Order Offer' },
     ];
 
     const handleApplyCoupon = (code) => {
@@ -66,9 +87,8 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
 
     const loadRazorpay = () => {
         return new Promise((resolve) => {
-            if (document.getElementById('razorpay-script')) return resolve(true);
+            if (window.Razorpay) return resolve(true);
             const script = document.createElement('script');
-            script.id = 'razorpay-script';
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = () => resolve(true);
             script.onerror = () => resolve(false);
@@ -79,58 +99,121 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
     const handlePayment = async (e) => {
         e.preventDefault();
 
-        if (cartItems.length === 0) return;
-
-        setIsLoading(true);
-        const loaded = await loadRazorpay();
-
-        if (!loaded) {
-            alert('Failed to load Razorpay. Please check your internet connection.');
-            setIsLoading(false);
+        if (!user) {
+            setAuthError('Please login to complete your order.');
+            navigate('/login', { state: { from: '/checkout' } });
             return;
         }
 
-        // In a real app, you would create the order on your backend and get order_id from there.
-        // For now, we open Razorpay directly with the amount.
-        const options = {
-            key: RAZORPAY_KEY_ID,
-            amount: Math.round(total * 100), // Amount in paise
-            currency: 'INR',
-            name: 'Super Napier',
-            description: `Order for ${cartItems.length} item(s)`,
-            image: '/logo.png',
-            // order_id: 'order_id_from_backend', // Uncomment when backend is ready
-            handler: function (response) {
-                // Payment success callback
-                console.log('Payment Success:', response);
-                if (clearCart) clearCart();
-                navigate('/order-success', {
-                    state: {
-                        paymentId: response.razorpay_payment_id,
-                        name: form.name,
-                        total,
-                    }
-                });
-            },
-            prefill: {
-                name: form.name,
-                email: form.email,
-                contact: form.phone,
-            },
-            notes: {
-                address: `${form.address}, ${form.city}, ${form.state} - ${form.pincode}`,
-            },
-            theme: {
-                color: '#1B5E20',
-            },
-            modal: {
-                ondismiss: () => setIsLoading(false),
-            },
-        };
+        if (cartItems.length === 0) return;
 
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-        setIsLoading(false);
+        setIsLoading(true);
+        try {
+            // 1. Create Razorpay Order on Backend
+            const rzpOrderRes = await orderApi.createRazorpayOrder(total * 100); // in paise
+            if (!rzpOrderRes.data.success) throw new Error('Failed to create payment order');
+            
+            const rzpOrderId = rzpOrderRes.data.order.id;
+
+            // 2. Load and Open Razorpay
+            const loaded = await loadRazorpay();
+            if (!loaded) {
+                alert('Razorpay SDK failed to load. Are you online?');
+                setIsLoading(false);
+                return;
+            }
+
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: Math.round(total * 100),
+                currency: 'INR',
+                name: 'Super Napier',
+                description: `Order for ${cartItems.length} item(s)`,
+                image: '/logo.png',
+                order_id: rzpOrderId,
+                handler: async function (response) {
+                    try {
+                        // 3. Verify Payment
+                        await orderApi.verifyPayment({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        });
+
+                        // 4. Create Order Record in DB
+                        const orderData = {
+                            buyer: user._id,
+                            buyerDetails: {
+                                name: form.name,
+                                email: form.email,
+                                phone: form.phone
+                            },
+                            products: cartItems.map(item => ({
+                                productId: item.productId,
+                                weightOptionId: item.weightOptionId,
+                                quantity: item.quantity,
+                                price: item.price,
+                                name: item.name,
+                                unit: item.unit,
+                                weight: item.weight
+                            })),
+                            shippingAddress: {
+                                addressLine1: form.address,
+                                city: form.city,
+                                state: form.state,
+                                pincode: form.pincode,
+                                country: form.country
+                            },
+                            location: `${form.city}, ${form.state}`,
+                            subtotal,
+                            discount,
+                            shippingFee: shipping,
+                            total,
+                            finalAmount: total,
+                            paymentMethod: 'online',
+                            paymentStatus: 'paid',
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpaySignature: response.razorpay_signature,
+                            couponCode: couponApplied ? coupon : ''
+                        };
+
+                        await orderApi.createOrder(orderData);
+                        
+                        if (clearCart) clearCart();
+                        navigate('/order-success', {
+                            state: {
+                                paymentId: response.razorpay_payment_id,
+                                name: form.name,
+                                total,
+                            }
+                        });
+                    } catch (err) {
+                        console.error('Payment verification or order creation failed:', err);
+                        alert('Something went wrong after payment. Please contact support with payment ID: ' + response.razorpay_payment_id);
+                    }
+                },
+                prefill: {
+                    name: form.name,
+                    email: form.email,
+                    contact: form.phone,
+                },
+                theme: {
+                    color: '#1B5E20',
+                },
+                modal: {
+                    ondismiss: () => setIsLoading(false),
+                },
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            console.error('Checkout error:', err);
+            alert('Failed to initiate checkout. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     if (cartItems.length === 0) {
@@ -162,6 +245,13 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                     <ChevronRight className="w-4 h-4" />
                     <span className="text-gray-700 font-semibold">Checkout</span>
                 </div>
+
+                {!user && (
+                    <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl mb-8 flex items-center gap-3 text-amber-800">
+                        <AlertCircle className="w-5 h-5" />
+                        <p className="text-sm">You are checking out as a guest. <Link to="/login" className="font-bold underline">Login</Link> to save your order history.</p>
+                    </div>
+                )}
 
                 <h1 className="text-3xl md:text-4xl font-black text-[#1B5E20] mb-10 uppercase tracking-tight">
                     Checkout
@@ -241,7 +331,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-semibold text-gray-800 text-sm line-clamp-1">{item.name}</p>
-                                                <p className="text-xs text-gray-400">{item.unit}</p>
+                                                <p className="text-xs text-gray-400">{item.weight} {item.unit}</p>
                                             </div>
                                             <p className="font-bold text-[#5D4037] text-sm flex-shrink-0">
                                                 ₹{(Number(item.price || 0) * item.quantity).toFixed(2)}

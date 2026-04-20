@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Search, Sprout, Globe, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../Context/AuthContext';
 import LoginModal from '../Context/LoginModal';
 
 const NAV_LINKS = [
@@ -21,6 +22,7 @@ const LANGS = [
 ];
 
 export default function Navbar({ cartCount, onOpenCart }) {
+    const { user, logout } = useAuth();
     const [currentLang, setCurrentLang] = useState('en');
     const [menuOpen, setMenuOpen] = useState(false);
     const [showNav, setShowNav] = useState(false);
@@ -32,15 +34,8 @@ export default function Navbar({ cartCount, onOpenCart }) {
     const location = useLocation();
     const navigate = useNavigate();
     const lastScrollY = useRef(0);
-    const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const isLanding = location.pathname === '/';
-    const openModal = () => {
-        setIsLoginOpen(true);
-    };
 
-    const closeModal = () => {
-        setIsLoginOpen(false);
-    };
+    const isLanding = location.pathname === '/';
     // Close mobile menu on route change
     useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
@@ -171,12 +166,24 @@ export default function Navbar({ cartCount, onOpenCart }) {
                         <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
                             <LanguageSwitcher />
 
-                            <Link
-                                onClick={openModal}
-                                className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
-                            >
-                                Sign In
-                            </Link>
+                            {user ? (
+                                <Link
+                                    to="/profile"
+                                    className="text-sm font-bold text-[#1B5E20] hover:underline flex items-center gap-2 transition-all"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-[#1B5E20]">
+                                        {user.name.charAt(0)}
+                                    </div>
+                                    <span>{user.name}</span>
+                                </Link>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
+                                >
+                                    Sign In
+                                </Link>
+                            )}
 
                             {/* Search */}
                             <div className="relative flex items-center">
@@ -309,17 +316,39 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                 </Link>
                             </div>
 
-                            {/* Sign In */}
-                            <div className="flex justify-center mt-8">
-                                <Link
-                                    onClick={() => {
-                                        setMenuOpen(false);
-                                        openModal();
-                                    }}
-                                    className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
-                                >
-                                    Sign In
-                                </Link>
+                            {/* Sign In / Profile */}
+                            <div className="flex flex-col items-center gap-4 mt-8">
+                                {user ? (
+                                    <>
+                                        <Link
+                                            to="/profile"
+                                            onClick={() => setMenuOpen(false)}
+                                            className="text-sm font-bold text-[#1B5E20] flex items-center gap-2"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-[#1B5E20] text-lg">
+                                                {user.name.charAt(0)}
+                                            </div>
+                                            <span>{user.name}</span>
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                setMenuOpen(false);
+                                            }}
+                                            className="text-xs font-bold text-red-600 uppercase tracking-widest"
+                                        >
+                                            Logout
+                                        </button>
+                                    </>
+                                ) : (
+                                    <Link
+                                        to="/login"
+                                        onClick={() => setMenuOpen(false)}
+                                        className="text-sm font-semibold text-gray-700 hover:text-[#1B5E20] transition-colors tracking-wide"
+                                    >
+                                        Sign In
+                                    </Link>
+                                )}
                             </div>
 
                             {/* Bottom icons */}
@@ -382,7 +411,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                 )}
             </AnimatePresence>
 
-            <LoginModal isOpen={isLoginOpen} onClose={closeModal} />
+            {/* <LoginModal isOpen={isLoginOpen} onClose={closeModal} /> */}
         </>
     );
 }

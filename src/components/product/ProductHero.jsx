@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun } from 'lucide-react';
+import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun, Check } from 'lucide-react';
 
 export default function ProductHero({ product, addToCart }) {
     const [qty, setQty] = useState(1);
-    const images = product.images?.length ? product.images : [product.image];
+    const images = product.images?.length ? product.images : ['/placeholder.png'];
+    const weightOptions = product.weightOptions || [];
+    const [selectedOption, setSelectedOption] = useState(weightOptions[0] || null);
+    
     const [activeIdx, setActiveIdx] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
-    const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+    const [direction, setDirection] = useState(1); 
 
     const goTo = useCallback((idx, dir = 1) => {
         setDirection(dir);
@@ -22,7 +25,6 @@ export default function ProductHero({ product, addToCart }) {
         goTo((activeIdx + 1) % images.length, 1);
     }, [activeIdx, images.length, goTo]);
 
-    // Auto-slide every 3.5 s, pause on hover
     useEffect(() => {
         if (isPaused || images.length <= 1) return;
         const timer = setInterval(() => {
@@ -32,15 +34,39 @@ export default function ProductHero({ product, addToCart }) {
         return () => clearInterval(timer);
     }, [isPaused, images.length]);
 
-    // Reset to first image when product changes
     useEffect(() => {
         setActiveIdx(0);
-    }, [product.id]);
+        if (product.weightOptions?.length) {
+            setSelectedOption(product.weightOptions[0]);
+        }
+    }, [product._id]);
 
     const slideVariants = {
         enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
         center: { x: 0, opacity: 1 },
         exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+    };
+
+    const currentPrice = selectedOption ? (selectedOption.discountPrice || selectedOption.price) : 0;
+    const originalPrice = selectedOption?.price;
+    const hasDiscount = selectedOption?.discountPrice && selectedOption.discountPrice < selectedOption.price;
+
+    const handleAddToCart = () => {
+        if (!selectedOption) return;
+        
+        const cartItem = {
+            id: product._id, // used for grouping
+            productId: product._id,
+            weightOptionId: selectedOption._id,
+            name: product.name?.en || 'Product',
+            price: currentPrice,
+            quantity: qty,
+            image: images[0],
+            unit: selectedOption.unit,
+            weight: selectedOption.weight
+        };
+        
+        addToCart(cartItem, qty);
     };
 
     return (
@@ -64,12 +90,11 @@ export default function ProductHero({ product, addToCart }) {
                             exit="exit"
                             transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                             src={images[activeIdx]}
-                            alt={`${product.name} – view ${activeIdx + 1}`}
-                            className="absolute inset-0 w-full h-full object-cover"
+                            alt={`${product.name?.en} – view ${activeIdx + 1}`}
+                            className={`absolute inset-0 w-full h-full ${images[activeIdx].toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'}`}
                         />
                     </AnimatePresence>
 
-                    {/* Prev / Next arrows — only show if multiple images */}
                     {images.length > 1 && (
                         <>
                             <button
@@ -85,7 +110,6 @@ export default function ProductHero({ product, addToCart }) {
                                 <ChevronRight className="w-5 h-5" />
                             </button>
 
-                            {/* Dot indicators */}
                             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                 {images.map((_, i) => (
                                     <button
@@ -101,7 +125,6 @@ export default function ProductHero({ product, addToCart }) {
                         </>
                     )}
 
-                    {/* Auto-play progress bar */}
                     {images.length > 1 && !isPaused && (
                         <motion.div
                             key={`bar-${activeIdx}`}
@@ -113,7 +136,6 @@ export default function ProductHero({ product, addToCart }) {
                     )}
                 </div>
 
-                {/* Thumbnail Strip */}
                 {images.length > 1 && (
                     <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
                         {images.map((src, i) => (
@@ -128,7 +150,7 @@ export default function ProductHero({ product, addToCart }) {
                                 <img
                                     src={src}
                                     alt={`Thumbnail ${i + 1}`}
-                                    className="w-full h-full object-cover"
+                                    className={`w-full h-full ${src.toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'}`}
                                 />
                             </button>
                         ))}
@@ -140,12 +162,12 @@ export default function ProductHero({ product, addToCart }) {
             <div className="flex flex-col">
                 <div className="mb-4">
                     <span className="bg-[#F1F8E9] text-[#1B5E20] px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
-                        {product.category}
+                        {product.category?.name?.en || product.category?.name || 'Category'}
                     </span>
                 </div>
 
                 <h1 className="text-4xl md:text-5xl font-bold text-[#1B5E20] mb-1 leading-tight">
-                    {product.name}
+                    {product.name?.en}
                 </h1>
 
                 <div className="flex items-center space-x-4 mb-2">
@@ -155,31 +177,63 @@ export default function ProductHero({ product, addToCart }) {
                     <span className="text-gray-500">(128 Reviews)</span>
                 </div>
 
-                <p className="text-4xl font-black text-[#5D4037] mb-4">₹{(Number(product.price || 0) * qty).toFixed(2)} <span className="text-sm text-gray-500 font-normal">for {qty} {product?.unit}</span> </p>
+                <div className="flex items-baseline gap-3 mb-4">
+                    <p className="text-4xl font-black text-[#5D4037]">
+                        ₹{(currentPrice * qty).toFixed(2)}
+                    </p>
+                    {hasDiscount && (
+                        <p className="text-xl text-gray-400 line-through">
+                            ₹{(originalPrice * qty).toFixed(2)}
+                        </p>
+                    )}
+                    <span className="text-sm text-gray-500 font-normal">for {qty} {selectedOption?.unit}</span>
+                </div>
 
                 <p className="text-gray-600 text-lg leading-relaxed mb-5 border-b border-gray-100 pb-2">
-                    {product.description}
+                    {product.description?.en}
                 </p>
+
+                {/* Weight Options */}
+                {weightOptions.length > 0 && (
+                    <div className="mb-6">
+                        <p className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Select Weight/Pack</p>
+                        <div className="flex flex-wrap gap-2">
+                            {weightOptions.map((opt) => (
+                                <button
+                                    key={opt._id}
+                                    onClick={() => setSelectedOption(opt)}
+                                    className={`relative px-4 py-2 rounded-xl border-2 transition-all duration-200 flex flex-col items-center min-w-[80px] ${selectedOption?._id === opt._id
+                                        ? 'border-[#1B5E20] bg-[#F1F8E9] text-[#1B5E20]'
+                                        : 'border-gray-100 bg-white text-gray-500 hover:border-gray-300'
+                                    }`}
+                                >
+                                    <span className="font-bold">{opt.weight} {opt.unit}</span>
+                                    <span className="text-[10px] opacity-70">₹{opt.discountPrice || opt.price}</span>
+                                    {selectedOption?._id === opt._id && (
+                                        <div className="absolute -top-1 -right-1 bg-[#1B5E20] text-white rounded-full p-0.5">
+                                            <Check className="w-2.5 h-2.5" />
+                                        </div>
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 <div className="grid grid-cols-3 lg:grid-cols-3 gap-3 mb-5">
                     {[
-                        { label: 'Germination', value: product.germinationRate, icon: Sprout },
-                        { label: 'Yield Potential', value: product.yieldPotential, icon: TrendingUp },
-                        { label: 'Season', value: product.season, icon: Sun },
+                        { label: 'Germination', value: product.germinationRate || '98%', icon: Sprout },
+                        { label: 'Yield Potential', value: product.yieldPotential || 'High', icon: TrendingUp },
+                        { label: 'Season', value: product.season || 'All Year', icon: Sun },
                     ].map(({ label, value, icon: Icon }) => (
                         <div key={label} className="group relative bg-[#F1F8E9] h-[52px] rounded-xl flex items-center justify-center border border-[#1B5E20]/15 overflow-hidden cursor-default transition-all duration-300 hover:bg-[#1B5E20] hover:shadow-lg hover:shadow-[#1B5E20]/20 cursor-pointer">
-
-                            {/* Default State: Icon + Value */}
                             <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-[3px] md:gap-2.5 transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
                                 <Icon className="w-5 h-5 text-[#1B5E20]" />
                                 <span className="font-bold text-[#5D4037] text-xs md:text-sm">{value}</span>
                             </div>
-
-                            {/* Hover State: Label text */}
                             <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out translate-y-full group-hover:translate-y-0 text-center px-2">
                                 <span className="text-[10px] sm:text-xs text-white uppercase font-bold tracking-wider leading-tight">{label}</span>
                             </div>
-
                         </div>
                     ))}
                 </div>
@@ -203,11 +257,16 @@ export default function ProductHero({ product, addToCart }) {
                     </div>
 
                     <button
-                        onClick={() => addToCart(product, qty)}
-                        className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
+                        onClick={handleAddToCart}
+                        disabled={!selectedOption || selectedOption.stock <= 0}
+                        className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] disabled:opacity-50 disabled:cursor-not-allowed text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
                     >
                         <ShoppingCart className="w-6 h-6" />
-                        <span>Add to Cart — ₹{(Number(product.price || 0) * qty).toFixed(2)}</span>
+                        <span>
+                            {selectedOption && selectedOption.stock > 0 
+                                ? `Add to Cart — ₹${(currentPrice * qty).toFixed(2)}` 
+                                : 'Out of Stock'}
+                        </span>
                     </button>
                 </div>
                 <div className="flex items-center justify-center md:justify-between flex-wrap gap-4 mb-3">
@@ -217,15 +276,17 @@ export default function ProductHero({ product, addToCart }) {
                         <img alt="master" height="32" src="/payment-icon/master.svg" />
                         <img alt="upisvg" height="32" src="/payment-icon/upisvg.svg" />
                     </div>
-                    <a
-                        href="/plantation-guide.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-[#1B5E20] hover:text-[#5D4037] font-semibold underline underline-offset-2 flex items-center gap-1 transition-colors"
-                    >
-                        <CloudDownload className="w-4 h-4" />
-                        Plantation Guide PDF
-                    </a>
+                    {product.plantationGuideUrl && (
+                        <a
+                            href={product.plantationGuideUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-[#1B5E20] hover:text-[#5D4037] font-semibold underline underline-offset-2 flex items-center gap-1 transition-colors"
+                        >
+                            <CloudDownload className="w-4 h-4" />
+                            Plantation Guide PDF
+                        </a>
+                    )}
                 </div>
             </div>
         </div>

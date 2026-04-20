@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
@@ -26,6 +26,76 @@ import PaymentMethods from './components/ProfilePage/PaymentMethods';
 import PasswordUpdateForm from './components/ProfilePage/PasswordUpdateForm';
 import LogoutPage from './components/ProfilePage/LogoutPage';
 
+import { HelmetProvider } from 'react-helmet-async';
+import ErrorBoundary from './components/ErrorBoundary';
+import SEO from './components/SEO';
+import { AuthProvider } from './Context/AuthContext';
+import { Toaster } from 'react-hot-toast';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+
+function MainContent({ cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen }) {
+  const location = useLocation();
+  const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password'];
+  const showLayout = !noLayoutPaths.includes(location.pathname);
+
+  return (
+    <div className="flex flex-col min-h-screen bg-[#FAFCF8] font-sans text-gray-800">
+      {showLayout && (
+        <Navbar 
+          cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} 
+          onOpenCart={() => setCartOpen(true)} 
+        />
+      )}
+
+      <main className="flex-grow">
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/" element={<LandingPage addToCart={addToCart} />} />
+            <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
+            <Route path="/product/:id" element={<ProductDetailPage addToCart={addToCart} />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/terms" element={<TermsAndCondition />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/refund" element={<RefundReturnPolicy />} />
+
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+            <Route path="/profile" element={<ProfileLayout />}>
+              <Route index element={<PersonalInfo />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="address" element={<AddressManager />} />
+              <Route path="payment" element={<PaymentMethods />} />
+              <Route path="password" element={<PasswordUpdateForm />} />
+              <Route path="logout" element={<LogoutPage />} />
+            </Route>
+            <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+
+      {showLayout && <Footer />}
+      <SpinWheelPopup />
+
+      <CartDrawer
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+        cartItems={cartItems}
+        removeFromCart={removeFromCart}
+      />
+      {showLayout && <WhatsAppFloatButton />}
+    </div>
+  );
+}
+
 function App() {
   const [cartOpen, setCartOpen] = React.useState(false);
   const [cartItems, setCartItems] = React.useState(() => {
@@ -39,11 +109,11 @@ function App() {
 
   const addToCart = (product, quantity = 1) => {
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existing = prev.find(item => item.id === (product.id || product._id));
       if (existing) {
-        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item);
+        return prev.map(item => item.id === (product.id || product._id) ? { ...item, quantity: item.quantity + quantity } : item);
       }
-      return [...prev, { ...product, quantity }];
+      return [...prev, { ...product, id: product._id || product.id, quantity }];
     });
     setCartOpen(true);
   };
@@ -57,49 +127,25 @@ function App() {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#FAFCF8] font-sans text-gray-800">
-        <Navbar cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} onOpenCart={() => setCartOpen(true)} />
-
-        <main className="flex-grow">
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<LandingPage addToCart={addToCart} />} />
-              <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
-              <Route path="/product/:id" element={<ProductDetailPage addToCart={addToCart} />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:id" element={<BlogDetailPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactUs />} />
-              <Route path="/terms" element={<TermsAndCondition />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/refund" element={<RefundReturnPolicy />} />
-              <Route path="/profile" element={<ProfileLayout />}>
-                <Route index element={<PersonalInfo />} />
-                <Route path="orders" element={<Orders />} />
-                <Route path="address" element={<AddressManager />} />
-                <Route path="payment" element={<PaymentMethods />} />
-                <Route path="password" element={<PasswordUpdateForm />} />
-                <Route path="logout" element={<LogoutPage />} />
-              </Route>
-              <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
-            </Routes>
-          </AnimatePresence>
-        </main>
-
-        <Footer />
-        <SpinWheelPopup />
-
-        <CartDrawer
-          isOpen={cartOpen}
-          onClose={() => setCartOpen(false)}
-          cartItems={cartItems}
-          removeFromCart={removeFromCart}
-        />
-        <WhatsAppFloatButton />
-      </div>
-    </Router>
+    <HelmetProvider>
+      <AuthProvider>
+        <ErrorBoundary>
+          <Router>
+            <Toaster position="top-center" reverseOrder={false} />
+            <SEO />
+            <ScrollToTop />
+            <MainContent 
+              cartItems={cartItems} 
+              addToCart={addToCart} 
+              removeFromCart={removeFromCart} 
+              clearCart={clearCart}
+              cartOpen={cartOpen}
+              setCartOpen={setCartOpen}
+            />
+          </Router>
+        </ErrorBoundary>
+      </AuthProvider>
+    </HelmetProvider>
   );
 }
 

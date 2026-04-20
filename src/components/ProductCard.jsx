@@ -4,48 +4,68 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 
 export default function ProductCard({ product, addToCart }) {
+    const id = product._id || product.id;
+    const name = product.name?.en || product.name || 'Unnamed Product';
+    const description = product.description?.en || product.description || '';
+    const image = product.images?.[0] || product.image || '/placeholder.png';
+    const category = product.category?.name?.en || product.category?.name || product.category || 'Seeds';
+    
+    // Get price from weightOptions
+    const baseOption = product.weightOptions?.[0] || {};
+    const price = baseOption.price || product.price || 0;
+    const discountPrice = baseOption.discountPrice;
+    const unit = baseOption.unit || product.unit || 'kg';
+    const discountPercent = discountPrice ? Math.round(((price - discountPrice) / price) * 100) : null;
+
     return (
         <motion.div
             whileHover={{ y: -6 }}
             className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col overflow-hidden"
         >
             {/* Image */}
-            <Link to={`/product/${product.id}`} className="relative h-52 overflow-hidden block bg-[#f2fae6]">
+            <Link to={`/product/${id}`} className="relative h-52 overflow-hidden block bg-[#f2fae6]">
                 <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    src={image}
+                    alt={name}
+                    className={`w-full h-full ${image.toLowerCase().endsWith('.png') ? 'object-contain bg-[#eef8ed]' : 'object-cover'} group-hover:scale-105 transition-transform duration-700`}
                 />
                 {/* Category badge */}
                 <div className="absolute top-3 left-3">
                     <span className="bg-white/80 backdrop-blur-md text-[#1B5E20] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
-                        {product.category}
+                        {category}
                     </span>
                 </div>
                 {/* Discount badge */}
-                <div className="absolute top-3 right-3">
-                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
-                        30% off
-                    </span>
-                </div>
+                {discountPercent && (
+                    <div className="absolute top-3 right-3">
+                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
+                            {discountPercent}% off
+                        </span>
+                    </div>
+                )}
             </Link>
 
             {/* Body */}
             <div className="p-5 flex flex-col flex-grow">
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/product/${id}`}>
                     <h3 className="text-base font-extrabold text-gray-900 mb-1 group-hover:text-[#059669] transition-colors line-clamp-1 leading-tight">
-                        {product.name}
+                        {name}
                     </h3>
                 </Link>
-                <p className="text-gray-400 text-xs mb-4 line-clamp-2 leading-relaxed">{product.description}</p>
+                <p className="text-gray-400 text-xs mb-4 line-clamp-2 leading-relaxed">{description}</p>
 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                     <div>
                         <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</p>
-                        <p className="text-xl font-black text-gray-900">
-                            ₹{(product.price || 0).toFixed(2)}
-                            <span className="text-xs font-medium text-[#059669] ml-1">/kg</span>
-                        </p>
+                        <div className="flex items-baseline gap-1">
+                            <p className="text-xl font-black text-gray-900">
+                                ₹{(discountPrice || price).toFixed(2)}
+                            </p>
+                            {discountPrice && (
+                                <p className="text-xs text-gray-400 line-through">₹{price.toFixed(2)}</p>
+                            )}
+                            <span className="text-xs font-medium text-[#059669]">/{unit}</span>
+                        </div>
                     </div>
 
                     <motion.button

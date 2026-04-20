@@ -58,7 +58,7 @@ export default function ProductTabs({ product }) {
                                 transition={{ duration: 0.2 }}
                                 className="text-gray-600 leading-relaxed space-y-4"
                             >
-                                <p className="text-base leading-loose">{product.description}</p>
+                                <p className="text-base leading-loose">{product.description?.en || product.description}</p>
                                 <p className="text-base leading-loose text-gray-500">
                                     This premium variety has been carefully selected for superior germination rates and field performance.
                                     It is well-suited to a wide range of soil types and climate conditions, making it an excellent
@@ -81,7 +81,7 @@ export default function ProductTabs({ product }) {
                                         <iframe
                                             className="w-full h-full"
                                             src={`https://www.youtube.com/embed/${product.youtubeVideoId}`}
-                                            title={`${product.name} — Video Guide`}
+                                            title={`${product.name?.en || 'Product'} — Video Guide`}
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowFullScreen
                                         />
