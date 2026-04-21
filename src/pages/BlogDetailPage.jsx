@@ -1,30 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { mockPosts } from '../data/mockData';
-import { ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin, Loader } from 'lucide-react';
 import SEO from '../components/SEO';
+import { blogApi } from '../api/blogApi';
+import toast from 'react-hot-toast';
 
 export default function BlogDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Find the post by ID
-        const foundPost = mockPosts.find(p => p.id === parseInt(id));
-        if (foundPost) {
-            setPost(foundPost);
-        } else {
-            // Redirect to blog if post not found
-            navigate('/blog');
-        }
+        const fetchBlogDetails = async () => {
+            try {
+                const response = await blogApi.getById(id);
+                if (response.data.success) {
+                    setPost(response.data.data);
+                } else {
+                    toast.error("Blog post not found");
+                    navigate('/blog');
+                }
+            } catch (error) {
+                console.error("Error fetching blog details:", error);
+                toast.error("Failed to load blog details");
+                navigate('/blog');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBlogDetails();
 
         // Scroll to top when opening a new detail page
         window.scrollTo(0, 0);
     }, [id, navigate]);
 
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#FAFCF8] pt-32 pb-16 flex justify-center items-center">
+                <Loader className="w-12 h-12 text-[#1B5E20] animate-spin" />
+            </div>
+        );
+    }
+
     if (!post) return null;
+
+    // Helper to format date
+    const formatDate = (dateString) => {
+        if (!dateString) return "Recent";
+        const date = new Date(dateString);
+        return isNaN(date.getTime()) ? dateString : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
+    const imageUrl = post.image && post.image.length > 0 ? post.image[0] : (post.image || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800');
 
     return (
         <motion.div
@@ -36,9 +66,9 @@ export default function BlogDetailPage() {
             <SEO 
                 title={post.title} 
                 description={post.excerpt} 
-                image={post.image}
+                image={imageUrl}
                 url={window.location.href}
-                keywords={post.category + ", agriculture blog, super napier"}
+                keywords={(post.category || "agriculture") + ", agriculture blog, super napier, cattle feed, super napier cattle feed, buy seeds online, buy cattle feed online"}
             />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -52,7 +82,7 @@ export default function BlogDetailPage() {
                 <div className="mb-10 text-center">
                     <div className="flex items-center justify-center space-x-2 text-[#0f9c40] font-bold text-sm mb-4">
                         <Calendar className="w-4 h-4" />
-                        <span>{post.date}</span>
+                        <span>{formatDate(post.date || post.createdAt)}</span>
                         <span className="mx-2 text-gray-300">•</span>
                         <span>5 min read</span>
                     </div>
@@ -70,7 +100,7 @@ export default function BlogDetailPage() {
                     className="w-full h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden shadow-2xl mb-12"
                 >
                     <img
-                        src={post.image}
+                        src={imageUrl}
                         alt={post.title}
                         className="w-full h-full object-cover"
                     />
@@ -107,26 +137,10 @@ export default function BlogDetailPage() {
                             "{post.excerpt}"
                         </p>
 
-                        <div className="prose prose-lg prose-green max-w-none text-gray-700 leading-loose">
-                            <p>{post.content}</p>
-
-                            {/* Generic placeholder content to make the post feel long and realistic */}
-                            <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4">The Importance of Adaptation</h3>
-                            <p>
-                                Adaptability is the single most important trait a modern farmer can possess. The landscape of agriculture is constantly shifting, influenced by wildly fluctuating weather patterns, new economic regulations, and evolving consumer demands. Those who cling strictly to the methodologies of the past century will inevitably find themselves struggling to maintain profitability and soil health.
-                            </p>
-
-                            <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Key Takeaways for This Season</h3>
-                            <ul className="list-disc pl-5 mt-4 space-y-2 mb-8">
-                                <li>Always conduct thorough pH testing before investing in heavy fertilizers.</li>
-                                <li>Embrace technological integrations, like smart irrigation sensors, to dramatically cut down overhead costs.</li>
-                                <li>Don't underestimate the power of cover crops in preventing soil erosion during off-seasons.</li>
-                            </ul>
-
-                            <p>
-                                Ultimately, building a resilient farm requires patience and a willingness to experiment. By continuously monitoring environmental factors and staying up-to-date with agronomy advancements, you can secure entirely new streams of revenue and help contribute to a much more sustainable global food supply chain.
-                            </p>
-                        </div>
+                        <div 
+                            className="prose prose-lg prose-green max-w-none text-gray-700 leading-loose"
+                            dangerouslySetInnerHTML={{ __html: post.content }}
+                        />
                     </motion.div>
                 </div>
             </div>
