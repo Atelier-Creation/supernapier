@@ -4,7 +4,7 @@ import { X, Trash2, ShoppingBag } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart }) {
-    const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const total = cartItems.reduce((acc, item) => acc + ((Number(item.price) || 0) * item.quantity), 0);
     const navigate = useNavigate()
     return (
         <AnimatePresence>
@@ -65,7 +65,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                                     navigate(`/product/${item.id}`)
                                                 }}
                                                 className="cursor-pointer font-bold text-[#5D4037] line-clamp-1">{item.name}</h3>
-                                            <p className="text-[#1B5E20] font-semibold">₹ {item.price.toFixed(2)} x {item.quantity}</p>
+                                            <p className="text-[#1B5E20] font-semibold">₹ {(Number(item.price) || 0).toFixed(2)} x {item.quantity}</p>
                                         </div>
                                         <button
                                             onClick={() => removeFromCart(item.id)}

@@ -179,11 +179,11 @@ export default function ProductHero({ product, addToCart }) {
 
                 <div className="flex items-baseline gap-3 mb-4">
                     <p className="text-4xl font-black text-[#5D4037]">
-                        ₹{(currentPrice * qty).toFixed(2)}
+                        ₹{(Number(currentPrice * qty) || 0).toFixed(2)}
                     </p>
                     {hasDiscount && (
                         <p className="text-xl text-gray-400 line-through">
-                            ₹{(originalPrice * qty).toFixed(2)}
+                            ₹{(Number(originalPrice * qty) || 0).toFixed(2)}
                         </p>
                     )}
                     <span className="text-sm text-gray-500 font-normal">for {qty} {selectedOption?.unit}</span>
@@ -264,7 +264,7 @@ export default function ProductHero({ product, addToCart }) {
                         <ShoppingCart className="w-6 h-6" />
                         <span>
                             {selectedOption && selectedOption.stock > 0 
-                                ? `Add to Cart — ₹${(currentPrice * qty).toFixed(2)}` 
+                                ? `Add to Cart — ₹${(Number(currentPrice * qty) || 0).toFixed(2)}` 
                                 : 'Out of Stock'}
                         </span>
                     </button>

@@ -59,10 +59,10 @@ export default function ProductCard({ product, addToCart }) {
                         <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</p>
                         <div className="flex items-baseline gap-1">
                             <p className="text-xl font-black text-gray-900">
-                                ₹{(discountPrice || price).toFixed(2)}
+                                ₹{(Number(discountPrice || price) || 0).toFixed(2)}
                             </p>
                             {discountPrice && (
-                                <p className="text-xs text-gray-400 line-through">₹{price.toFixed(2)}</p>
+                                <p className="text-xs text-gray-400 line-through">₹{(Number(price) || 0).toFixed(2)}</p>
                             )}
                             <span className="text-xs font-medium text-[#059669]">/{unit}</span>
                         </div>
@@ -72,7 +72,12 @@ export default function ProductCard({ product, addToCart }) {
                         whileTap={{ scale: 0.9 }}
                         onClick={(e) => {
                             e.preventDefault();
-                            addToCart(product);
+                            addToCart({
+                                ...product,
+                                id: product._id || product.id,
+                                price: discountPrice || price,
+                                unit: unit
+                            });
                         }}
                         className="bg-[#111] hover:bg-[#059669] text-white p-3 rounded-full transition-colors shadow-md"
                     >
