@@ -324,13 +324,19 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                     {cartItems.map((item) => (
                                         <div key={item.id} className="flex items-center gap-4">
                                             <div className="relative flex-shrink-0">
-                                                <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover border border-gray-100" />
+                                                <img 
+                                                    src={item.image || (Array.isArray(item.images) ? item.images[0] : item.images) || '/placeholder.png'} 
+                                                    alt={typeof item.name === 'object' ? (item.name?.en || 'Product') : item.name} 
+                                                    className="w-16 h-16 rounded-xl object-cover border border-gray-100" 
+                                                />
                                                 <span className="absolute -top-2 -right-2 bg-[#1B5E20] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                                                     {item.quantity}
                                                 </span>
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-semibold text-gray-800 text-sm line-clamp-1">{item.name}</p>
+                                                <p className="font-semibold text-gray-800 text-sm line-clamp-1">
+                                                    {typeof item.name === 'object' ? (item.name?.en || 'Product') : item.name}
+                                                </p>
                                                 <p className="text-xs text-gray-400">{item.weight} {item.unit}</p>
                                             </div>
                                             <p className="font-bold text-[#5D4037] text-sm flex-shrink-0">

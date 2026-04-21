@@ -109,11 +109,23 @@ function App() {
 
   const addToCart = (product, quantity = 1) => {
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === (product.id || product._id));
+      const productId = product.id || product._id || product.productId;
+      const existing = prev.find(item => item.id === productId);
+      
+      // Normalize product data for cart
+      const cartItem = {
+        ...product,
+        id: productId,
+        name: product.name?.en || product.name || 'Unnamed Product',
+        image: product.image || (Array.isArray(product.images) ? product.images[0] : product.images) || '/placeholder.png',
+        price: Number(product.price) || 0,
+        quantity: existing ? existing.quantity + quantity : quantity
+      };
+
       if (existing) {
-        return prev.map(item => item.id === (product.id || product._id) ? { ...item, quantity: item.quantity + quantity } : item);
+        return prev.map(item => item.id === productId ? cartItem : item);
       }
-      return [...prev, { ...product, id: product._id || product.id, quantity }];
+      return [...prev, cartItem];
     });
     setCartOpen(true);
   };

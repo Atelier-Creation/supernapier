@@ -55,8 +55,8 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                             onClose();
                                             navigate(`/product/${item.id}`)
                                         }}
-                                            src={item.image}
-                                            alt={item.name}
+                                            src={item.image || (Array.isArray(item.images) ? item.images[0] : item.images) || '/placeholder.png'}
+                                            alt={typeof item.name === 'object' ? (item.name?.en || 'Product') : item.name}
                                             className={`cursor-pointer w-20 h-20 ${item.image?.toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'} rounded-lg shadow-sm`} />
                                         <div className="flex-1">
                                             <h3
@@ -64,7 +64,9 @@ export default function CartDrawer({ isOpen, onClose, cartItems, removeFromCart 
                                                     onClose();
                                                     navigate(`/product/${item.id}`)
                                                 }}
-                                                className="cursor-pointer font-bold text-[#5D4037] line-clamp-1">{item.name}</h3>
+                                                className="cursor-pointer font-bold text-[#5D4037] line-clamp-1">
+                                                {typeof item.name === 'object' ? (item.name?.en || 'Unnamed Product') : item.name}
+                                            </h3>
                                             <p className="text-[#1B5E20] font-semibold">₹ {(Number(item.price) || 0).toFixed(2)} x {item.quantity}</p>
                                         </div>
                                         <button
