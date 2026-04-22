@@ -52,7 +52,7 @@ export default function ProductCard({ product, addToCart }) {
                         {name}
                     </h3>
                 </Link>
-                <p className="text-gray-400 text-xs mb-4 line-clamp-2 leading-relaxed">{description}</p>
+                <p className="text-gray-400 text-xs mb-4 line-clamp-1 leading-relaxed">{description}</p>
 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                     <div>
@@ -75,8 +75,10 @@ export default function ProductCard({ product, addToCart }) {
                             addToCart({
                                 ...product,
                                 id: product._id || product.id,
+                                weightOptionId: baseOption._id,
                                 price: discountPrice || price,
-                                unit: unit
+                                unit: unit,
+                                weight: baseOption.weight
                             });
                         }}
                         className="bg-[#111] hover:bg-[#059669] text-white p-3 rounded-full transition-colors shadow-md"

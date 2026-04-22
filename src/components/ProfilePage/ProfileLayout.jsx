@@ -11,7 +11,7 @@ export default function ProfileLayout() {
         { name: "Personal Information", path: "/profile" },
         { name: "My Orders", path: "/profile/orders" },
         { name: "Manage Address", path: "/profile/address" },
-        { name: "Payment Method", path: "/profile/payment" },
+        // { name: "Payment Method", path: "/profile/payment" },
         { name: "Password Manager", path: "/profile/password" },
         { name: "Logout", path: "/profile/logout" },
     ];

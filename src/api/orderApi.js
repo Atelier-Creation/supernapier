@@ -1,12 +1,12 @@
-import axios from 'axios';
+import api from './authApi';
 
-const API_URL = '/api/orders';
+const API_URL = '/orders';
 
 export const orderApi = {
-  createOrder: (orderData) => axios.post(`${API_URL}`, orderData),
-  getMyOrders: (userId) => axios.get(`${API_URL}/user/${userId}`),
-  getOrderDetails: (orderId) => axios.get(`${API_URL}/${orderId}`),
+  createOrder: (orderData) => api.post(`${API_URL}`, orderData),
+  getMyOrders: (userId) => api.get(`${API_URL}/user/${userId}`),
+  getOrderDetails: (orderId) => api.get(`${API_URL}/${orderId}`),
   // Razorpay order creation
-  createRazorpayOrder: (amount) => axios.post('/api/payment/create-order', { amount }),
-  verifyPayment: (paymentData) => axios.post('/api/payment/verify', paymentData),
+  createRazorpayOrder: (amount) => api.post('/payment/create-order', { amount }),
+  verifyPayment: (paymentData) => api.post('/payment/verify', paymentData),
 };

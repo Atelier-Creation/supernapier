@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { authApi } from '../api/authApi';
 import toast from 'react-hot-toast';
 
@@ -65,15 +65,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = useCallback(() => {
+    if (!localStorage.getItem('token') && !user) return;
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
     toast.success('Logged out successfully');
-  };
+  }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, signup, logout, fetchProfile }}>
+    <AuthContext.Provider value={{ user, token, loading, login, signup, logout, fetchProfile, setUser }}>
       {children}
     </AuthContext.Provider>
   );

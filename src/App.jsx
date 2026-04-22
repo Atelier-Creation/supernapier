@@ -25,18 +25,23 @@ import AddressManager from './components/ProfilePage/AddressManager';
 import PaymentMethods from './components/ProfilePage/PaymentMethods';
 import PasswordUpdateForm from './components/ProfilePage/PasswordUpdateForm';
 import LogoutPage from './components/ProfilePage/LogoutPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 
 import { HelmetProvider } from 'react-helmet-async';
 import ErrorBoundary from './components/ErrorBoundary';
 import SEO from './components/SEO';
 import { AuthProvider } from './Context/AuthContext';
+import { CartProvider } from './Context/CartContext';
 import { Toaster } from 'react-hot-toast';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
-function MainContent({ cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen }) {
+import { useCart } from './Context/CartContext';
+
+function MainContent() {
+  const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen } = useCart();
   const location = useLocation();
   const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password'];
   const showLayout = !noLayoutPaths.includes(location.pathname);
@@ -78,6 +83,7 @@ function MainContent({ cartItems, addToCart, removeFromCart, clearCart, cartOpen
               <Route path="logout" element={<LogoutPage />} />
             </Route>
             <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
+            <Route path="/order-success" element={<OrderSuccessPage />} />
           </Routes>
         </AnimatePresence>
       </main>
@@ -85,7 +91,7 @@ function MainContent({ cartItems, addToCart, removeFromCart, clearCart, cartOpen
       {showLayout && <Footer />}
       <SpinWheelPopup />
 
-      <CartDrawer
+      <CartDrawer 
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
         cartItems={cartItems}
@@ -97,65 +103,19 @@ function MainContent({ cartItems, addToCart, removeFromCart, clearCart, cartOpen
 }
 
 function App() {
-  const [cartOpen, setCartOpen] = React.useState(false);
-  const [cartItems, setCartItems] = React.useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  React.useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  const addToCart = (product, quantity = 1) => {
-    setCartItems(prev => {
-      const productId = product.id || product._id || product.productId;
-      const existing = prev.find(item => item.id === productId);
-      
-      // Normalize product data for cart
-      const cartItem = {
-        ...product,
-        id: productId,
-        name: product.name?.en || product.name || 'Unnamed Product',
-        image: product.image || (Array.isArray(product.images) ? product.images[0] : product.images) || '/placeholder.png',
-        price: Number(product.price) || 0,
-        quantity: existing ? existing.quantity + quantity : quantity
-      };
-
-      if (existing) {
-        return prev.map(item => item.id === productId ? cartItem : item);
-      }
-      return [...prev, cartItem];
-    });
-    setCartOpen(true);
-  };
-
-  const removeFromCart = (productId) => {
-    setCartItems(prev => prev.filter(item => item.id !== productId));
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
   return (
     <HelmetProvider>
       <AuthProvider>
-        <ErrorBoundary>
-          <Router>
-            <Toaster position="top-center" reverseOrder={false} />
-            <SEO />
-            <ScrollToTop />
-            <MainContent 
-              cartItems={cartItems} 
-              addToCart={addToCart} 
-              removeFromCart={removeFromCart} 
-              clearCart={clearCart}
-              cartOpen={cartOpen}
-              setCartOpen={setCartOpen}
-            />
-          </Router>
-        </ErrorBoundary>
+        <CartProvider>
+          <ErrorBoundary>
+            <Router>
+              <Toaster position="top-center" reverseOrder={false} />
+              <SEO />
+              <ScrollToTop />
+              <MainContent />
+            </Router>
+          </ErrorBoundary>
+        </CartProvider>
       </AuthProvider>
     </HelmetProvider>
   );

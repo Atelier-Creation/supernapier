@@ -92,9 +92,9 @@ export default function ProductDetailPage({ addToCart }) {
                 {/* ── Tabbed Info ── */}
                 <ProductTabs product={product} />
             </div>
-            <StatisticalHighlights/>
+            <StatisticalHighlights product={product} />
             {/* ── How to Use Section ── */}
-            <HowToUseSection />
+            <HowToUseSection product={product} />
 
             {/* ── Suggested Products ── */}
             <SuggestedProducts products={suggestedProducts} addToCart={addToCart} />

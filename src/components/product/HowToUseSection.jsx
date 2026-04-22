@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Tractor, Sprout, Droplets, Wheat } from 'lucide-react';
 
 // How-to-Use step data
-const howToUseSteps = [
+const defaultHowToUseSteps = [
     {
         id: 1,
         title: 'Land Preparation',
@@ -42,9 +42,13 @@ const howToUseSteps = [
     },
 ];
 
+const fallbackIcons = [Tractor, Sprout, Droplets, Wheat];
 
+export default function HowToUseSection({ product }) {
+    const howToUseSteps = (product?.howToUseSteps && product.howToUseSteps.length > 0)
+        ? product.howToUseSteps.map((s, i) => ({ ...s, icon: fallbackIcons[i % fallbackIcons.length] }))
+        : defaultHowToUseSteps;
 
-export default function HowToUseSection() {
     const [[activeStep, direction], setStepTuple] = useState([0, 1]);
     const step = howToUseSteps[activeStep];
 

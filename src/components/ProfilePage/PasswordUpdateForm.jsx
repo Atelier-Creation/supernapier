@@ -1,25 +1,66 @@
 import React, { useState } from 'react';
-import { EyeOff, Eye } from 'lucide-react';
+import { EyeOff, Eye, Loader2, CheckCircle2 } from 'lucide-react';
+import api from '../../api/authApi';
+import toast from 'react-hot-toast';
 
 const PasswordUpdateForm = () => {
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [passwords, setPasswords] = useState({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (passwords.newPassword !== passwords.confirmPassword) {
+            return toast.error("New passwords do not match!");
+        }
+
+        if (passwords.newPassword.length < 6) {
+            return toast.error("Password must be at least 6 characters");
+        }
+
+        setIsLoading(true);
+        try {
+            const res = await api.put("/auth/password", {
+                oldPassword: passwords.oldPassword,
+                newPassword: passwords.newPassword
+            });
+
+            if (res.data.success) {
+                toast.success("Password updated successfully!");
+                setPasswords({ oldPassword: '', newPassword: '', confirmPassword: '' });
+            }
+        } catch (err) {
+            console.error("Password update failed:", err);
+            toast.error(err.response?.data?.message || "Failed to change password");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
-        <div className="">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-
+        <div className="max-w-md">
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Current Password Field */}
                 <div className="space-y-2">
-                    <label className="block text-gray-800 font-medium">
-                        Password <span className="text-gray-600">*</span>
+                    <label className="block text-gray-800 font-semibold text-sm">
+                        Current Password <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                         <input
                             type={showCurrent ? "text" : "password"}
-                            placeholder="Enter Password"
-                            className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-green-800 focus:border-transparent placeholder-gray-400"
+                            required
+                            value={passwords.oldPassword}
+                            onChange={e => setPasswords({...passwords, oldPassword: e.target.value})}
+                            placeholder="Enter Current Password"
+                            className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 placeholder-gray-400 transition-all"
                         />
                         <button
                             type="button"
@@ -29,21 +70,19 @@ const PasswordUpdateForm = () => {
                             {showCurrent ? <Eye size={20} /> : <EyeOff size={20} />}
                         </button>
                     </div>
-                    <div className="flex justify-end">
-                        <button type="button" className="text-green-800 text-sm font-semibold hover:underline">
-                            Forgot Password?
-                        </button>
-                    </div>
                 </div>
 
                 {/* New Password Field */}
                 <div className="space-y-2">
-                    <label className="block text-gray-800 font-medium">New Password</label>
+                    <label className="block text-gray-800 font-semibold text-sm">New Password</label>
                     <div className="relative">
                         <input
                             type={showNew ? "text" : "password"}
-                            placeholder="Enter Password"
-                            className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-green-800 focus:border-transparent placeholder-gray-400"
+                            required
+                            value={passwords.newPassword}
+                            onChange={e => setPasswords({...passwords, newPassword: e.target.value})}
+                            placeholder="Min. 6 characters"
+                            className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 placeholder-gray-400 transition-all"
                         />
                         <button
                             type="button"
@@ -57,12 +96,15 @@ const PasswordUpdateForm = () => {
 
                 {/* Confirm New Password Field */}
                 <div className="space-y-2">
-                    <label className="block text-gray-800 font-medium">Confirm New Password</label>
+                    <label className="block text-gray-800 font-semibold text-sm">Confirm New Password</label>
                     <div className="relative">
                         <input
                             type={showConfirm ? "text" : "password"}
-                            placeholder="Enter Password"
-                            className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-green-800 focus:border-transparent placeholder-gray-400"
+                            required
+                            value={passwords.confirmPassword}
+                            onChange={e => setPasswords({...passwords, confirmPassword: e.target.value})}
+                            placeholder="Repeat New Password"
+                            className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 placeholder-gray-400 transition-all"
                         />
                         <button
                             type="button"
@@ -77,13 +119,14 @@ const PasswordUpdateForm = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="mt-4 px-8 py-3 bg-[#1B3C20] text-white font-semibold rounded-full hover:bg-opacity-90 transition-all duration-200 shadow-sm"
+                    disabled={isLoading}
+                    className="mt-4 px-10 py-3 bg-emerald-700 text-white font-bold rounded-full hover:bg-emerald-800 transition-all duration-200 shadow-lg shadow-emerald-700/20 flex items-center gap-2 disabled:bg-gray-400"
                 >
-                    Update Password
+                    {isLoading ? <><Loader2 size={18} className="animate-spin" /> Updating...</> : "Update Password"}
                 </button>
             </form>
         </div>
     );
 };
 
-export default PasswordUpdateForm;
+export default PasswordUpdateForm;

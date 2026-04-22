@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Sprout } from "lucide-react";
 
-const stats = [
+const defaultStats = [
   {
     id: 1,
     title: "Needs Only 100 Liters of Water",
@@ -29,7 +29,11 @@ const stats = [
   },
 ];
 
-const StatisticalHighlights = () => {
+const StatisticalHighlights = ({ product }) => {
+  const stats = (product?.statisticalHighlights && product.statisticalHighlights.length > 0) 
+    ? product.statisticalHighlights 
+    : defaultStats;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const blocksRef = useRef([]);
 

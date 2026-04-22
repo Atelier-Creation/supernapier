@@ -47,14 +47,19 @@ export default function ProductHero({ product, addToCart }) {
         exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
     };
 
-    const currentPrice = selectedOption ? (selectedOption.discountPrice || selectedOption.price) : 0;
-    const originalPrice = selectedOption?.price;
-    const hasDiscount = selectedOption?.discountPrice && selectedOption.discountPrice < selectedOption.price;
+    // Smart Pricing: Lower of (price, discountPrice) is current, higher is original
+    const p1 = Number(selectedOption?.price || 0);
+    const p2 = Number(selectedOption?.discountPrice || 0);
+    
+    const currentPrice = (p2 > 0) ? Math.min(p1, p2) : p1;
+    const originalPrice = (p2 > 0) ? Math.max(p1, p2) : p1;
+    const hasDiscount = p2 > 0 && p1 !== p2;
 
     const handleAddToCart = () => {
         if (!selectedOption) return;
         
         const cartItem = {
+            ...product,
             id: product._id, // used for grouping
             productId: product._id,
             weightOptionId: selectedOption._id,
@@ -182,11 +187,11 @@ export default function ProductHero({ product, addToCart }) {
                         ₹{(Number(currentPrice * qty) || 0).toFixed(2)}
                     </p>
                     {hasDiscount && (
-                        <p className="text-xl text-gray-400 line-through">
+                        <p className="text-xl text-red-500 font-semibold bg-gray-100 rounded-sm px-2 line-through">
                             ₹{(Number(originalPrice * qty) || 0).toFixed(2)}
                         </p>
                     )}
-                    <span className="text-sm text-gray-500 font-normal">for {qty} {selectedOption?.unit}</span>
+                    <span className="text-sm text-gray-500 font-normal">for {selectedOption?.weight} {selectedOption?.unit}</span>
                 </div>
 
                 <p className="text-gray-600 text-lg leading-relaxed mb-5 border-b border-gray-100 pb-2">

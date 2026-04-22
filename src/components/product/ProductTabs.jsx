@@ -76,19 +76,32 @@ export default function ProductTabs({ product }) {
                                 exit={{ opacity: 0, y: -8 }}
                                 transition={{ duration: 0.2 }}
                             >
-                                {product.youtubeVideoId ? (
-                                    <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 aspect-video">
-                                        <iframe
-                                            className="w-full h-full"
-                                            src={`https://www.youtube.com/embed/${product.youtubeVideoId}`}
-                                            title={`${product.name?.en || 'Product'} — Video Guide`}
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    </div>
-                                ) : (
-                                    <p className="text-gray-500">No video guide available for this product.</p>
-                                )}
+                                {(() => {
+                                    const getYoutubeId = (url) => {
+                                        if (!url) return null;
+                                        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+                                        const match = url.match(regExp);
+                                        return (match && match[2].length === 11) ? match[2] : url;
+                                    };
+                                    
+                                    const videoId = getYoutubeId(product.productVideoUrl) || product.youtubeVideoId;
+
+                                    if (videoId) {
+                                        return (
+                                            <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 aspect-video">
+                                                <iframe
+                                                    className="w-full h-full"
+                                                    src={`https://www.youtube.com/embed/${videoId}`}
+                                                    title={`${product.name?.en || 'Product'} — Video Guide`}
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
+                                                />
+                                            </div>
+                                        );
+                                    }
+                                    
+                                    return <p className="text-gray-500">No video guide available for this product.</p>;
+                                })()}
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -96,14 +109,14 @@ export default function ProductTabs({ product }) {
 
                 {/* Right: Quick Info Cards */}
                 <div className="lg:col-span-2 space-y-6 mt-8 lg:mt-18">
-                    <QuickInfoCard title="Shipping" body="We offer domestic shipping only." />
+                    <QuickInfoCard title="Shipping" body="We offer domestic shipping only inside India." />
                     <QuickInfoCard
                         title="Difficulty Level"
                         body={product.season === 'All Year' ? 'Beginner' : 'Intermediate'}
                     />
                     <QuickInfoCard
                         title="Return & Exchange"
-                        body="If you are not satisfied with your purchase you can return it to us within 14 days for an exchange or refund."
+                        body="The self life of these product or less So we are not Providing any Return & Exchange"
                         highlight
                     />
                     <QuickInfoCard title="Help" body="Email us at support@supernapier.com" />

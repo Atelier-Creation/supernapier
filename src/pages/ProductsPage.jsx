@@ -38,7 +38,9 @@ export default function ProductsPage({ addToCart }) {
                 categoryApi.getAllCategories()
             ]);
             setProducts(prodRes.data.data || []);
-            setCategories(catRes.data.data || []);
+            // categoryApi.getAllCategories() returns a flat array directly
+            const categoryData = Array.isArray(catRes.data) ? catRes.data : (catRes.data.data || []);
+            setCategories(categoryData);
         } catch (error) {
             toast.error('Failed to load products');
             console.error(error);
