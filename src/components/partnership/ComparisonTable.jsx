@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const ComparisonTable = () => {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && window.innerWidth < 1024) {
+      const timer = setTimeout(() => {
+        const scrollHint = () => {
+          const maxScroll = el.scrollWidth - el.clientWidth;
+          if (maxScroll > 0) {
+            // Scroll to end
+            el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            
+            // Wait and scroll back
+            setTimeout(() => {
+              el.scrollTo({ left: 0, behavior: 'smooth' });
+            }, 2000);
+          }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            scrollHint();
+            observer.disconnect();
+          }
+        }, { threshold: 0.2 });
+
+        observer.observe(el);
+      }, 4000); // Small delay to ensure layout is ready
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const data = [
     { feature: "Cost Effectiveness", slips: "High", tissue: "Low", seeds: "Medium" },
     { feature: "Scalability", slips: "Excellent", tissue: "Moderate", seeds: "Low" },
@@ -19,8 +52,12 @@ const ComparisonTable = () => {
           </p>
         </div>
 
-        <div className="overflow-x-auto shadow-2xl rounded-2xl md:rounded-3xl border border-gray-100" data-aos="zoom-in">
-          <table className="w-full text-left border-collapse min-w-[600px]">
+        <div 
+          ref={scrollRef}
+          className="overflow-x-auto shadow-2xl rounded-2xl md:rounded-3xl border border-gray-100 scrollbar-hide" 
+          data-aos="zoom-in"
+        >
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-deep-forest text-slate-white">
                 <th className="p-4 md:p-8 text-base md:text-xl font-bold">Parameters</th>

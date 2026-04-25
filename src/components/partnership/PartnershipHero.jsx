@@ -9,10 +9,19 @@ const PartnershipHero = ({ imageSrc }) => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-forest py-12 md:py-20 px-4 md:px-6">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-forest py-12 md:pt-28 md:pb-20 px-4 md:px-6">
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,#C5A059,transparent_50%)]"></div>
+      </div>
+
+      {/* Top Logo */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20" data-aos="fade-down">
+        <img 
+          src="/logo.png" 
+          alt="The Super Napier Team" 
+          className="h-10 md:h-14 w-auto brightness-0 invert" 
+        />
       </div>
 
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
@@ -58,10 +67,22 @@ const PartnershipHero = ({ imageSrc }) => {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-1 h-12 rounded-full bg-slate-white/30 flex justify-center">
-          <div className="w-1 h-4 bg-earthy-gold rounded-full"></div>
+      <div className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2">
+        <div className="w-6 h-10 border-2 border-slate-white/30 rounded-full flex justify-center p-1">
+          <motion.div 
+            animate={{
+              y: [0, 12, 0],
+              opacity: [1, 0, 1]
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="w-1 h-2 bg-earthy-gold rounded-full"
+          />
         </div>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-slate-white/40 font-bold">Scroll</span>
       </div>
     </section>
   );
