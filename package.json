@@ -12,6 +12,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@tailwindcss/vite": "^4.2.1",
+    "aos": "^2.3.4",
     "autoprefixer": "^10.4.27",
     "axios": "^1.15.1",
     "framer-motion": "^12.34.3",

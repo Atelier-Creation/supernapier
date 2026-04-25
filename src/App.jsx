@@ -11,6 +11,7 @@ import AboutPage from './pages/AboutPage';
 import CartDrawer from './components/CartDrawer';
 import { AnimatePresence } from 'framer-motion';
 import ContactUs from './pages/ContactUs';
+import PartnershipPage from './pages/PartnershipPage';
 import WhatsAppFloatButton from './components/WhatsAppFloatButton';
 import ScrollToTop from './components/ScrollToTop';
 import SpinWheelPopup from './components/SpinWheelPopup';
@@ -43,7 +44,7 @@ import { useCart } from './Context/CartContext';
 function MainContent() {
   const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen } = useCart();
   const location = useLocation();
-  const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password'];
+  const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password', '/partnership'];
   const showLayout = !noLayoutPaths.includes(location.pathname);
 
   return (
@@ -65,6 +66,7 @@ function MainContent() {
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactUs />} />
+            <Route path="/partnership" element={<PartnershipPage />} />
             <Route path="/terms" element={<TermsAndCondition />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/refund" element={<RefundReturnPolicy />} />

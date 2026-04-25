@@ -7,6 +7,7 @@ import LoginModal from '../Context/LoginModal';
 
 const NAV_LINKS = [
     { label: 'Product', to: '/products' },
+    { label: 'Partnership', to: '/partnership' },
     { label: 'Blogs', to: '/blog' },
     { label: 'About Us', to: '/about' },
     { label: 'Contact Us', to: '/contact' },

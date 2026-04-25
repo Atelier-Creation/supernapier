@@ -6,7 +6,11 @@
   --color-brown-earth: #5D4037;
   --color-beige-soft: #F1F8E9;
   --color-accent-lime: #a3e635;
-  /* Custom accent */
+  
+  /* Bio-Industrial Palette */
+  --color-deep-forest: #0B2010;
+  --color-earthy-gold: #C5A059;
+  --color-slate-white: #F5F7F6;
 }
 
 button {
