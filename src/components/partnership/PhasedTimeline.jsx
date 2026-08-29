@@ -1,40 +1,24 @@
 import React from 'react';
 
-const steps = [
-  {
-    phase: "Phase 01",
-    title: "On-Site Assessment",
-    duration: "Week 1-2",
-    details: "Soil testing, water source verification, and land preparation blueprints."
-  },
-  {
-    phase: "Phase 02",
-    title: "Pilot Block Setup",
-    duration: "Week 3-6",
-    details: "Initial 100-acre planting to calibrate growth parameters and local adaptation."
-  },
-  {
-    phase: "Phase 03",
-    title: "Mass Scale Deployment",
-    duration: "Month 2-6",
-    details: "Synchronized delivery of slips for the remaining 4,900 acres in manageable blocks."
-  },
-  {
-    phase: "Phase 04",
-    title: "Industrial Harvest",
-    duration: "Month 6+",
-    details: "First full-scale harvest and transition to a 45-day regrowth cycle."
-  }
-];
+const PhasedTimeline = ({ config }) => {
+  const {
+    title = "Execution Roadmap",
+    subtitle = "Strategic coordination for 5,000-acre biomass infrastructure.",
+    steps = [
+      { phase: "Phase 01", title: "On-Site Assessment", duration: "Week 1-2", details: "Soil testing, water source verification, and land preparation blueprints." },
+      { phase: "Phase 02", title: "Pilot Block Setup", duration: "Week 3-6", details: "Initial 100-acre planting to calibrate growth parameters and local adaptation." },
+      { phase: "Phase 03", title: "Mass Scale Deployment", duration: "Month 2-6", details: "Synchronized delivery of slips for the remaining 4,900 acres in manageable blocks." },
+      { phase: "Phase 04", title: "Industrial Harvest", duration: "Month 6+", details: "First full-scale harvest and transition to a 45-day regrowth cycle." }
+    ]
+  } = config || {};
 
-const PhasedTimeline = () => {
   return (
     <section className="py-16 md:py-24 bg-deep-forest text-slate-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12 md:mb-20" data-aos="fade-up">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6">Execution Roadmap</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6">{title}</h2>
           <p className="text-lg md:text-xl text-slate-white/60 max-w-2xl mx-auto">
-            Strategic coordination for 5,000-acre biomass infrastructure.
+            {subtitle}
           </p>
         </div>
 

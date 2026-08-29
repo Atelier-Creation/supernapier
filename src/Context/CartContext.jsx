@@ -19,6 +19,17 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  const [prevToken, setPrevToken] = useState(token);
+
+  // Clear cart on logout (transition from token to no token)
+  useEffect(() => {
+    if (prevToken && !token) {
+      setCartItems([]);
+      localStorage.removeItem('cart');
+    }
+    setPrevToken(token);
+  }, [token, prevToken]);
+
   // 2. Fetch cart from Database when user logs in
   useEffect(() => {
     const syncWithDB = async () => {
@@ -57,16 +68,32 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product, quantity = 1, weightOption = null) => {
     const productId = product._id || product.id;
     
+    // Fallback for raw products that might be passed directly
+    const baseOption = product.weightOptions?.[0] || {};
+    const resolvedWeightOption = weightOption || 
+                                 (product.weightOptionId 
+                                   ? { _id: product.weightOptionId, price: product.price, weight: product.weight, unit: product.unit }
+                                   : baseOption);
+
+    const p1 = Number(resolvedWeightOption?.price || 0);
+    const p2 = Number(resolvedWeightOption?.discountPrice || 0);
+    const fallbackPrice = (p2 > 0) ? Math.min(p1, p2) : p1;
+
+    const price = Number(product.price !== undefined && !Number.isNaN(Number(product.price)) ? product.price : fallbackPrice);
+    const unit = product.unit || resolvedWeightOption?.unit || 'kg';
+    const weight = product.weight || resolvedWeightOption?.weight || '1';
+    const weightOptionId = resolvedWeightOption?._id || product.weightOptionId || null;
+
     // Create new local item
     const newItem = {
       id: productId,
       name: product.name?.en || product.name || 'Product',
       image: product.image || product.images?.[0] || '/placeholder.png',
-      price: Number(product.price),
+      price: price,
       quantity: quantity,
-      weight: product.weight || weightOption?.weight,
-      unit: product.unit || weightOption?.unit,
-      weightOption: weightOption?._id || product.weightOptionId,
+      weight: weight,
+      unit: unit,
+      weightOption: weightOptionId,
       cuttingType: product.cuttingType || ""
     };
 
@@ -123,12 +150,25 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const updateQuantity = async (itemId, newQty) => {
+  const updateQuantity = async (itemId, newQty, weightOption = null, cuttingType = '') => {
     if (newQty < 1) return;
 
-    setCartItems(prev => prev.map(item => item.id === itemId ? { ...item, quantity: newQty } : item));
+    const targetWeightOpt = weightOption?._id || weightOption;
 
-    const item = cartItems.find(it => it.id === itemId);
+    setCartItems(prev => prev.map(item => {
+      const matchId = String(item.id) === String(itemId);
+      const matchWeight = String(item.weightOption || "") === String(targetWeightOpt || "");
+      const matchCut = String(item.cuttingType || "") === String(cuttingType || "");
+      return (matchId && matchWeight && matchCut) ? { ...item, quantity: newQty } : item;
+    }));
+
+    const item = cartItems.find(it => {
+      const matchId = String(it.id) === String(itemId);
+      const matchWeight = String(it.weightOption || "") === String(targetWeightOpt || "");
+      const matchCut = String(it.cuttingType || "") === String(cuttingType || "");
+      return matchId && matchWeight && matchCut;
+    });
+
     if (token && item?.dbItemId) {
       try {
         await cartApi.updateCartItem(item.dbItemId, { quantity: newQty });

@@ -1,7 +1,7 @@
 import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsAppFloatButton = () => {
-    const phoneNumber = '916381250549';
+    const phoneNumber = '917639444670';
     const message = 'Hello! I am Looking for More personalized Product Details...';
 
     return (

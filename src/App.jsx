@@ -19,6 +19,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import TermsAndCondition from './pages/TermsAndCondition';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundReturnPolicy from './pages/RefundReturnPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
 import ProfileLayout from './components/ProfilePage/ProfileLayout';
 import PersonalInfo from './components/ProfilePage/PersonalInfo';
 import Orders from './components/ProfilePage/Orders';
@@ -42,7 +43,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import { useCart } from './Context/CartContext';
 
 function MainContent() {
-  const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen } = useCart();
+  const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen, updateQuantity } = useCart();
   const location = useLocation();
   const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password', '/partnership'];
   const showLayout = !noLayoutPaths.includes(location.pathname);
@@ -70,6 +71,7 @@ function MainContent() {
             <Route path="/terms" element={<TermsAndCondition />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/refund" element={<RefundReturnPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
@@ -84,7 +86,7 @@ function MainContent() {
               <Route path="password" element={<PasswordUpdateForm />} />
               <Route path="logout" element={<LogoutPage />} />
             </Route>
-            <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} />} />
+            <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} removeFromCart={removeFromCart} clearCart={clearCart} updateQuantity={updateQuantity} />} />
             <Route path="/order-success" element={<OrderSuccessPage />} />
           </Routes>
         </AnimatePresence>

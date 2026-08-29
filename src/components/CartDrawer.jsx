@@ -79,19 +79,19 @@ export default function CartDrawer() {
                                             >
                                                 {item.name}
                                             </h3>
-                                            <p className="text-[#1B5E20] font-bold text-sm mb-2">₹{(Number(item.price) || 0).toLocaleString()}</p>
+                                            <p className="text-[#1B5E20] font-bold text-sm mb-2">₹{(Number(item.price) || 0).toLocaleString()} <span className='text-xs text-gray-400 font-medium'>/ {item.weight}{item.unit}</span></p>
                                             
                                             {/* Quantity Controls */}
                                             <div className="flex items-center space-x-3 bg-white w-fit rounded-lg border border-gray-100 p-1">
                                                 <button 
-                                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                    onClick={() => updateQuantity(item.id, item.quantity - 1, item.weightOption, item.cuttingType)}
                                                     className="p-1 hover:bg-gray-50 rounded text-gray-500"
                                                 >
                                                     <Minus size={14} />
                                                 </button>
                                                 <span className="text-sm font-bold w-6 text-center">{item.quantity}</span>
                                                 <button 
-                                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                    onClick={() => updateQuantity(item.id, item.quantity + 1, item.weightOption, item.cuttingType)}
                                                     className="p-1 hover:bg-gray-50 rounded text-[#1B5E20]"
                                                 >
                                                     <Plus size={14} />
@@ -122,7 +122,7 @@ export default function CartDrawer() {
                                 <Link
                                     to="/checkout"
                                     onClick={onClose}
-                                    className="w-full bg-[#1B5E20] hover:bg-[#5D4037] text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center transform hover:scale-[1.02] active:scale-95"
+                                    className="w-full bg-[#1B5E20] hover:bg-[#5D4037] text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center transform hover:scale-[1.02] active:scale-95 text-center"
                                 >
                                     Proceed to Checkout
                                 </Link>

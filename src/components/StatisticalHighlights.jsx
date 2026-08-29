@@ -80,7 +80,7 @@ const StatisticalHighlights = ({ product }) => {
         <div className="relative aspect-[4/3] w-[35%] overflow-hidden ">
           {stats.map((stat, idx) => (
             <motion.img
-              key={stat.id}
+              key={stat.id || stat._id || idx}
               src={stat.image}
               className="absolute inset-0 w-full h-full object-cover rounded-2xl"
               animate={{ opacity: activeIndex === idx ? 1 : 0 }}
@@ -94,20 +94,22 @@ const StatisticalHighlights = ({ product }) => {
       <div className="lg:block hidden mx-auto space-y-40 px-6 -mt-60 pb-40">
         {stats.map((stat, idx) => (
           <div
-            key={stat.id}
+            key={stat.id || idx}
             ref={(el) => (blocksRef.current[idx] = el)}
             className="flex justify-between gap-16 items-start"
           >
             {/* LEFT STICKY NUMBER */}
-            <div className="md:sticky md:top-40 h-fit w-1/4">
-              <h3 className="text-8xl lg:text-5xl text-[#1B5E20] break-all">{stat.title}</h3>
+            <div className="md:sticky md:top-40 h-fit w-[30%]">
+              <h3 className="text-3xl lg:text-5xl font-extrabold text-[#1B5E20] leading-tight">
+                {stat.title?.en || stat.title}
+              </h3>
             </div>
 
             {/* RIGHT TEXT */}
-            <div className="w-1/4">
+            <div className="w-[30%]">
               <div className="w-full h-[1px] bg-[#1B5E20] mb-6 opacity-40" />
-              <p className="text-lg md:text-xl font-light leading-relaxed">
-                {stat.description}
+              <p className="text-lg md:text-xl font-light leading-relaxed text-gray-700">
+                {stat.description?.en || stat.description}
               </p>
             </div>
           </div>
@@ -115,15 +117,15 @@ const StatisticalHighlights = ({ product }) => {
       </div>
       <div className="lg:hidden flex flex-col gap-5">
         {stats.map((stat, idx) => (
-          <div className="lg:hidden flex flex-col items-start">
+          <div key={stat.id || idx} className="lg:hidden flex flex-col items-start">
             <img
               src={stat.image}
-              alt={`Stat ${stat.id}`}
+              alt={`Stat ${stat.id || idx}`}
               className="w-full mb-4 object-cover rounded-lg shadow-lg"
             />
-            <h3 className="text-3xl text-[#1B5E20] font-bold mb-2 break-all">{stat.title}</h3>
+            <h3 className="text-3xl text-[#1B5E20] font-bold mb-2">{stat.title?.en || stat.title}</h3>
             <p className="text-start text-lg font-light leading-relaxed">
-              {stat.description}
+              {stat.description?.en || stat.description}
             </p>
             <div className="w-full h-[1px] bg-[#1B5E20] my-4 opacity-40" />
           </div>

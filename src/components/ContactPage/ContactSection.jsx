@@ -18,9 +18,12 @@ const ContactSection = () => {
       title: "Our location",
       icon: MapPin,
       content: (
-        <>
-          Virudhachalam, Cuddalore, <br /> Vannankudikadu, Tamil Nadu 606110
-        </>
+        <span className="text-[13px] md:text-sm">
+          Ponni seeds Pvt Ltd, C/o virudhambal, <br />
+          220/A2 Raman Street, Salem main road, <br />
+          Ramachandran pettai, Vriddhachalam -606001. <br />
+          <strong className="text-emerald-700 block mt-1 font-bold">GST: 33AAOCP3989N1ZH</strong>
+        </span>
       ),
     },
     {
@@ -28,8 +31,8 @@ const ContactSection = () => {
       icon: Phone,
       content: (
         <>
-          Phone: (+91) 94889 32336 <br />
-          Mobile: (+91) 98765 43219
+          Phone: (+91) 76394 44670 <br />
+          Mobile: (+91) 94889 32336
         </>
       ),
     },
@@ -69,7 +72,7 @@ const ContactSection = () => {
 
                 <div className="w-full h-px bg-gray-100 mb-6"></div>
 
-                <div className="flex justify-between items-end mt-auto">
+                <div className="flex justify-between items-center my-auto">
                   <p className="text-gray-500 lg:text-lg leading-relaxed">
                     {method.content}
                   </p>

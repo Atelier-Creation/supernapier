@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, CircleX, Leaf, ChevronRight, Loader2, CheckCircle2, Tag, Lock, AlertCircle, CreditCard, QrCode, Camera } from 'lucide-react';
+import { ShieldCheck, CircleX, Leaf, ChevronRight, Loader2, CheckCircle2, Tag, Lock, AlertCircle, CreditCard, QrCode, Camera, Phone, Plus, Minus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 import { orderApi } from '../api/orderApi';
@@ -27,7 +27,7 @@ const InputField = ({ label, id, type = 'text', placeholder, value, onChange, re
     </div>
 );
 
-export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart }) {
+export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart, updateQuantity }) {
     const navigate = useNavigate();
     const { user } = useAuth();
 
@@ -37,13 +37,17 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
     const [isLoading, setIsLoading] = useState(false);
     const [authError, setAuthError] = useState('');
 
+    const [isWheelEnabled, setIsWheelEnabled] = useState(true);
+    const [settingsCoupons, setSettingsCoupons] = useState([]);
+    const [serverDiscount, setServerDiscount] = useState(0);
+
     const [form, setForm] = useState({
         name: user?.name || '',
         email: user?.email || '',
         phone: user?.phone || '',
         address: '',
         city: '',
-        state: 'Tamil Nadu',
+        state: 'TN', // Default to state code TN
         pincode: '',
         country: 'India',
     });
@@ -52,12 +56,44 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
     const [paymentMethod, setPaymentMethod] = useState('online');
     const [upiSettings, setUpiSettings] = useState({ vpa: '', businessName: '' });
     const [activeGateway, setActiveGateway] = useState('upi');
-    const [freeShippingThreshold, setFreeShippingThreshold] = useState(999);
     const [paymentProof, setPaymentProof] = useState({ screenshot: '', transactionId: '' });
     const [isUploading, setIsUploading] = useState(false);
     const [isProofSubmitting, setIsProofSubmitting] = useState(false);
     const [showUpiModal, setShowUpiModal] = useState(false);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [wonCoupon, setWonCoupon] = useState(() => {
+        try {
+            const stored = localStorage.getItem('wonCoupon');
+            return stored ? JSON.parse(stored) : null;
+        } catch {
+            return null;
+        }
+    });
+
+    const [statesList, setStatesList] = useState([]);
+    const [shippingDetails, setShippingDetails] = useState({
+        totalShipping: 0,
+        seedShipping: { amount: 0, weightKg: 0, ratePerKg: 0 },
+        cuttingShipping: { amount: 0, cuttingValue: 0, ratePercent: 0 }
+    });
+    const [loadingShipping, setLoadingShipping] = useState(false);
+
+    useEffect(() => {
+        const handleCouponWon = () => {
+            try {
+                const stored = localStorage.getItem('wonCoupon');
+                setWonCoupon(stored ? JSON.parse(stored) : null);
+            } catch {
+                setWonCoupon(null);
+            }
+        };
+        window.addEventListener('couponWon', handleCouponWon);
+        window.addEventListener('storage', handleCouponWon);
+        return () => {
+            window.removeEventListener('couponWon', handleCouponWon);
+            window.removeEventListener('storage', handleCouponWon);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchSettings = async () => {
@@ -66,15 +102,72 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                 if (res.data.success) {
                     setUpiSettings(res.data.settings.upiSettings);
                     setActiveGateway(res.data.settings.activePaymentMethod);
-                    setFreeShippingThreshold(res.data.settings.freeShippingThreshold || 999);
                     setPaymentMethod(res.data.settings.activePaymentMethod === 'upi' ? 'UPI' : 'online');
+                    setIsWheelEnabled(res.data.settings.isWheelEnabled ?? true);
+                    setSettingsCoupons(res.data.settings.wheelOffers || []);
                 }
             } catch (err) {
                 console.error("Failed to fetch shop settings", err);
             }
         };
+
+        const fetchStates = async () => {
+            try {
+                const res = await api.get('/settings/states');
+                if (res.data.success) {
+                    setStatesList(res.data.states);
+                    const defaultState = res.data.states.find(s => s.code === 'TN') || res.data.states[0];
+                    if (defaultState) {
+                        setForm(f => ({ ...f, state: defaultState.code }));
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch states list", err);
+            }
+        };
+
         fetchSettings();
+        fetchStates();
     }, []);
+
+    useEffect(() => {
+        if (!cartItems || cartItems.length === 0 || !form.state) {
+            setShippingDetails({
+                totalShipping: 0,
+                seedShipping: { amount: 0, weightKg: 0, ratePerKg: 0 },
+                cuttingShipping: { amount: 0, cuttingValue: 0, ratePercent: 0 }
+            });
+            return;
+        }
+
+        const fetchPreview = async () => {
+            setLoadingShipping(true);
+            try {
+                const itemsPayload = cartItems.map(item => ({
+                    productId: item._id || item.id,
+                    weightOptionId: item.weightOption || item.weightOptionId || (item.weightOptions?.[0]?._id),
+                    quantity: item.quantity
+                }));
+                const res = await orderApi.previewShipping({
+                    items: itemsPayload,
+                    state: form.state
+                });
+                if (res.data.success) {
+                    setShippingDetails(res.data.data);
+                }
+            } catch (err) {
+                console.error("Failed to calculate preview shipping", err);
+            } finally {
+                setLoadingShipping(false);
+            }
+        };
+
+        const timer = setTimeout(() => {
+            fetchPreview();
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [cartItems, form.state]);
 
     useEffect(() => {
         if (user) {
@@ -105,54 +198,92 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
     const handleFormChange = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
 
     const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price || 0) * item.quantity), 0);
-    const discount = couponApplied ? subtotal * 0.1 : 0;
 
-    const isTamilNadu = form.state === 'Tamil Nadu';
-    const calculateShipping = () => {
-        if (subtotal >= freeShippingThreshold) return 0;
-
-        let maxFee = 0;
-        cartItems.forEach(item => {
-            let fee = 0;
-            if (isTamilNadu) {
-                fee = shippingType === 'Express' ? (item.shippingExpressTN || 0) : (item.shippingNormalTN || 0);
-            } else {
-                fee = shippingType === 'Express' ? (item.shippingExpressOutside || 0) : (item.shippingNormalOutside || 0);
-            }
-            if (fee > maxFee) maxFee = fee;
-        });
-
-        if (maxFee === 0 && subtotal < freeShippingThreshold) {
-            if (isTamilNadu) return shippingType === 'Express' ? 80 : 50;
-            return shippingType === 'Express' ? 150 : 100;
+    useEffect(() => {
+        if (cartItems.length === 0) {
+            navigate('/products');
         }
+    }, [cartItems, navigate]);
 
-        return maxFee;
-    };
-    const shipping = calculateShipping();
+    const discount = couponApplied ? serverDiscount : 0;
+
+    const shipping = shippingDetails?.totalShipping || 0;
     const total = subtotal - discount + shipping;
 
-    const VALID_COUPON = 'FARMERWIN';
+    // Helper to check if cart has Super or Small Napier products
+    const hasNapierProduct = cartItems.some(item => {
+        const itemName = typeof item.name === 'object' ? (item.name?.en || '') : (item.name || '');
+        const name = itemName.toLowerCase();
+        return (name.includes('napier') && (name.includes('super') || name.includes('small')));
+    });
 
-    const AVAILABLE_COUPONS = [
-        { code: 'FARMERWIN', label: '10% OFF', desc: 'Spin Wheel Reward' },
-    ];
+    // Helper to check if selected state is outside TN, Puducherry, and South India
+    const isOutsideSouthIndiaAndTN = () => {
+        if (!form.state) return false;
+        const normalizedState = form.state.trim().toUpperCase();
+        const insideCodes = ['TN', 'PY', 'KL', 'AP', 'KA', 'TS'];
+        const insideNames = [
+            'TAMIL NADU',
+            'PUDUCHERRY',
+            'PONDICHERRY',
+            'KERALA',
+            'ANDHRA PRADESH',
+            'KARNATAKA',
+            'TELANGANA'
+        ];
+        return !insideCodes.includes(normalizedState) && !insideNames.includes(normalizedState);
+    };
 
-    const handleApplyCoupon = (code) => {
+    const showRestOfIndiaNapierWarning = hasNapierProduct && isOutsideSouthIndiaAndTN();
+
+    const AVAILABLE_COUPONS = settingsCoupons
+        .filter(c => c.couponCode && wonCoupon && c.couponCode?.toUpperCase() === wonCoupon.code?.toUpperCase())
+        .map(c => ({
+            code: c.couponCode,
+            label: c.label,
+            desc: `Min order ₹${c.minOrder}`
+        }));
+
+    const handleApplyCoupon = async (code) => {
         const target = (code ?? coupon).trim().toUpperCase();
-        if (target === VALID_COUPON) {
-            setCoupon(target);
-            setCouponApplied(true);
-            setCouponError('');
-        } else {
+        if (!target) return;
+
+        // Verify if the coupon is a spin wheel coupon code
+        const matchedWheelOffer = settingsCoupons.find(o => o.couponCode?.toUpperCase() === target);
+        if (matchedWheelOffer) {
+            // It is a spin-wheel coupon. They must have won it (it must match wonCoupon.code)!
+            if (!wonCoupon || wonCoupon.code?.toUpperCase() !== target) {
+                setCouponApplied(false);
+                setCouponError("This coupon can only be applied if won on the rewards spin wheel!");
+                return;
+            }
+        }
+
+        try {
+            const res = await api.post('/settings/validate-coupon', {
+                couponCode: target,
+                subtotal: subtotal
+            });
+            if (res.data.valid) {
+                setCoupon(target);
+                setCouponApplied(true);
+                setServerDiscount(res.data.discount);
+                setCouponError('');
+                toast.success("Coupon applied successfully!");
+            } else {
+                setCouponApplied(false);
+                setCouponError(res.data.message || 'Invalid coupon code.');
+            }
+        } catch (err) {
             setCouponApplied(false);
-            setCouponError('Invalid coupon code.');
+            setCouponError(err.response?.data?.message || 'Invalid coupon code.');
         }
     };
 
     const handleRemoveCoupon = () => {
         setCoupon('');
         setCouponApplied(false);
+        setServerDiscount(0);
         setCouponError('');
     };
 
@@ -183,7 +314,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
         },
         products: cartItems.map(item => ({
             productId: item._id || item.id,
-            weightOptionId: item.weightOptionId || (item.weightOptions?.[0]?._id) || "MISSING",
+            weightOptionId: item.weightOption || item.weightOptionId || (item.weightOptions?.[0]?._id) || "MISSING",
             quantity: item.quantity,
             price: item.price,
             name: item.name,
@@ -257,13 +388,39 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
         }
 
         setIsLoading(true);
-        // Razorpay logic continues...
 
         try {
-            const rzpOrderRes = await orderApi.createRazorpayOrder(total * 100);
+            // 1. Create order in DB with 'pending' status prior to payment gateway
+            const initialOrderData = {
+                ...baseOrderData,
+                paymentMethod: 'online',
+                paymentStatus: 'pending',
+            };
+
+            const orderCreationRes = await orderApi.createOrder(initialOrderData);
+            if (!orderCreationRes.data.success) {
+                throw new Error(orderCreationRes.data.message || 'Failed to place order');
+            }
+
+            const createdOrder = orderCreationRes.data.data;
+            const orderId = createdOrder._id;
+
+            // 2. Request Razorpay Order ID from backend using database order _id
+            const rzpOrderRes = await orderApi.createRazorpayOrder(orderId);
             if (!rzpOrderRes.data.success) throw new Error('Failed to create payment order');
 
             const rzpOrderId = rzpOrderRes.data.order.id;
+
+            // Fetch public Razorpay Key dynamically from backend
+            let razorpayKey = RAZORPAY_KEY_ID;
+            try {
+                const keyRes = await orderApi.getRazorpayKey();
+                if (keyRes.data && keyRes.data.key) {
+                    razorpayKey = keyRes.data.key;
+                }
+            } catch (keyErr) {
+                console.error("Failed to fetch Razorpay key from backend:", keyErr);
+            }
 
             const loaded = await loadRazorpay();
             if (!loaded) {
@@ -273,7 +430,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
             }
 
             const options = {
-                key: RAZORPAY_KEY_ID,
+                key: razorpayKey,
                 amount: Math.round(total * 100),
                 currency: 'INR',
                 name: 'Super Napier',
@@ -282,22 +439,12 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                 order_id: rzpOrderId,
                 handler: async function (response) {
                     try {
+                        // 3. Verify signature (this also marks order as paid in DB)
                         await orderApi.verifyPayment({
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature
                         });
-
-                        const finalOrderData = {
-                            ...baseOrderData,
-                            paymentMethod: 'online',
-                            paymentStatus: 'paid',
-                            razorpayOrderId: response.razorpay_order_id,
-                            razorpayPaymentId: response.razorpay_payment_id,
-                            razorpaySignature: response.razorpay_signature,
-                        };
-
-                        await orderApi.createOrder(finalOrderData);
 
                         if (clearCart) clearCart();
                         navigate('/order-success', {
@@ -308,7 +455,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                             }
                         });
                     } catch (err) {
-                        console.error('Payment verification or order creation failed:', err);
+                        console.error('Payment verification failed:', err);
                         toast.error('Something went wrong after payment. Please contact support with payment ID: ' + response.razorpay_payment_id);
                     }
                 },
@@ -449,15 +596,37 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                             onChange={handleFormChange('state')}
                                             className="w-full rounded-xl bg-gray-50 border border-gray-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#1B5E20]/30 focus:border-[#1B5E20] transition-all"
                                         >
-                                            {INDIAN_STATES.map(st => <option key={st} value={st}>{st}</option>)}
+                                            {statesList.length > 0 ? (
+                                                statesList.map(st => <option key={st.code} value={st.code}>{st.name}</option>)
+                                            ) : (
+                                                INDIAN_STATES.map(st => <option key={st} value={st}>{st}</option>)
+                                            )}
                                         </select>
                                     </div>
                                     <InputField label="PIN Code" id="pincode" placeholder="e.g. 641001" value={form.pincode} onChange={handleFormChange('pincode')} />
                                     <InputField label="Country" id="country" placeholder="e.g. India" value={form.country} onChange={handleFormChange('country')} />
+                                    {showRestOfIndiaNapierWarning && (
+                                        <div className="sm:col-span-2 bg-amber-50 border border-amber-200 p-4 rounded-2xl flex flex-col gap-3 text-amber-800 animate-in fade-in duration-200">
+                                            <div className="flex items-start gap-3">
+                                                <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                                                <p className="text-xs font-semibold leading-relaxed">
+                                                    Please call our support team <span className="hidden md:inline">(<a href="tel:+917639444670" className="underline font-bold text-amber-900">+91 76394 44670</a>)</span> to know the delivery feasibility because it is a live plant; shipping delay may cause plant damage/death.
+                                                </p>
+                                            </div>
+                                            <div className="md:hidden pl-8">
+                                                <a
+                                                    href="tel:+917639444670"
+                                                    className="inline-flex items-center gap-1.5 bg-amber-700 hover:bg-amber-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm"
+                                                >
+                                                    <Phone className="w-3.5 h-3.5" /> Call +91 76394 44670
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
+                            <div className="bg-white hidden rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
                                 <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                                     <span className="w-7 h-7 bg-[#1B5E20] text-white rounded-full flex items-center justify-center text-sm font-black">3</span>
                                     Shipping Method
@@ -492,21 +661,47 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                         {activeGateway === 'razorpay' && (
                                             <button
                                                 type="button"
-                                                onClick={() => setPaymentMethod('online')}
-                                                className={`p-4 rounded-2xl border-2 flex items-center gap-3 transition-all ${paymentMethod === 'online' ? 'border-[#1B5E20] bg-green-50' : 'border-gray-100 hover:border-gray-200'}`}
+                                                onClick={() => setPaymentMethod("online")}
+                                                className={`w-full rounded-2xl border-2 p-5 transition-all ${paymentMethod === "online"
+                                                    ? "border-green-700 bg-green-50 shadow-md"
+                                                    : "border-gray-200 hover:border-green-300 hover:shadow-sm"
+                                                    }`}
                                             >
-                                                <CreditCard className="w-5 h-5 text-[#1B5E20]" />
-                                                <span className="font-bold text-gray-800">Card / NetBanking</span>
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex gap-4">
+                                                        <div className="bg-orange-100 rounded-md p-2 h-1/2">
+                                                            <CreditCard className="w-6 h-6 text-orange-400" />
+                                                        </div>
+
+                                                        <div className="text-left">
+                                                            <h3 className="font-semibold text-gray-900">
+                                                                Google Pay,Card
+                                                            </h3>
+
+                                                            <p className="text-sm text-gray-500 mt-1">
+                                                                UPI • Cards • Wallets • NetBanking
+                                                            </p>
+
+                                                            <p className="text-xs text-gray-400 mt-2">
+                                                                Powered by Razorpay <span className="text-orange-500 font-bold">Recommended</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {paymentMethod === "online" && (
+                                                        <CheckCircle2 className="w-5 h-5 text-green-700" />
+                                                    )}
+                                                </div>
                                             </button>
                                         )}
-                                        <button
+                                        {(<button
                                             type="button"
                                             onClick={() => setPaymentMethod('UPI')}
                                             className={`p-4 rounded-2xl border-2 flex items-center gap-3 transition-all ${paymentMethod === 'UPI' ? 'border-[#1B5E20] bg-green-50' : 'border-gray-100 hover:border-gray-200'}`}
                                         >
                                             <QrCode className="w-5 h-5 text-[#1B5E20]" />
                                             <span className="font-bold text-gray-800">UPI (Direct QR)</span>
-                                        </button>
+                                        </button>)}
                                     </div>
                                 </div>
                             </div>
@@ -522,17 +717,37 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                                 <img
                                                     src={item.image || (Array.isArray(item.images) ? item.images[0] : item.images) || '/placeholder.png'}
                                                     alt={typeof item.name === 'object' ? (item.name?.en || 'Product') : item.name}
-                                                    className="w-16 h-16 rounded-xl object-cover border border-gray-100"
+                                                    className="w-16 h-16 rounded-xl object-contain border border-gray-100"
                                                 />
-                                                <span className="absolute -top-2 -right-2 bg-[#1B5E20] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                                                    {item.quantity}
-                                                </span>
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-semibold text-gray-800 text-sm line-clamp-1">
                                                     {typeof item.name === 'object' ? (item.name?.en || 'Product') : item.name}
                                                 </p>
-                                                <p className="text-xs text-gray-400">{item.weight} {item.unit} ₹{item.price}</p>
+                                                <p className="text-xs text-gray-400 mb-2">{item.weight} {item.unit} ₹{item.price}</p>
+                                                <div className="flex items-center space-x-2 bg-gray-50 rounded-lg border border-gray-200 p-0.5 w-fit">
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => {
+                                                            if (item.quantity === 1) {
+                                                                removeFromCart && removeFromCart(item.dbItemId || item.id, !!item.dbItemId);
+                                                            } else {
+                                                                updateQuantity && updateQuantity(item.id, item.quantity - 1, item.weightOption, item.cuttingType);
+                                                            }
+                                                        }}
+                                                        className="p-1 hover:bg-gray-200 rounded text-gray-500 transition-colors"
+                                                    >
+                                                        <Minus className="w-3 h-3" />
+                                                    </button>
+                                                    <span className="text-xs font-bold w-5 text-center text-gray-700">{item.quantity}</span>
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => updateQuantity && updateQuantity(item.id, item.quantity + 1, item.weightOption, item.cuttingType)}
+                                                        className="p-1 hover:bg-gray-200 rounded text-[#1B5E20] transition-colors"
+                                                    >
+                                                        <Plus className="w-3 h-3" />
+                                                    </button>
+                                                </div>
                                             </div>
                                             <p className="text-xs font-medium text-green-600">{item.quantity} X ₹{item.price}</p>
                                             <p className="font-bold text-[#5D4037] text-sm flex-shrink-0">
@@ -542,88 +757,144 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                     ))}
                                 </div>
                                 <div className="border-t border-gray-100 mb-5" />
-                                <div className="mb-5">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
-                                        <Tag className="w-4 h-4" /> Coupon Code
-                                    </label>
-                                    <div className="flex flex-col md:flex-row gap-2">
-                                        <input
-                                            type="text"
-                                            value={coupon}
-                                            disabled={couponApplied}
-                                            onChange={(e) => { setCoupon(e.target.value.toUpperCase()); setCouponError(''); }}
-                                            placeholder="e.g. FARMERWIN"
-                                            className="flex-1 rounded-xl bg-gray-50 border border-gray-200 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1B5E20]/30 focus:border-[#1B5E20] transition-all uppercase disabled:opacity-60 disabled:cursor-not-allowed"
-                                        />
-                                        {couponApplied ? (
-                                            <button
-                                                type="button"
-                                                onClick={handleRemoveCoupon}
-                                                className="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-4 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap"
-                                            >
-                                                Remove
-                                            </button>
-                                        ) : (
-                                            <button
-                                                type="button"
-                                                onClick={() => handleApplyCoupon()}
-                                                className="bg-[#fde047] hover:bg-[#facc15] text-gray-900 font-bold px-4 py-2.5 rounded-xl text-sm transition-colors"
-                                            >
-                                                Apply
-                                            </button>
-                                        )}
-                                    </div>
-                                    {!couponApplied && (
-                                        <div className="mt-3">
-                                            <p className="text-xs text-gray-400 mb-2">Available coupons:</p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {AVAILABLE_COUPONS.map((c) => (
+                                {(isWheelEnabled || wonCoupon) && (
+                                        <div className="mb-5 animate-in fade-in duration-200">
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                                                <Tag className="w-4 h-4" /> Coupon Code
+                                            </label>
+                                            <div className="flex flex-col md:flex-row gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={coupon}
+                                                    disabled={couponApplied}
+                                                    onChange={(e) => { setCoupon(e.target.value.toUpperCase()); setCouponError(''); }}
+                                                    placeholder="e.g. FARMERWIN"
+                                                    className="flex-1 rounded-xl bg-gray-50 border border-gray-200 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1B5E20]/30 focus:border-[#1B5E20] transition-all uppercase disabled:opacity-60 disabled:cursor-not-allowed"
+                                                />
+                                                {couponApplied ? (
                                                     <button
-                                                        key={c.code}
                                                         type="button"
-                                                        onClick={() => handleApplyCoupon(c.code)}
-                                                        className="group flex items-center gap-2 bg-[#F1F8E9] hover:bg-[#1B5E20] border border-[#1B5E20]/20 hover:border-[#1B5E20] text-[#1B5E20] hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200"
+                                                        onClick={handleRemoveCoupon}
+                                                        className="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-4 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap"
                                                     >
-                                                        <Tag className="w-3 h-3" />
-                                                        <span className="font-black">{c.code}</span>
-                                                        <span className="text-[10px] opacity-70 group-hover:opacity-100">— {c.label}</span>
+                                                        Remove
                                                     </button>
-                                                ))}
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleApplyCoupon()}
+                                                        className="bg-[#fde047] hover:bg-[#facc15] text-gray-900 font-bold px-4 py-2.5 rounded-xl text-sm transition-colors"
+                                                    >
+                                                        Apply
+                                                    </button>
+                                                )}
                                             </div>
+                                            {!couponApplied && (
+                                                <div className="mt-3">
+                                                    {AVAILABLE_COUPONS.length > 0 ? (
+                                                        <>
+                                                            <p className="text-xs text-gray-400 mb-2">Available coupons:</p>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {AVAILABLE_COUPONS.map((c) => (
+                                                                    <button
+                                                                        key={c.code}
+                                                                        type="button"
+                                                                        onClick={() => handleApplyCoupon(c.code)}
+                                                                        className="group flex items-center gap-2 bg-[#F1F8E9] hover:bg-[#1B5E20] border border-[#1B5E20]/20 hover:border-[#1B5E20] text-[#1B5E20] hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200"
+                                                                    >
+                                                                        <Tag className="w-3 h-3" />
+                                                                        <span className="font-black">{c.code}</span>
+                                                                        <span className="text-[10px] opacity-70 group-hover:opacity-100">— {c.label} ({c.desc})</span>
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        isWheelEnabled && localStorage.getItem('hasSpunWheel') !== 'true' && (
+                                                            <div className="bg-amber-50 border border-amber-200/40 rounded-2xl p-4 mt-2">
+                                                                <p className="text-xs text-amber-800 font-bold mb-1 flex items-center gap-1">🎁 Win a Discount!</p>
+                                                                <p className="text-[11px] text-amber-700/80 mb-3 leading-normal">
+                                                                    You haven't spun our rewards wheel yet. Spin now to win up to ₹1,000 off your order!
+                                                                </p>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => window.dispatchEvent(new Event('openSpinWheel'))}
+                                                                    className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-xs transition-colors tracking-wide"
+                                                                >
+                                                                    Spin the Wheel
+                                                                </button>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {couponApplied && (
                                         <p className="text-green-600 text-xs mt-2 flex items-center gap-1">
-                                            <CheckCircle2 className="w-3.5 h-3.5" /> 10% discount applied!
+                                            <CheckCircle2 className="w-3.5 h-3.5" /> Coupon Applied successfully! (₹{(discount || 0).toFixed(2)} saved)
                                         </p>
                                     )}
                                     {couponError && (
                                         <p className="text-red-500 text-xs mt-1.5">{couponError}</p>
                                     )}
-                                </div>
                                 <div className="space-y-2.5 text-sm mb-6">
                                     <div className="flex justify-between text-gray-500">
                                         <span>Subtotal</span>
                                         <span>₹{(subtotal || 0).toFixed(2)}</span>
                                     </div>
                                     {couponApplied && (
-                                        <div className="flex justify-between text-green-600 font-semibold">
-                                            <span>Discount (10%)</span>
+                                        <div className="flex justify-between text-green-600 font-semibold animate-in fade-in duration-200">
+                                            <span>
+                                                Discount 
+                                                {(() => {
+                                                    const matchedOffer = settingsCoupons.find(o => o.couponCode?.toUpperCase() === coupon?.toUpperCase());
+                                                    if (matchedOffer && matchedOffer.type === 'percentage') {
+                                                        return ` (${matchedOffer.value}%)`;
+                                                    }
+                                                    return '';
+                                                })()}
+                                            </span>
                                             <span>- ₹{(discount || 0).toFixed(2)}</span>
                                         </div>
                                     )}
                                     <div className="flex justify-between text-gray-500">
                                         <span>Shipping</span>
-                                        <span>{shipping === 0 ? <span className="text-green-600 font-semibold">FREE</span> : `₹${shipping}`}</span>
+                                        <span>{shipping === 0 ? <span className="text-green-600 font-semibold">FREE</span> : `₹${shipping.toFixed(2)}`}</span>
                                     </div>
-                                    {shipping > 0 && (
-                                        <p className="text-xs text-gray-400">Free shipping on orders above ₹{freeShippingThreshold}</p>
-                                    )}
+                                    {/* {shipping > 0 && shippingDetails && (
+                                        <div className="text-[11px] text-gray-400 pl-2 py-1 space-y-0.5 border-l-2 border-gray-200">
+                                            {shippingDetails.seedShipping?.amount > 0 && (
+                                                <p>Seeds: ₹{shippingDetails.seedShipping.amount.toFixed(2)} ({shippingDetails.seedShipping.weightKg} kg @ ₹{shippingDetails.seedShipping.ratePerKg}/kg)</p>
+                                            )}
+                                            {shippingDetails.cuttingShipping?.amount > 0 && (
+                                                <p>Cuttings: ₹{shippingDetails.cuttingShipping.amount.toFixed(2)} ({shippingDetails.cuttingShipping.ratePercent}% of ₹{shippingDetails.cuttingShipping.cuttingValue.toFixed(2)})</p>
+                                            )}
+                                        </div>
+                                    )} */}
                                     <div className="border-t border-gray-100 pt-3 flex justify-between font-black text-lg text-gray-900">
                                         <span>Total</span>
                                         <span className="text-[#1B5E20]">₹{(total || 0).toFixed(2)}</span>
                                     </div>
                                 </div>
+                                {showRestOfIndiaNapierWarning && (
+                                    <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl mb-5 flex flex-col gap-3 text-amber-800 animate-in fade-in duration-200">
+                                        <div className="flex items-start gap-3">
+                                            <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                                            <p className="text-xs font-semibold leading-relaxed">
+                                                Please call our support team <span className="hidden md:inline">(<a href="tel:+917639444670" className="underline font-bold text-amber-900">+91 76394 44670</a>)</span> to know the delivery feasibility because it is a live plant; shipping delay may cause plant damage/death.
+                                            </p>
+                                        </div>
+                                        <div className="md:hidden pl-8">
+                                            <a
+                                                href="tel:+917639444670"
+                                                className="inline-flex items-center gap-1.5 bg-amber-700 hover:bg-amber-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm"
+                                            >
+                                                <Phone className="w-3.5 h-3.5" /> Call +91 76394 44670
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
                                 <button
                                     type="submit"
                                     disabled={isLoading}

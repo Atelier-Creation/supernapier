@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun, Check } from 'lucide-react';
+import { useCart } from '../../Context/CartContext';
 
-export default function ProductHero({ product, addToCart }) {
+export default function ProductHero({ product, addToCart: propAddToCart }) {
+    const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
     const [qty, setQty] = useState(1);
     const images = product.images?.length ? product.images : ['/placeholder.png'];
     const weightOptions = product.weightOptions || [];
     const [selectedOption, setSelectedOption] = useState(weightOptions[0] || null);
-    
+
+    const targetWeightOptionId = selectedOption?._id || null;
+    const cartItem = cartItems.find(item =>
+        String(item.id) === String(product._id) &&
+        String(item.weightOption || "") === String(targetWeightOptionId || "")
+    );
+
     const [activeIdx, setActiveIdx] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
-    const [direction, setDirection] = useState(1); 
+    const [direction, setDirection] = useState(1);
 
     const goTo = useCallback((idx, dir = 1) => {
         setDirection(dir);
@@ -50,14 +58,14 @@ export default function ProductHero({ product, addToCart }) {
     // Smart Pricing: Lower of (price, discountPrice) is current, higher is original
     const p1 = Number(selectedOption?.price || 0);
     const p2 = Number(selectedOption?.discountPrice || 0);
-    
+
     const currentPrice = (p2 > 0) ? Math.min(p1, p2) : p1;
     const originalPrice = (p2 > 0) ? Math.max(p1, p2) : p1;
     const hasDiscount = p2 > 0 && p1 !== p2;
 
     const handleAddToCart = () => {
         if (!selectedOption) return;
-        
+
         const cartItem = {
             ...product,
             id: product._id, // used for grouping
@@ -70,7 +78,7 @@ export default function ProductHero({ product, addToCart }) {
             unit: selectedOption.unit,
             weight: selectedOption.weight
         };
-        
+
         addToCart(cartItem, qty);
     };
 
@@ -96,7 +104,7 @@ export default function ProductHero({ product, addToCart }) {
                             transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                             src={images[activeIdx]}
                             alt={`${product.name?.en} – view ${activeIdx + 1}`}
-                            className={`absolute inset-0 w-full h-full ${images[activeIdx].toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'}`}
+                            className={`absolute inset-0 w-full h-full ${images[activeIdx].toLowerCase().endsWith('.png') ? 'object-contain bg-[#eef8ed]' : 'object-cover'}`}
                         />
                     </AnimatePresence>
 
@@ -210,10 +218,10 @@ export default function ProductHero({ product, addToCart }) {
                                     className={`relative px-4 py-2 rounded-xl border-2 transition-all duration-200 flex flex-col items-center min-w-[80px] ${selectedOption?._id === opt._id
                                         ? 'border-[#1B5E20] bg-[#F1F8E9] text-[#1B5E20]'
                                         : 'border-gray-100 bg-white text-gray-500 hover:border-gray-300'
-                                    }`}
+                                        }`}
                                 >
                                     <span className="font-bold">{opt.weight} {opt.unit}</span>
-                                    <span className="text-[10px] opacity-70">₹{opt.discountPrice || opt.price}</span>
+                                    <span className="text-[10px] opacity-70">₹{opt.currentPrice || opt.price}</span>
                                     {selectedOption?._id === opt._id && (
                                         <div className="absolute -top-1 -right-1 bg-[#1B5E20] text-white rounded-full p-0.5">
                                             <Check className="w-2.5 h-2.5" />
@@ -244,35 +252,67 @@ export default function ProductHero({ product, addToCart }) {
                 </div>
 
                 <div className="mb-5 flex flex-col md:flex-row items-center gap-4 md:gap-6">
-                    <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden h-14 w-full md:w-32">
-                        <button
-                            onClick={() => setQty(q => Math.max(1, q - 1))}
-                            className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
-                        >−</button>
-                        <input
-                            type="number"
-                            readOnly
-                            value={qty}
-                            className="w-full flex-1 text-center font-bold outline-none"
-                        />
-                        <button
-                            onClick={() => setQty(q => q + 1)}
-                            className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
-                        >+</button>
-                    </div>
+                        {cartItem ? (
+                            <>
+                                <div className="flex items-center border-2 border-[#1B5E20] rounded-xl overflow-hidden h-14 w-full md:w-32 bg-green-50/10">
+                                    <button
+                                        onClick={() => {
+                                            if (cartItem.quantity === 1) {
+                                                removeFromCart(cartItem.dbItemId || cartItem.id, !!cartItem.dbItemId);
+                                            } else {
+                                                updateQuantity(cartItem.id, cartItem.quantity - 1, cartItem.weightOption, cartItem.cuttingType);
+                                            }
+                                        }}
+                                        className="cursor-pointer flex-1 px-4 text-[#1B5E20] hover:bg-green-50 h-full font-bold transition-colors text-xl"
+                                    >-</button>
+                                    <span className="w-full flex-1 text-center font-bold text-[#1B5E20] text-lg">
+                                        {cartItem.quantity}
+                                    </span>
+                                    <button
+                                        onClick={() => {
+                                            updateQuantity(cartItem.id, cartItem.quantity + 1, cartItem.weightOption, cartItem.cuttingType);
+                                        }}
+                                        className="cursor-pointer flex-1 px-4 text-[#1B5E20] hover:bg-green-50 h-full font-bold transition-colors text-xl"
+                                    >+</button>
+                                </div>
+                                <div className="w-full md:flex-1 h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg bg-green-50 border border-green-100 text-[#1B5E20]">
+                                    <Check className="w-6 h-6" />
+                                    <span>In Cart — ₹{(Number(currentPrice * cartItem.quantity) || 0).toFixed(2)}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden h-14 w-full md:w-32">
+                                    <button
+                                        onClick={() => setQty(q => Math.max(1, q - 1))}
+                                        className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
+                                    >-</button>
+                                    <input
+                                        type="number"
+                                        readOnly
+                                        value={qty}
+                                        className="w-full flex-1 text-center font-bold outline-none"
+                                    />
+                                    <button
+                                        onClick={() => setQty(q => q + 1)}
+                                        className="cursor-pointer flex-1 md:flex-none px-4 text-gray-600 hover:bg-gray-100 h-full font-bold transition-colors"
+                                    >+</button>
+                                </div>
 
-                    <button
-                        onClick={handleAddToCart}
-                        disabled={!selectedOption || selectedOption.stock <= 0}
-                        className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] disabled:opacity-50 disabled:cursor-not-allowed text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
-                    >
-                        <ShoppingCart className="w-6 h-6" />
-                        <span>
-                            {selectedOption && selectedOption.stock > 0 
-                                ? `Add to Cart — ₹${(Number(currentPrice * qty) || 0).toFixed(2)}` 
-                                : 'Out of Stock'}
-                        </span>
-                    </button>
+                                <button
+                                    onClick={handleAddToCart}
+                                    disabled={!selectedOption || selectedOption.stock <= 0}
+                                    className="w-full md:flex-1 bg-[#1B5E20] hover:bg-[#5D4037] disabled:opacity-50 disabled:cursor-not-allowed text-white h-14 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-colors shadow-lg shadow-[#1B5E20]/30"
+                                >
+                                    <ShoppingCart className="w-6 h-6" />
+                                    <span>
+                                        {selectedOption && selectedOption.stock > 0
+                                            ? `Add to Cart — ₹${(Number(currentPrice * qty) || 0).toFixed(2)}`
+                                            : 'Out of Stock'}
+                                    </span>
+                                </button>
+                            </>
+                        )}
                 </div>
                 <div className="flex items-center justify-center md:justify-between flex-wrap gap-4 mb-3">
                     <div className="flex gap-2 flex-wrap ">

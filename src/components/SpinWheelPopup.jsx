@@ -1,87 +1,133 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Gift } from 'lucide-react';
-
-const segments = [
-    { label: '10% OFF', color: '#fde047', textColor: '#000' },
-    { label: 'TRY AGAIN', color: '#166534', textColor: '#fff' },
-    { label: 'FLAT ₹300 OFF', color: '#eab308', textColor: '#000' },
-    { label: 'NO LUCK', color: '#14532d', textColor: '#fff' },
-    { label: '₹1000 OFF', color: '#facc15', textColor: '#000' },
-    { label: 'BETTER LUCK', color: '#15803d', textColor: '#fff' }
-];
+import api from '../api/authApi';
 
 export default function SpinWheelPopup() {
     const [isOpen, setIsOpen] = useState(false);
     const [isSpinning, setIsSpinning] = useState(false);
     const [rotation, setRotation] = useState(0);
     const [result, setResult] = useState(null);
-    const [hasSpun, setHasSpun] = useState(false);
+    const [winningCouponCode, setWinningCouponCode] = useState('');
+    const [hasSpun, setHasSpun] = useState(() => {
+        return localStorage.getItem('hasSpunWheel') === 'true';
+    });
 
-    // Auto-open after 5 seconds
+    const [isWheelEnabled, setIsWheelEnabled] = useState(true);
+    const [segments, setSegments] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch dynamic spin wheel offers on mount
     useEffect(() => {
+        const fetchWheelSettings = async () => {
+            try {
+                const res = await api.get('/settings');
+                if (res.data.success) {
+                    setIsWheelEnabled(res.data.settings.isWheelEnabled ?? true);
+                    setSegments(res.data.settings.wheelOffers || []);
+                }
+            } catch (err) {
+                console.error("Failed to fetch wheel settings", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchWheelSettings();
+    }, []);
+
+    // Auto-open after 5 seconds if eligible
+    useEffect(() => {
+        if (loading || !isWheelEnabled) return;
+        const hasSpunBefore = localStorage.getItem('hasSpunWheel') === 'true';
+        const hasSeenPopup = sessionStorage.getItem('spinWheelSeen') === 'true';
+        
+        if (hasSpunBefore || hasSeenPopup) return;
+
         const timer = setTimeout(() => {
-            // Check if user has already seen/closed it in this session (Disabled for debugging)
-            // const hasSeenPopup = sessionStorage.getItem('spinWheelSeen');
-            // if (!hasSeenPopup) {
             setIsOpen(true);
-            // }
-        }, 5000); // 5 seconds delay
+        }, 5000);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [loading, isWheelEnabled]);
+
+    // Listen to custom event to manually trigger opening (e.g. from checkout)
+    useEffect(() => {
+        const handleOpenEvent = () => {
+            const hasSpunBefore = localStorage.getItem('hasSpunWheel') === 'true';
+            if (!hasSpunBefore && isWheelEnabled) {
+                setIsOpen(true);
+            }
+        };
+        window.addEventListener('openSpinWheel', handleOpenEvent);
+        return () => window.removeEventListener('openSpinWheel', handleOpenEvent);
+    }, [isWheelEnabled]);
 
     const handleClose = () => {
         setIsOpen(false);
-        // sessionStorage.setItem('spinWheelSeen', 'true'); // Commented out for debugging
+        sessionStorage.setItem('spinWheelSeen', 'true');
     };
 
-    const handleSpin = () => {
-        if (isSpinning || hasSpun) return;
+    const handleSpin = async () => {
+        if (isSpinning || hasSpun || !isWheelEnabled) return;
 
         setIsSpinning(true);
         setResult(null);
+        setWinningCouponCode('');
 
-        // Calculate rotation
-        // We want to spin multiple times (e.g., 5-8 full rotations) + a random angle
-        const spins = Math.floor(Math.random() * 4) + 5; // 5 to 8 spins
-        const randomAngle = Math.floor(Math.random() * 360);
-        const totalRotation = rotation + (spins * 360) + randomAngle;
-
-        setRotation(totalRotation);
-
-        // Determine the winning segment
-        // The pointer is at the top (0 degrees).
-        // The wheel rotates clockwise.
-        // Each segment is 60 degrees (360 / 6).
-        // The final angle modulo 360 tells us how much the wheel is offset.
-        // We subtract from 360 because the wheel moves forward, meaning the segments move "past" the pointer.
-        setTimeout(() => {
-            const normalizedAngle = totalRotation % 360;
-            const sliceSize = 360 / segments.length;
-
-            // Calculate which segment is at the top (pointer is at 0 degrees/top center)
-            // The wheel rotates clockwise (forward). This means the point on the wheel 
-            // that is now at the top is (360 - normalizedAngle).
-            const pointAtTop = (360 - normalizedAngle) % 360;
-
-            // Map that point directly to the slice index
-            const winningIndex = Math.floor(pointAtTop / sliceSize);
-            const winningLabel = segments[winningIndex].label;
-
-            setResult(winningLabel);
-            setIsSpinning(false);
-            if (winningLabel !== 'TRY AGAIN') {
-                setHasSpun(true);
+        try {
+            // Request winning offer dynamically from the backend
+            const res = await api.post('/settings/spin-wheel');
+            if (!res.data.success) {
+                throw new Error(res.data.message || "Failed to spin");
             }
-        }, 15000); // Matches the new animation duration of 10s
+
+            const winningOffer = res.data.offer;
+            const winningIndex = segments.findIndex(s => s.id === winningOffer.id);
+            const activeIndex = winningIndex >= 0 ? winningIndex : 0;
+
+            const sliceSize = 360 / segments.length;
+            const spins = Math.floor(Math.random() * 3) + 5; // 5 to 7 full spins
+            const targetAngle = (360 - (activeIndex * sliceSize + sliceSize / 2)) % 360;
+            const totalRotation = rotation + (spins * 360) + targetAngle - (rotation % 360);
+
+            setRotation(totalRotation);
+
+            setTimeout(() => {
+                setResult(winningOffer.label);
+                setIsSpinning(false);
+
+                if (winningOffer.type !== 'none' && winningOffer.couponCode) {
+                    setHasSpun(true);
+                    setWinningCouponCode(winningOffer.couponCode);
+                    localStorage.setItem('hasSpunWheel', 'true');
+                    // Store the serialized coupon object
+                    localStorage.setItem('wonCoupon', JSON.stringify({
+                        code: winningOffer.couponCode,
+                        offerId: winningOffer.id
+                    }));
+                    window.dispatchEvent(new Event('couponWon'));
+                } else {
+                    if (winningOffer.label !== 'TRY AGAIN') {
+                        setHasSpun(true);
+                        localStorage.setItem('hasSpunWheel', 'true');
+                    }
+                }
+            }, 15000);
+
+        } catch (err) {
+            console.error("Spin failed:", err);
+            setIsSpinning(false);
+        }
     };
 
+    if (loading || !isWheelEnabled || segments.length === 0) return null;
+
+    const sliceSize = 360 / segments.length;
     // Generate conic gradient for the wheel
     const wheelStyle = {
         background: `conic-gradient(
-      ${segments.map((s, i) => `${s.color} ${i * 60}deg ${(i + 1) * 60}deg`).join(', ')}
-    )`,
+            ${segments.map((s, i) => `${s.color || '#ffffff'} ${i * sliceSize}deg ${(i + 1) * sliceSize}deg`).join(', ')}
+        )`,
         borderRadius: '50%',
     };
 
@@ -135,14 +181,16 @@ export default function SpinWheelPopup() {
                                         key="result"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className={`border rounded-2xl py-2 px-1 md:p-6 text-center ${result.includes('OFF') ? 'bg-green-100 border-green-200' : 'bg-red-50 border-red-200'}`}
+                                        className={`border rounded-2xl py-2 px-1 md:p-6 text-center ${!result.includes('LUCK') && !result.includes('AGAIN') ? 'bg-green-100 border-green-200' : 'bg-red-50 border-red-200'}`}
                                     >
-                                        <p className={`font-medium mb-1 ${result.includes('OFF') ? 'text-green-800' : 'text-red-800'}`}>
-                                            {result.includes('OFF') ? 'You Won!' : 'Oops!'}
+                                        <p className={`font-medium mb-1 ${!result.includes('LUCK') && !result.includes('AGAIN') ? 'text-green-800' : 'text-red-800'}`}>
+                                            {!result.includes('LUCK') && !result.includes('AGAIN') ? 'You Won!' : 'Oops!'}
                                         </p>
-                                        <p className={`text-xl md:text-3xl font-black uppercase ${result.includes('OFF') ? 'text-green-900' : 'text-red-900'}`}>{result}</p>
-                                        {result.includes('OFF') ? (
-                                            <p className="text-sm text-green-700 mt-2">Use code <b>FARMERWIN</b> at checkout.</p>
+                                        <p className={`text-xl md:text-3xl font-black uppercase ${!result.includes('LUCK') && !result.includes('AGAIN') ? 'text-green-900' : 'text-red-900'}`}>{result}</p>
+                                        {winningCouponCode ? (
+                                            <p className="text-sm text-green-700 mt-2">
+                                                Use code <b>{winningCouponCode}</b> at checkout.
+                                            </p>
                                         ) : result === 'TRY AGAIN' ? (
                                             <div className="mt-4">
                                                 <p className="text-sm text-red-700 mb-3 font-medium">You get a second chance!</p>
@@ -198,11 +246,10 @@ export default function SpinWheelPopup() {
                                 >
                                     {/* Wheel Segments Labels */}
                                     {segments.map((segment, index) => {
-                                        // Position labels correctly inside the conic gradient slices
-                                        const rotationAngle = index * 60 + 30; // Center of the 60deg slice
+                                        const rotationAngle = index * sliceSize + (sliceSize / 2);
                                         return (
                                             <div
-                                                key={index}
+                                                key={segment.id || index}
                                                 className="absolute inset-0 flex items-start justify-center pointer-events-none pt-[22%]"
                                                 style={{
                                                     transform: `rotate(${rotationAngle}deg)`,
@@ -211,7 +258,7 @@ export default function SpinWheelPopup() {
                                                 <span
                                                     className="font-bold text-[10px] md:text-[11px] leading-none uppercase drop-shadow-sm w-max block"
                                                     style={{
-                                                        color: segment.textColor,
+                                                        color: segment.textColor || '#000000',
                                                         transform: 'rotate(-90deg)', // Read from center towards the edge
                                                         transformOrigin: 'center center' // Spin around its own center
                                                     }}

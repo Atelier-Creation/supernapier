@@ -25,7 +25,7 @@ export default function Footer() {
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
                                 <li><a href="/contact" className="hover:text-white transition-colors">Contact us</a></li>
                                 <li><a href="/support" className="hover:text-white transition-colors">Support Forum</a></li>
-                                <li><a href="/contact" className="hover:text-white transition-colors">Bulk Order</a></li>
+                                <li><a href="/contact?source=bulk" className="hover:text-white transition-colors">Bulk Order</a></li>
                             </ul>
                         </div>
 
@@ -45,9 +45,10 @@ export default function Footer() {
                             <h4 className="text-lg md:text-xl font-bold mb-2 text-white">Legal</h4>
                             <div className="h-[2px] w-full max-w-[50%] md:max-w-full bg-white mb-4"></div>
                             <ul className="space-y-2 text-sm text-gray-300 font-semibold">
-                                <li><a href="/eula" className="hover:text-white transition-colors">Refund & Return Policy</a></li>
-                                <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                                <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
                                 <li><a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a></li>
+                                <li><a href="/refund" className="hover:text-white transition-colors">Refund & Return Policy</a></li>
+                                <li><a href="/shipping-policy" className="hover:text-white transition-colors">Shipping & Delivery Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -71,9 +72,9 @@ export default function Footer() {
                         <div className="text-left md:text-right text-sm text-gray-200 space-y-1.5 font-semibold">
 
                             {logoError ? (
-                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.com</h4>
+                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.in</h4>
                             ) : (
-                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.com</h4>
+                                <h4 className="text-xl md:text-2xl font-bold mb-4 text-white text-left md:text-right">Super<span className="text-orange-500">Napier</span>.in</h4>
                                 // <img
                                 //     src="/logo.png"
                                 //     alt="Super Napier Logo"
@@ -81,10 +82,12 @@ export default function Footer() {
                                 //     // onError={() => setLogoError(true)}
                                 // />
                             )}
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Virudhachalam, Cuddalore <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Vannankudikadu, Tamil Nadu 606110 <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: (+91) 94889 32336 <Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
-                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: contact@supernapier.com <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Ponni seeds Pvt Ltd, C/o virudhambal, <Navigation className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">220/A2 Raman Street, Salem main road,<Navigation className="w-3.5 h-3.5 -mt-0.5 opacity-0" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">Ramachandran pettai, Vriddhachalam -606001. <Navigation className="w-3.5 h-3.5 -mt-0.5 opacity-0" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">GST No: 33AAOCP3989N1ZH <Navigation className="w-3.5 h-3.5 -mt-0.5 opacity-0" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">tel.: (+91) 76394 44670 , 94889 32336<Phone className="w-3.5 h-3.5 -mt-0.5" /></p>
+                            <p className="flex items-center justify-start md:justify-end gap-2 text-[13px]">email: contact@supernapier.in <Mail className="w-3.5 h-3.5 -mt-0.5" /></p>
                         </div>
                     </div>
                 </div>
@@ -105,7 +108,7 @@ export default function Footer() {
                         <div className="flex flex-wrap justify-center gap-4 text-[11px] md:text-[13px]">
                             <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
                             <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
-                            <a href="/refund" className="hover:text-white transition-colors">Refund & Return Policy</a>
+                            <li><a href="/refund" className="hover:text-white transition-colors">Refund & Return Policy</a></li>
                         </div>
                     </div>
 

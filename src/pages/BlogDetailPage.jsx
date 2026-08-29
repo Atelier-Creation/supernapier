@@ -68,7 +68,7 @@ export default function BlogDetailPage() {
                 description={post.excerpt} 
                 image={imageUrl}
                 url={window.location.href}
-                keywords={(post.category || "agriculture") + ", agriculture blog, super napier, cattle feed, super napier cattle feed, buy seeds online, buy cattle feed online"}
+                keywords={post.metaKeywords || ((post.category || "agriculture") + ", agriculture blog, super napier, cattle feed, super napier cattle feed, buy seeds online, buy cattle feed online")}
             />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -141,6 +141,63 @@ export default function BlogDetailPage() {
                             className="prose prose-lg prose-green max-w-none text-gray-700 leading-loose"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
+
+                        {/* WhatsApp CTA Button */}
+                        {post.whatsappCTA && (
+                            <div className="mt-8 border-t border-gray-100 pt-6">
+                                <a
+                                    href={`https://wa.me/916381250549?text=${encodeURIComponent(post.whatsappCTAMessage || `Hi, I have a query about the article "${post.title}"`)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 bg-[#25d366] hover:bg-[#20ba5a] text-white px-6 py-3 rounded-2xl font-bold transition-all hover:scale-[1.02] shadow-md shadow-[#25d366]/20 text-sm"
+                                >
+                                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.488 1.451 5.417 1.452 5.51.003 9.994-4.479 9.997-9.995.002-2.673-1.031-5.185-2.907-7.062-1.877-1.877-4.378-2.91-7.052-2.912-5.518 0-10.002 4.48-10.006 9.997-.001 1.922.502 3.8 1.454 5.408L1.758 21.94l6.195-1.626h-.306zM17.473 14.3c-.302-.15-1.787-.88-2.062-.98-.276-.1-.476-.15-.676.15-.2.3-.775.98-.95 1.18-.175.2-.35.225-.65.075-.3-.15-1.268-.467-2.414-1.485-.892-.795-1.493-1.777-1.668-2.077-.175-.3-.018-.463.13-.61.135-.13.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.845 9.1 9.245 7.6 8.995 7c-.244-.583-.49-.504-.676-.513-.175-.008-.375-.01-.576-.01-.2 0-.525.075-.8 1.075-.276 1-1.002 3.25-1.002 3.375 0 .125.125.25.25.375.125.125 1.5 2.292 3.633 3.213.507.219.904.35 1.214.448.51.162.974.139 1.341.084.409-.06 1.787-.73 2.037-1.43c.25-.7.25-1.3.175-1.425-.075-.125-.275-.2-.575-.35z" />
+                                    </svg>
+                                    <span>{post.whatsappCTAText || "Inquire on WhatsApp"}</span>
+                                </a>
+                            </div>
+                        )}
+
+                        {/* Tagged / Featured Products */}
+                        {post.taggedProducts && post.taggedProducts.length > 0 && (
+                            <div className="mt-10 border-t border-gray-100 pt-8">
+                                <h3 className="text-lg font-bold text-gray-900 mb-5">Featured Products</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {post.taggedProducts.map((prod) => {
+                                        const prodName = typeof prod.name === 'object' ? prod.name.en : prod.name;
+                                        const prodImg = prod.image || (prod.images && prod.images[0]) || '/placeholder.png';
+                                        const price = prod.price || (prod.weightOptions && prod.weightOptions[0] ? prod.weightOptions[0].price : 0);
+                                        return (
+                                            <div key={prod._id} className="flex gap-4 bg-gray-50 border border-gray-100 rounded-2xl p-4 hover:shadow-sm transition-all">
+                                                <img
+                                                    src={prodImg}
+                                                    alt={prodName}
+                                                    className="w-16 h-16 rounded-xl object-cover border bg-white flex-shrink-0"
+                                                />
+                                                <div className="flex flex-col justify-between flex-grow min-w-0">
+                                                    <div>
+                                                        <h4 className="font-bold text-gray-900 text-sm line-clamp-1">{prodName}</h4>
+                                                        <p className="text-xs text-gray-400 mt-1 line-clamp-2">
+                                                            {typeof prod.description === 'object' ? prod.description?.en : prod.description}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex items-center justify-between mt-2">
+                                                        <span className="text-[#1B5E20] font-black text-sm">₹{price}</span>
+                                                        <Link
+                                                            to={`/product/${prod._id}`}
+                                                            className="text-xs font-bold text-green-700 hover:text-green-800 hover:underline"
+                                                        >
+                                                            View Product →
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             </div>

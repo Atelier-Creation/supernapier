@@ -11,6 +11,7 @@ import HowToUseSection from '../components/product/HowToUseSection';
 import StatisticalHighlights from '../components/StatisticalHighlights';
 
 import SEO from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 
 export default function ProductDetailPage({ addToCart }) {
     const { id } = useParams();
@@ -63,6 +64,34 @@ export default function ProductDetailPage({ addToCart }) {
     const localizedName = product.name?.en || 'Product';
     const localizedDesc = product.description?.en || '';
 
+    const baseSiteUrl = window.location.origin;
+    const lowestPrice = product.weightOptions?.reduce((min, opt) => opt.price < min ? opt.price : min, product.weightOptions[0]?.price || 0) || 0;
+    const highestPrice = product.weightOptions?.reduce((max, opt) => opt.price > max ? opt.price : max, product.weightOptions[0]?.price || 0) || 0;
+    const inStock = product.weightOptions?.some(opt => opt.stock > 0);
+
+    const productSchema = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": localizedName,
+        "image": product.images?.map(img => img.startsWith('http') ? img : `${baseSiteUrl}${img}`) || [],
+        "description": localizedDesc,
+        "sku": product.SKU || product.productId,
+        "offers": product.weightOptions?.length > 1 ? {
+            "@type": "AggregateOffer",
+            "priceCurrency": "INR",
+            "lowPrice": lowestPrice,
+            "highPrice": highestPrice,
+            "offerCount": product.weightOptions.length,
+            "availability": inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        } : (product.weightOptions?.length === 1 ? {
+            "@type": "Offer",
+            "priceCurrency": "INR",
+            "price": product.weightOptions[0].price,
+            "availability": product.weightOptions[0].stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+        } : undefined)
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -76,6 +105,11 @@ export default function ProductDetailPage({ addToCart }) {
                 image={product.images?.[0] || '/placeholder.png'}
                 url={window.location.href}
             />
+            <Helmet>
+                <script type="application/ld+json">
+                    {JSON.stringify(productSchema)}
+                </script>
+            </Helmet>
             <div className="max-w-7xl mx-auto px-4 mt-15 sm:px-6 lg:px-8">
                 {/* Back link */}
                 <Link

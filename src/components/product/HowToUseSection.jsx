@@ -10,7 +10,7 @@ const defaultHowToUseSteps = [
         heading: 'Creating the perfect foundation for growth.',
         description: 'Super Napier requires well-drained soil rich in organic matter. Plough the land deeply and mix in farm yard manure to ensure strong root development from day one.',
         bullets: ['Deep ploughing (2-3 times)', 'Mix organic manure thoroughly', 'Maintain soil pH between 5.5 - 7.0'],
-        image: 'https://agriplanting.com/wp-content/uploads/2024/05/5-Steps-in-Land-Preparation-in-Agriculture.jpg',
+        image: 'https://res.cloudinary.com/dxm28ujz3/image/upload/v1776860991/products/pzrtdokb3c4epq4s4gqg.jpg',
         icon: Tractor,
     },
     {
@@ -19,7 +19,7 @@ const defaultHowToUseSteps = [
         heading: 'Positioning slips for maximum yield.',
         description: 'Proper spacing is essential. Plant the slips at an angle, burying two nodes in the soil and leaving one node above ground to encourage rapid sprouting.',
         bullets: ['Maintain 3x2 ft spacing', 'Plant at a 45-degree angle', 'Ensure good soil-to-slip contact'],
-        image: 'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=800',
+        image: 'https://res.cloudinary.com/dxm28ujz3/image/upload/v1776860989/products/ddaydlfukjl8d444o79r.jpg',
         icon: Sprout,
     },
     {
@@ -28,7 +28,7 @@ const defaultHowToUseSteps = [
         heading: 'Consistent moisture for rapid multiplication.',
         description: 'Super Napier demands regular watering, especially right after planting. Ensure steady irrigation to accelerate the sprouting and tillering processes.',
         bullets: ['Water immediately after planting', 'Irrigate every 7-10 days', 'Keep field weed-free initially'],
-        image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80',
+        image: 'https://res.cloudinary.com/dxm28ujz3/image/upload/v1776860989/products/w6frmue2w1jckr49uvmi.jpg',
         icon: Droplets,
     },
     {
@@ -37,7 +37,7 @@ const defaultHowToUseSteps = [
         heading: 'Reaping the high-protein reward.',
         description: 'The first cut should happen a bit later to establish the plant. After the first harvest, the grass will regrow rapidly, allowing for frequent subsequent cuts.',
         bullets: ['First cut at 75-90 days', 'Subsequent cuts every 45-60 days', 'Leave 2-3 inches of stalk above ground'],
-        image: 'https://images.pexels.com/photos/247597/pexels-photo-247597.jpeg?w=800&q=80',
+        image: 'https://res.cloudinary.com/dxm28ujz3/image/upload/v1776860991/products/vmhhwplxzhsiehpfmycz.jpg',
         icon: Wheat,
     },
 ];
@@ -160,7 +160,7 @@ export default function HowToUseSection({ product }) {
                                     const Icon = s.icon;
                                     return (
                                         <button
-                                            key={s.id}
+                                            key={s.id || idx}
                                             id={`step-tab-${idx}`}
                                             onClick={() => setActiveStep(idx)}
                                             className={`relative overflow-hidden flex flex-col md:block text-left text-lg md:text-xl lg:text-[22px] xl:text-2xl font-bold leading-snug transition-colors duration-200 whitespace-nowrap md:whitespace-normal shrink-0 pt-3 md:pt-0 pb-1 md:pb-2 border-t-2 md:border-none ${activeStep === idx
@@ -178,7 +178,7 @@ export default function HowToUseSection({ product }) {
                                             <span className={`md:hidden relative z-10 text-xs md:text-sm tracking-widest uppercase mb-1 font-semibold ${activeStep === idx ? 'text-[#eecd15]/80' : 'text-[#42644D]'}`}>
                                                 Step 0{idx + 1}
                                             </span>
-                                            <span className="relative z-10">{s.title}</span>
+                                            <span className="relative z-10">{s.title?.en || s.title}</span>
                                         </button>
                                     );
                                 })}
@@ -195,7 +195,7 @@ export default function HowToUseSection({ product }) {
                                     key={activeStep}
                                     custom={direction}
                                     src={step.image}
-                                    alt={step.title}
+                                    alt={step.title?.en || step.title}
                                     variants={imageVariants}
                                     initial="enter"
                                     animate="center"
@@ -220,7 +220,7 @@ export default function HowToUseSection({ product }) {
                                     key={`mob-img-${activeStep}`}
                                     custom={direction}
                                     src={step.image}
-                                    alt={step.title}
+                                    alt={step.title?.en || step.title}
                                     variants={imageVariants}
                                     initial="enter"
                                     animate="center"
@@ -249,13 +249,13 @@ export default function HowToUseSection({ product }) {
                                     className="relative z-10 p-5  text-white"
                                 >
                                     <h3 className="font-bold text-lg leading-snug mb-1.5">
-                                        {step.heading}
+                                        {step.heading?.en || step.heading}
                                     </h3>
                                     <p className="text-white/90 text-sm leading-relaxed mb-3">
-                                        {step.description}
+                                        {step.description?.en || step.description}
                                     </p>
                                     <ul className="space-y-1.5">
-                                        {step.bullets.map((b, i) => (
+                                        {(Array.isArray(step.bullets) ? step.bullets : (step.bullets?.en || [])).map((b, i) => (
                                             <li key={i} className="flex items-start gap-2 text-sm sm:text-xs text-white/80 font-medium">
                                                 <Check className="w-3.5 h-3.5 text-[#a3c46a] flex-shrink-0 mt-[1px] stroke-[2.5]" />
                                                 {b}
@@ -283,13 +283,13 @@ export default function HowToUseSection({ product }) {
                                     className="bg-white rounded-xl p-4 sm:p-6 md:p-10 lg:p-12 flex flex-col justify-center h-full gap-3 sm:gap-4 md:gap-5 shadow-xl text-left"
                                 >
                                     <h3 className="text-[#0A2613] font-bold text-md sm:text-lg md:text-2xl lg:text-[28px] leading-snug lg:leading-snug mb-1 md:mb-2">
-                                        {step.heading}
+                                        {step.heading?.en || step.heading}
                                     </h3>
                                     <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-2 md:mb-4">
-                                        {step.description}
+                                        {step.description?.en || step.description}
                                     </p>
                                     <ul className="space-y-1.5 md:space-y-3">
-                                        {step.bullets.map((b, i) => (
+                                        {(Array.isArray(step.bullets) ? step.bullets : (step.bullets?.en || [])).map((b, i) => (
                                             <li key={i} className="flex items-start gap-1.5 md:gap-3 text-[10px] sm:text-xs md:text-sm lg:text-base text-gray-600 font-medium">
                                                 <Check className="w-3.5 h-3.5 md:w-5 md:h-5 text-[#2E7D32] flex-shrink-0 mt-[1px] md:mt-[2px] stroke-[2.5]" />
                                                 {b}

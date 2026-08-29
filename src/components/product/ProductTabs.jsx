@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, ListOrdered, PlayCircle, Check } from 'lucide-react';
 
-const tabs = [
-    { id: 'details', label: 'Details', icon: FileText },
-    { id: 'video', label: 'Video Guide', icon: PlayCircle },
-];
+
 
 function QuickInfoCard({ title, body, highlight }) {
     return (
@@ -18,7 +15,59 @@ function QuickInfoCard({ title, body, highlight }) {
 
 
 export default function ProductTabs({ product }) {
+    const getActiveLanguage = () => {
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        };
+        const googtrans = getCookie('googtrans');
+        if (googtrans) {
+            const parts = googtrans.split('/');
+            if (parts.length >= 3) {
+                return parts[2].toLowerCase();
+            }
+        }
+        return 'en';
+    };
+
+    const activeLang = getActiveLanguage();
+
+    const resolveVideoUrl = (videoField) => {
+        if (!videoField) return null;
+        if (typeof videoField === 'string') return videoField;
+        return videoField[activeLang] || videoField['en'] || Object.values(videoField).find(v => !!v) || null;
+    };
+
+    const getYoutubeId = (url) => {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : url;
+    };
+
+    const productVideoUrlResolved = resolveVideoUrl(product.productVideoUrl);
+    const productVideoId = getYoutubeId(productVideoUrlResolved) || product.youtubeVideoId;
+
+    const howToPlantVideoUrlResolved = resolveVideoUrl(product.howToPlantVideoUrl);
+    const howToPlantVideoId = getYoutubeId(howToPlantVideoUrlResolved);
+
+    // Build tabs dynamically
+    const availableTabs = [
+        { id: 'details', label: 'Details', icon: FileText },
+    ];
+
+    if (productVideoId) {
+        availableTabs.push({ id: 'video', label: 'Product Video', icon: PlayCircle });
+    }
+
+    if (howToPlantVideoId) {
+        availableTabs.push({ id: 'plantVideo', label: 'How to Plant Video', icon: PlayCircle });
+    }
+
     const [activeTab, setActiveTab] = useState('details');
+    const currentActiveTab = availableTabs.some(t => t.id === activeTab) ? activeTab : 'details';
 
     return (
         <div className="mb-10 md:mb-24">
@@ -28,9 +77,9 @@ export default function ProductTabs({ product }) {
                 <div className="lg:col-span-3">
                     {/* Tab Buttons */}
                     <div className="flex border-b border-gray-200 mb-8 gap-1">
-                        {tabs.map(tab => {
+                        {availableTabs.map(tab => {
                             const Icon = tab.icon;
-                            const isActive = activeTab === tab.id;
+                            const isActive = currentActiveTab === tab.id;
                             return (
                                 <button
                                     key={tab.id}
@@ -49,7 +98,7 @@ export default function ProductTabs({ product }) {
 
                     {/* Tab Content */}
                     <AnimatePresence mode="wait">
-                        {activeTab === 'details' && (
+                        {currentActiveTab === 'details' && (
                             <motion.div
                                 key="details"
                                 initial={{ opacity: 0, y: 8 }}
@@ -68,7 +117,7 @@ export default function ProductTabs({ product }) {
                             </motion.div>
                         )}
 
-                        {activeTab === 'video' && (
+                        {currentActiveTab === 'video' && (
                             <motion.div
                                 key="video"
                                 initial={{ opacity: 0, y: 8 }}
@@ -76,32 +125,43 @@ export default function ProductTabs({ product }) {
                                 exit={{ opacity: 0, y: -8 }}
                                 transition={{ duration: 0.2 }}
                             >
-                                {(() => {
-                                    const getYoutubeId = (url) => {
-                                        if (!url) return null;
-                                        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
-                                        const match = url.match(regExp);
-                                        return (match && match[2].length === 11) ? match[2] : url;
-                                    };
-                                    
-                                    const videoId = getYoutubeId(product.productVideoUrl) || product.youtubeVideoId;
+                                {productVideoId ? (
+                                    <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 aspect-video">
+                                        <iframe
+                                            className="w-full h-full"
+                                            src={`https://www.youtube.com/embed/${productVideoId}`}
+                                            title={`${product.name?.en || 'Product'} — Product Video`}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-500">No product video available.</p>
+                                )}
+                            </motion.div>
+                        )}
 
-                                    if (videoId) {
-                                        return (
-                                            <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 aspect-video">
-                                                <iframe
-                                                    className="w-full h-full"
-                                                    src={`https://www.youtube.com/embed/${videoId}`}
-                                                    title={`${product.name?.en || 'Product'} — Video Guide`}
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                />
-                                            </div>
-                                        );
-                                    }
-                                    
-                                    return <p className="text-gray-500">No video guide available for this product.</p>;
-                                })()}
+                        {currentActiveTab === 'plantVideo' && (
+                            <motion.div
+                                key="plantVideo"
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -8 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                {howToPlantVideoId ? (
+                                    <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 aspect-video">
+                                        <iframe
+                                            className="w-full h-full"
+                                            src={`https://www.youtube.com/embed/${howToPlantVideoId}`}
+                                            title={`${product.name?.en || 'Product'} — How to Plant Video`}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-500">No how to plant video available.</p>
+                                )}
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -116,7 +176,7 @@ export default function ProductTabs({ product }) {
                     />
                     <QuickInfoCard
                         title="Return & Exchange"
-                        body="The self life of these product or less So we are not Providing any Return & Exchange"
+                        body="Due to the short shelf life of agricultural seeds and hybrid fodder, we do not provide returns or exchanges."
                         highlight
                     />
                     <QuickInfoCard title="Help" body="Email us at support@supernapier.com" />

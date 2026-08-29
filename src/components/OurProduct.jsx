@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { productApi } from '../api/productApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function OurProduct({ addToCart }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -70,14 +72,20 @@ export default function OurProduct({ addToCart }) {
                     <div className="flex w-full items-center justify-center relative h-full">
                         {products.map((product, index) => {
                             // Determine relative position
-                            let position = 'next';
-                            if (index === currentIndex) position = 'active';
-                            else if (index === (currentIndex === 0 ? products.length - 1 : currentIndex - 1)) position = 'prev';
+                            let position = 'hidden';
+                            if (index === currentIndex) {
+                                position = 'active';
+                            } else if (index === (currentIndex === 0 ? products.length - 1 : currentIndex - 1)) {
+                                position = 'prev';
+                            } else if (index === (currentIndex === products.length - 1 ? 0 : currentIndex + 1)) {
+                                position = 'next';
+                            }
 
                             // Set styles based on position
                             const isActive = position === 'active';
                             const isPrev = position === 'prev';
                             const isNext = position === 'next';
+                            const isVisible = isActive || isPrev || isNext;
 
                             const image = product.images?.[0] || product.image || '/placeholder.png';
                             const name = product.name?.en || product.name || 'Seeds';
@@ -87,20 +95,22 @@ export default function OurProduct({ addToCart }) {
                                     key={product._id || product.id}
                                     initial={false}
                                     animate={{
-                                        x: isActive ? 0 : isPrev ? '-100%' : '100%',
+                                        x: isActive ? 0 : isPrev ? '-100%' : isNext ? '100%' : '200%',
                                         scale: isActive ? 1 : 0.65,
-                                        opacity: isActive ? 1 : 0.8,
-                                        zIndex: isActive ? 30 : 10,
+                                        opacity: isActive ? 1 : (isPrev || isNext) ? 0.8 : 0,
+                                        zIndex: isActive ? 30 : (isPrev || isNext) ? 10 : 0,
                                     }}
                                     transition={{ duration: 0.5, ease: "easeInOut" }}
-                                    className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center justify-center cursor-pointer"
-                                    onClick={() => setCurrentIndex(index)}
+                                    className={`absolute top-1/2 -translate-y-1/2 flex flex-col items-center justify-center cursor-pointer ${!isVisible ? 'pointer-events-none' : ''}`}
+                                    onClick={() => isVisible && setCurrentIndex(index)}
                                 >
                                     <div className="relative w-64 md:w-100 h-auto filter drop-shadow-2xl">
                                         <img
                                             src={image}
                                             alt={name}
-                                            className="w-full h-auto object-contain "
+                                            className="w-full h-auto object-contain"
+                                            loading="lazy"
+                                            onClick={()=>navigate(`/product/${product._id || product.id}`)}
                                         />
                                     </div>
                                 </motion.div>
@@ -110,22 +120,34 @@ export default function OurProduct({ addToCart }) {
                 </div>
 
                 {/* Navigation Arrows */}
-                <div className="flex items-center justify-center space-x-5 md:space-x-10 mt-0 relative z-10">
+                <div className="flex items-center justify-center space-x-5 md:space-x-10 mt-0 relative z-50">
                     <button
                         onClick={handlePrev}
                         className="w-12 h-12 rounded-full border-2 border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors text-gray-800"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </button>
-                    {/* Action button only visible on active */}
                     <motion.button
                         key={activeProduct.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                         onClick={() => {
-                            if (addToCart) {
-                                addToCart(activeProduct);
+                            if (addToCart && activeProduct) {
+                                const baseOption = activeProduct.weightOptions?.[0] || {};
+                                const p1 = Number(baseOption.price || activeProduct.price || 0);
+                                const p2 = Number(baseOption.discountPrice || 0);
+                                const currentPrice = (p2 > 0) ? Math.min(p1, p2) : p1;
+                                const unit = baseOption.unit || activeProduct.unit || 'kg';
+                                const weight = baseOption.weight || '1';
+                                addToCart({
+                                    ...activeProduct,
+                                    id: activeProduct._id || activeProduct.id,
+                                    weightOptionId: baseOption._id,
+                                    price: currentPrice,
+                                    unit: unit,
+                                    weight: weight
+                                });
                             }
                         }}
                         className="bg-[#16a34a] hover:bg-[#15803d] text-white px-4 md:px-8 py-3 rounded-full font-bold shadow-lg transition-colors"

@@ -4,10 +4,43 @@ import { orderApi } from '../../api/orderApi';
 import { Loader2, Package, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+const getTrackingSteps = (status) => {
+  const isCancelled = status?.toLowerCase() === 'cancelled';
+  
+  if (isCancelled) {
+    return [
+      { label: 'Order Placed', completed: true },
+      { label: 'Cancelled', completed: true, error: true }
+    ];
+  }
+
+  const s = status?.toLowerCase();
+  
+  // Placed is always true
+  const placed = true;
+  
+  // Processing is true for Processing, reached_pickup, picked_up, shipped, delivered
+  const processing = ['processing', 'reached_pickup', 'picked_up', 'shipped', 'delivered'].includes(s);
+  
+  // Shipped is true for shipped, delivered
+  const shipped = ['shipped', 'delivered'].includes(s);
+  
+  // Delivered is true for delivered
+  const delivered = s === 'delivered';
+
+  return [
+    { label: 'Order Placed', completed: placed, active: s === 'pending' || s === 'claimed' },
+    { label: 'Processing', completed: processing, active: ['processing', 'reached_pickup', 'picked_up'].includes(s) },
+    { label: 'Shipped', completed: shipped, active: s === 'shipped' },
+    { label: 'Delivered', completed: delivered, active: s === 'delivered' }
+  ];
+};
+
 const Orders = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTrackingOrderId, setActiveTrackingOrderId] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -148,8 +181,11 @@ const Orders = () => {
               {/* Actions */}
               <div className="px-6 pb-6 pt-2 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex flex-wrap gap-3">
-                  <button className="px-5 py-2 rounded-xl text-sm font-bold bg-[#1B4332] text-white hover:bg-[#2d5a47] transition-all">
-                    Track Order
+                  <button 
+                    onClick={() => setActiveTrackingOrderId(activeTrackingOrderId === order._id ? null : order._id)}
+                    className="px-5 py-2 rounded-xl text-sm font-bold bg-[#1B4332] text-white hover:bg-[#2d5a47] transition-all"
+                  >
+                    {activeTrackingOrderId === order._id ? 'Hide Tracking' : 'Track Order'}
                   </button>
                   <button className="px-5 py-2 rounded-xl text-sm font-bold bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 transition-all">
                     Invoice
@@ -161,6 +197,69 @@ const Orders = () => {
                   </button>
                 )}
               </div>
+
+              {/* Tracking Stepper */}
+              {activeTrackingOrderId === order._id && (
+                <div className="border-t border-gray-100 bg-gray-50/50 p-6 transition-all duration-300">
+                  <h4 className="text-sm font-bold text-gray-800 mb-4">Order Tracking Status</h4>
+                  
+                  {order.status?.toLowerCase() === 'cancelled' ? (
+                    <div className="flex items-center gap-3 p-4 bg-red-50 text-red-700 rounded-2xl border border-red-100">
+                      <span className="w-2.5 h-2.5 bg-red-600 rounded-full animate-ping"></span>
+                      <p className="text-xs font-semibold">This order has been cancelled.</p>
+                    </div>
+                  ) : (
+                    <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mt-4 px-2">
+                      {/* Connection lines for desktop view */}
+                      <div className="absolute top-4 left-0 right-0 h-1 bg-gray-200 hidden md:block z-0" />
+                      
+                      {/* Active tracking highlight line */}
+                      <div 
+                        className="absolute top-4 left-0 h-1 bg-emerald-600 hidden md:block transition-all duration-500 z-0"
+                        style={{ 
+                          width: 
+                            order.status?.toLowerCase() === 'delivered' ? '100%' :
+                            order.status?.toLowerCase() === 'shipped' ? '66%' :
+                            ['processing', 'reached_pickup', 'picked_up'].includes(order.status?.toLowerCase()) ? '33%' : '0%'
+                        }} 
+                      />
+                      
+                      {getTrackingSteps(order.status).map((step, idx) => (
+                        <div key={idx} className="flex md:flex-col items-center gap-3 md:gap-2 z-10 w-full md:w-auto relative">
+                          {/* Step Circle */}
+                          <div 
+                            className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                              step.completed 
+                                ? 'bg-emerald-600 border-emerald-600 text-white' 
+                                : 'bg-white border-gray-200 text-gray-400'
+                            } ${step.active ? 'ring-4 ring-emerald-100' : ''}`}
+                          >
+                            {step.completed ? (
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <span className="text-xs font-bold">{idx + 1}</span>
+                            )}
+                          </div>
+                          
+                          {/* Label and description */}
+                          <div className="text-left md:text-center">
+                            <p className={`text-xs font-bold ${step.completed ? 'text-gray-800' : 'text-gray-400'}`}>
+                              {step.label}
+                            </p>
+                            {step.active && (
+                              <p className="text-[10px] text-emerald-600 font-semibold animate-pulse">
+                                Current Stage
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>

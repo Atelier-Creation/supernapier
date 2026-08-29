@@ -18,6 +18,8 @@ import Hero from '../components/Hero';
 import SemiPieSliderDemo from './SemiPieSliderDemo';
 import CategorySliderDemo from './CategorySliderDemo';
 import TrustSection from '../components/TrustSection';
+import SEO from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 
 export default function LandingPage({ addToCart }) {
     const [bestSellers, setBestSellers] = useState([]);
@@ -36,8 +38,49 @@ export default function LandingPage({ addToCart }) {
         fetchBestSellers();
     }, []);
 
+    const siteUrl = window.location.origin;
+
+    const orgSchema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Super Napier (Ponni Seeds)",
+        "url": siteUrl,
+        "logo": `${siteUrl}/logo.png`,
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-76394-44670",
+            "contactType": "customer service"
+        }
+    };
+
+    const websiteSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Super Napier",
+        "url": siteUrl,
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": `${siteUrl}/products?search={search_term_string}`,
+            "query-input": "required name=search_term_string"
+        }
+    };
+
     return (
         <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }}>
+            <SEO 
+                title="Super Napier fodder grass seeds - High Yield Agriculture Fodder" 
+                description="Super Napier is India's leading brand for high-yield fodder grass seeds. Empowering livestock farmers with up to 200 tons/acre annual yield of high protein grass." 
+                keywords="super napier, grass seed, high yield fodder, agriculture, livestock feed, napier slips"
+                url={window.location.href}
+            />
+            <Helmet>
+                <script type="application/ld+json">
+                    {JSON.stringify(orgSchema)}
+                </script>
+                <script type="application/ld+json">
+                    {JSON.stringify(websiteSchema)}
+                </script>
+            </Helmet>
             {/* <Hero /> */}
             <ScrollExpansionHero />
             {/* <HeroBrutal /> */}

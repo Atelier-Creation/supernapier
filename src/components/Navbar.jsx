@@ -7,8 +7,8 @@ import LoginModal from '../Context/LoginModal';
 
 const NAV_LINKS = [
     { label: 'Product', to: '/products' },
+    { label: 'Bulk Order', to: '/contact?source=bulk' },
     { label: 'Partnership', to: '/partnership' },
-    { label: 'Blogs', to: '/blog' },
     { label: 'About Us', to: '/about' },
     { label: 'Contact Us', to: '/contact' },
 ];
@@ -143,7 +143,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                     <div className="flex items-center justify-between h-18">
 
                         {/* ── Desktop Left: Nav Links ── */}
-                        <div className="hidden lg:flex items-center md:gap-8 lg:gap-4 flex-1">
+                        <div className="hidden lg:flex items-center md:gap-2 lg:gap-2 flex-1">
                             {NAV_LINKS.map(({ label, to }) => (
                                 <Link
                                     key={label}
@@ -172,10 +172,10 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                     to="/profile"
                                     className="text-sm font-bold text-[#1B5E20] hover:underline flex items-center gap-2 transition-all"
                                 >
-                                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-[#1B5E20]">
+                                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-[#1B5E20] pb-[6px]">
                                         {user.name.charAt(0)}
                                     </div>
-                                    <span>{user.name}</span>
+                                    <span className='pb-[3px] capitalize'>{user.name}</span>
                                 </Link>
                             ) : (
                                 <Link

@@ -3,10 +3,20 @@ import { motion } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-const PartnershipHero = ({ imageSrc }) => {
+const PartnershipHero = ({ config }) => {
   React.useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
+
+  const {
+    title = "Powering Your 5,000-Acre Bio-Industrial Vision",
+    description = "Strategic feedstock partnership for Biofuel and Pulp Ventures. The Super Napier Team delivers excellence in biomass scalability.",
+    button1Text = "Partner With Us",
+    button1Link = "#contact",
+    button2Text = "Download Proposal",
+    button2Link = "#",
+    imageSrc = { url: "/assets/partnership/hero.png", alt: "Super Napier Grass" }
+  } = config || {};
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-forest py-12 md:pt-28 md:pb-20 px-4 md:px-6">
@@ -27,18 +37,27 @@ const PartnershipHero = ({ imageSrc }) => {
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
         <div className="text-left order-2 lg:order-1" data-aos="fade-right">
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-slate-white mb-6 leading-tight">
-            Powering Your <span className="text-earthy-gold">5,000-Acre</span> Bio-Industrial Vision
+            {title.split(" ").slice(0, -2).join(" ")}{' '}
+            <span className="text-earthy-gold">{title.split(" ").slice(-2).join(" ")}</span>
           </h1>
           <p className="text-lg md:text-2xl text-slate-white/80 mb-8 md:mb-10 max-w-xl">
-            Strategic feedstock partnership for Biofuel and Pulp Ventures. The Super Napier Team delivers excellence in biomass scalability.
+            {description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-earthy-gold hover:bg-earthy-gold/90 text-deep-forest px-8 py-3 md:py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-xl">
-              Partner With Us
-            </button>
-            <button className="border-2 border-slate-white/30 hover:border-slate-white text-slate-white px-8 py-3 md:py-4 rounded-full font-bold text-lg transition-all">
-              Download Proposal
-            </button>
+            {button1Link && (
+              <a href={button1Link}>
+                <button className="w-full sm:w-auto bg-earthy-gold hover:bg-earthy-gold/90 text-deep-forest px-8 py-3 md:py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-xl">
+                  {button1Text}
+                </button>
+              </a>
+            )}
+            {button2Link && (
+              <a href={button2Link}>
+                <button className="w-full sm:w-auto border-2 border-slate-white/30 hover:border-slate-white text-slate-white px-8 py-3 md:py-4 rounded-full font-bold text-lg transition-all">
+                  {button2Text}
+                </button>
+              </a>
+            )}
           </div>
         </div>
 
@@ -55,8 +74,8 @@ const PartnershipHero = ({ imageSrc }) => {
             className="relative z-10"
           >
             <img
-              src={imageSrc}
-              alt="Super Napier Grass"
+              src={imageSrc?.url || "/assets/partnership/hero.png"}
+              alt={imageSrc?.alt || "Super Napier Grass"}
               className="w-full max-w-md lg:max-w-xl drop-shadow-[0_35px_35px_rgba(197,160,89,0.3)] rounded-2xl"
             />
           </motion.div>

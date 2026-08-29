@@ -9,13 +9,17 @@ export default function ProductCard({ product, addToCart }) {
     const description = product.description?.en || product.description || '';
     const image = product.images?.[0] || product.image || '/placeholder.png';
     const category = product.category?.name?.en || product.category?.name || product.category || 'Seeds';
-    
+
     // Get price from weightOptions
     const baseOption = product.weightOptions?.[0] || {};
-    const price = baseOption.price || product.price || 0;
-    const discountPrice = baseOption.discountPrice;
+    const p1 = Number(baseOption.price || product.price || 0);
+    const p2 = Number(baseOption.discountPrice || 0);
+    const currentPrice = (p2 > 0) ? Math.min(p1, p2) : p1;
+    const originalPrice = (p2 > 0) ? Math.max(p1, p2) : p1;
+    const hasDiscount = p2 > 0 && p1 !== p2;
+    const discountPercent = hasDiscount ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : null;
+    const weight = baseOption.weight || '1';
     const unit = baseOption.unit || product.unit || 'kg';
-    const discountPercent = discountPrice ? Math.round(((price - discountPrice) / price) * 100) : null;
 
     return (
         <motion.div
@@ -58,13 +62,13 @@ export default function ProductCard({ product, addToCart }) {
                     <div>
                         <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Price</p>
                         <div className="flex items-baseline gap-1">
-                            <p className="text-xl font-black text-gray-900">
-                                ₹{(Number(discountPrice || price) || 0).toFixed(2)}
+                            <p className="text-lg font-black text-gray-900">
+                                ₹{(Number(currentPrice) || 0).toFixed(2)}
                             </p>
-                            {discountPrice && (
-                                <p className="text-xs text-gray-400 line-through">₹{(Number(price) || 0).toFixed(2)}</p>
+                            {hasDiscount && (
+                                <p className="text-[11px] text-gray-400 line-through">₹{(Number(originalPrice) || 0).toFixed(2)}</p>
                             )}
-                            <span className="text-xs font-medium text-[#059669]">/{unit}</span>
+                            <span className="text-[10px] font-bold text-[#059669]">/ {weight}{unit}</span>
                         </div>
                     </div>
 
@@ -76,7 +80,7 @@ export default function ProductCard({ product, addToCart }) {
                                 ...product,
                                 id: product._id || product.id,
                                 weightOptionId: baseOption._id,
-                                price: discountPrice || price,
+                                price: currentPrice,
                                 unit: unit,
                                 weight: baseOption.weight
                             });

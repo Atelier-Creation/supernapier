@@ -6,6 +6,8 @@ import { categoryApi } from '../api/categoryApi';
 import { motion } from 'framer-motion';
 import { Search, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 
 const SVG_PATTERN = `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
 
@@ -77,6 +79,17 @@ export default function ProductsPage({ addToCart }) {
 
     const allFilters = ['All', ...categories.map(c => c.name?.en || c.name)];
 
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": filteredProducts.map((product, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `${window.location.origin}/product/${product._id || product.id}`,
+            "name": product.name?.en || 'Product'
+        }))
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -84,6 +97,17 @@ export default function ProductsPage({ addToCart }) {
             exit={{ opacity: 0 }}
             className="bg-[#FAFCF8] min-h-screen relative overflow-hidden"
         >
+            <SEO 
+                title="Shop High Yield Seeds - Super Napier fodder grass seeds" 
+                description="Buy high quality, high yield Super Napier grass seeds and agricultural products. Best fodder solutions for your livestock farming." 
+                keywords="buy super napier, fodder seeds, grass slips, livestock feed, agricultural products"
+                url={window.location.href}
+            />
+            <Helmet>
+                <script type="application/ld+json">
+                    {JSON.stringify(itemListSchema)}
+                </script>
+            </Helmet>
             {/* SVG Cross Pattern Background */}
             <div className="absolute inset-0 opacity-5 pointer-events-none">
                 <div className="absolute inset-0" style={{ backgroundImage: SVG_PATTERN }} />
@@ -154,7 +178,7 @@ export default function ProductsPage({ addToCart }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {filteredProducts.map((product, i) => (
                             <motion.div
-                                key={product.id}
+                                key={product._id || product.id}
                                 variants={fadeIn}
                                 initial="hidden"
                                 whileInView="visible"

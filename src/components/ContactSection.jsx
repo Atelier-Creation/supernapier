@@ -55,8 +55,10 @@ export default function ContactSection() {
                                 <div className="h-[1px] w-full bg-gray-200 mb-4"></div>
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-gray-500 space-y-1 font-medium">
-                                        <p>Virudhachalam, Cuddalore</p>
-                                        <p>Vannankudikadu, Tamil Nadu 606110</p>
+                                        <p>Ponni seeds Pvt Ltd, C/o virudhambal,</p>
+                                        <p>220/A2 Raman Street, Salem main road,</p>
+                                        <p>Ramachandran pettai, Vriddhachalam -606001.</p>
+                                        <p className="text-[#0f9c40] font-bold mt-1">GST: 33AAOCP3989N1ZH</p>
                                     </div>
                                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#0f9c40] transition-colors" />
                                 </div>
@@ -76,8 +78,8 @@ export default function ContactSection() {
                                 <div className="h-[1px] w-full bg-gray-200 mb-4"></div>
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-gray-500 space-y-1 font-medium">
-                                        <p>Phone: +91 94889 32336</p>
-                                        <p>Mobile: +91 94889 32339</p>
+                                        <p>Phone: +91 76394 44670</p>
+                                        <p>Mobile: +91 94889 32336</p>
                                     </div>
                                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#0f9c40] transition-colors" />
                                 </div>

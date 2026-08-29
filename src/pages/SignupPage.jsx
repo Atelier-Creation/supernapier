@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
-import { Mail, Lock, User, Phone, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const SignupPage = () => {
   const [step, setStep] = useState(1);
@@ -12,6 +13,8 @@ const SignupPage = () => {
     password: '',
     confirmPassword: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
@@ -23,7 +26,7 @@ const SignupPage = () => {
   const handleNext = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) {
-      return alert('Please fill in your name and phone number');
+      return toast.error('Please fill in your name and phone number');
     }
     setStep(2);
   };
@@ -31,7 +34,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      return alert('Passwords do not match');
+      return toast.error('Passwords do not match');
     }
     setLoading(true);
     const result = await signup(formData);
@@ -146,14 +149,21 @@ const SignupPage = () => {
                       <Lock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       name="password"
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      className="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none"
+                      className="block w-full pl-12 pr-10 py-3.5 border border-gray-200 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none"
                       placeholder="••••••••"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-700 transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
                   </div>
                 </div>
 
@@ -164,14 +174,21 @@ const SignupPage = () => {
                       <Lock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
-                      type="password"
+                      type={showConfirmPassword ? 'text' : 'password'}
                       name="confirmPassword"
                       required
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none"
+                      className="block w-full pl-12 pr-10 py-3.5 border border-gray-200 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none"
                       placeholder="••••••••"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-700 transition-colors"
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
                   </div>
                 </div>
 
