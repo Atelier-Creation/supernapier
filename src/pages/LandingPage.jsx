@@ -18,6 +18,9 @@ import Hero from '../components/Hero';
 import SemiPieSliderDemo from './SemiPieSliderDemo';
 import CategorySliderDemo from './CategorySliderDemo';
 import TrustSection from '../components/TrustSection';
+import ClientBrandsSection from '../components/ClientBrandsSection';
+import ReviewsShowcaseSection from '../components/ReviewsShowcaseSection';
+import FaqSection from '../components/FaqSection';
 import SEO from '../components/SEO';
 import { Helmet } from 'react-helmet-async';
 
@@ -84,6 +87,7 @@ export default function LandingPage({ addToCart }) {
             {/* <Hero /> */}
             <ScrollExpansionHero />
             {/* <HeroBrutal /> */}
+            <ClientBrandsSection />
             <CategoriesSection />
             <OurProduct addToCart={addToCart} />
             {/* <WhyChooseUs /> */}
@@ -95,7 +99,9 @@ export default function LandingPage({ addToCart }) {
             <BestSellers bestSellers={bestSellers} addToCart={addToCart} />
             <BlogSection />
             <TrustSection/>
+            <ReviewsShowcaseSection />
             <TestimonialsSection />
+            <FaqSection />
             <ContactSection />
         </motion.div>
     );

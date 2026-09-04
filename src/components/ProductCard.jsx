@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Share2 } from 'lucide-react';
+import ShareModal from './common/ShareModal';
 
 export default function ProductCard({ product, addToCart }) {
+    const [isShareOpen, setIsShareOpen] = useState(false);
     const id = product._id || product.id;
     const name = product.name?.en || product.name || 'Unnamed Product';
     const description = product.description?.en || product.description || '';
@@ -27,27 +29,44 @@ export default function ProductCard({ product, addToCart }) {
             className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col overflow-hidden"
         >
             {/* Image */}
-            <Link to={`/product/${id}`} className="relative h-52 overflow-hidden block bg-[#f2fae6]">
-                <img
-                    src={image}
-                    alt={name}
-                    className={`w-full h-full ${image.toLowerCase().endsWith('.png') ? 'object-contain bg-[#eef8ed]' : 'object-cover'} group-hover:scale-105 transition-transform duration-700`}
-                />
+            <div className="relative h-52 overflow-hidden block bg-[#f2fae6]">
+                <Link to={`/product/${id}`} className="block w-full h-full">
+                    <img
+                        src={image}
+                        alt={name}
+                        className={`w-full h-full ${image.toLowerCase().endsWith('.png') ? 'object-contain bg-[#eef8ed]' : 'object-cover'} group-hover:scale-105 transition-transform duration-700`}
+                    />
+                </Link>
+
                 {/* Category badge */}
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 left-3 pointer-events-none">
                     <span className="bg-white/80 backdrop-blur-md text-[#1B5E20] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
                         {category}
                     </span>
                 </div>
-                {/* Discount badge */}
-                {discountPercent && (
-                    <div className="absolute top-3 right-3">
+
+                {/* Top Right: Discount badge & Floating Share Button */}
+                <div className="absolute top-3 right-3 flex flex-col items-end gap-2 z-10">
+                    {discountPercent && (
                         <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
                             {discountPercent}% off
                         </span>
-                    </div>
-                )}
-            </Link>
+                    )}
+                    <motion.button
+                        whileTap={{ scale: 0.88 }}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsShareOpen(true);
+                        }}
+                        title="Share Product"
+                        aria-label="Share product"
+                        className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-md shadow-sm hover:shadow-md text-gray-600 hover:text-[#1B5E20] hover:bg-white flex items-center justify-center transition-all hover:scale-110 cursor-pointer border border-gray-100"
+                    >
+                        <Share2 className="w-3.5 h-3.5" />
+                    </motion.button>
+                </div>
+            </div>
 
             {/* Body */}
             <div className="p-5 flex flex-col flex-grow">
@@ -85,12 +104,20 @@ export default function ProductCard({ product, addToCart }) {
                                 weight: baseOption.weight
                             });
                         }}
-                        className="bg-[#111] hover:bg-[#059669] text-white p-3 rounded-full transition-colors shadow-md"
+                        className="bg-[#111] hover:bg-[#059669] text-white p-3 rounded-full transition-colors shadow-md cursor-pointer"
+                        aria-label="Add to cart"
                     >
                         <ShoppingCart className="w-4 h-4" />
                     </motion.button>
                 </div>
             </div>
+
+            {/* Share Modal */}
+            <ShareModal
+                isOpen={isShareOpen}
+                onClose={() => setIsShareOpen(false)}
+                product={product}
+            />
         </motion.div>
     );
 }

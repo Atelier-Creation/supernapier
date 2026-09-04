@@ -5,38 +5,38 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const TrustSection = () => {
-    // LEFT SIDE
+    // LEFT SIDE - High-yield Fodder Seeds & Crops (Hedge Lucerne, Moringa PKM-1, Agathi, Soundal, Super Napier)
     const leftCol1 = [
-        "https://img.freepik.com/free-photo/top-view-black-seasonings-inside-round-pot-grey-background_140725-50004.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/free-photo/top-view-bowl-with-coffee-powder_23-2148937296.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/heap-coriander-seeds-bowl-wooden-background-closeup_392895-709974.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/sprouted-kala-chana-black-brown-chickpeas-it-s-vegan-substitute-rich-protein-it-has-high-content-living-enzymes_466689-2436.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/free-photo/red-beans-wood-background-soft-focus-with-vintage-film-filter_1339-177.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585517/products/rcolu8uwxwr3swgwjamu.jpg", // Hedge Lucerne (Desmanthus) Seeds
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585672/products/zn9eaun9k3lzkfenaahm.jpg", // Moringa PKM-1 Drumstick Seeds
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586457/products/bh3vljhqa9th423rfz95.jpg", // Agathi Seeds (Sesbania Grandiflora)
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586429/products/l0qpfijtfsj0nnftigwn.jpg", // Soundal Seeds (Subabul)
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1788265801/products/oca008o0k8relukt6jy5.jpg", // Super Napier Stems & Slips
     ];
 
     const leftCol2 = [
-        "https://img.freepik.com/premium-photo/black-gram-seed-udad-beans-bowl_96696-747.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/free-photo/top-view-tasty-shelled-sunflower-seeds-wooden-bowl-with-shelled-seeds-isolated_141793-88911.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/refreshing-bean-coffee-kathmandu-nepal_131480-44.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/indian-charolya-buchanania-lanzan-almondette-kernel-seeds-bowl-pile-selective-focus_466689-44653.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/sprouted-microgreens-fresh-natural-organic-wheat-germinating_271853-460.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585517/products/iqhdvrpem6rq8xityvc4.jpg", // Hedge Lucerne Seeds in Hand
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585672/products/exffweunrjyy3zpvp289.jpg", // Moringa PKM-1 Seeds Macro
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586457/products/g34nao0phtonvjnjnvtu.jpg", // Agathi Seeds in Hand
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586430/products/hceinzfjjnl9wgnyc0ym.jpg", // Soundal Seeds in Hand
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585203/products/iiyqmcfvq2owyjhjqo0l.jpg", // Dwarf Napier Slips
     ];
 
-    // RIGHT SIDE
+    // RIGHT SIDE - Seed Collections & Fodder Harvests
     const rightCol1 = [
-        "https://img.freepik.com/free-photo/pile-raw-white-beans-ceramic-bowl_114579-50649.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/castor-beans-bowl-wooden-surface_525574-4120.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/free-photo/top-view-green-small-vitamin-bomb-fresh-feijoas-brown-pot_140725-150836.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/blue-bowl-with-seeds-it-blue-rim_1288657-158844.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/fenugreek-seeds-brown-ceramic-bowl-isolated-white-background_926199-3015871.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586430/products/azjve3reu7m6zl7a93dk.jpg", // Soundal Subabul Seed Heap
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1788265801/products/wdfdrxtvs1v1ue4mwene.jpg", // Super Napier Harvested Stems
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586659/products/kk5anpyoy5dlzrjmfhci.png", // Hedge Lucerne Seeds
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1786941511/products/rylng3tixaykjmgpworq.png", // Moringa PKM-1 Seed Pods & Foliage
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585203/products/gtlx5lzaveelmjqetq2y.jpg", // Dwarf Napier Fodder Crop
     ];
 
     const rightCol2 = [
-        "https://img.freepik.com/premium-photo/peeled-sunflower-seeds-bowl-ingredient-making-vegetarian-food_73989-92867.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/anise-seeds-brown-ceramic-bowl-isolated-white-background_1356031-22833.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/glass-bowl-with-seeds-it-glass-bowl-with-words-sunflower-it_975681-215645.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/premium-photo/flax-seeds-bowl-wooden-table_107288-2371.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
-        "https://img.freepik.com/free-photo/green-lentils-black-mini-bucket-black-stone-table-side-view_176474-2104.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_incoming&w=740&q=80",
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586458/products/uw4bex3wkjc62z6oywy6.jpg", // Agathi Seeds & Foliage
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787586756/products/oh4yr3uuakn9vya5asg9.png", // Soundal Subabul Seeds
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1788265801/products/jkyma8rm9902h3qvgqyu.jpg", // Super Napier Field
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1787585203/products/j4pzwhm0gp5gjbrkdlqk.jpg", // Dwarf Napier Slips Bundle
+        "https://res.cloudinary.com/dxm28ujz3/image/upload/v1788265801/products/oeknpd3zh3ivwvmdzqtf.jpg", // Super Napier Green Fodder
     ];
 
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useParams, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
@@ -42,6 +42,11 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 
 import { useCart } from './Context/CartContext';
 
+function ShareRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/product/${id}`} replace />;
+}
+
 function MainContent() {
   const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen, updateQuantity } = useCart();
   const location = useLocation();
@@ -63,6 +68,7 @@ function MainContent() {
             <Route path="/" element={<LandingPage addToCart={addToCart} />} />
             <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
             <Route path="/product/:id" element={<ProductDetailPage addToCart={addToCart} />} />
+            <Route path="/share/product/:id" element={<ShareRedirect />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/about" element={<AboutPage />} />

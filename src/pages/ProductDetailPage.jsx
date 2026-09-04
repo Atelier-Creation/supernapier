@@ -103,11 +103,12 @@ export default function ProductDetailPage({ addToCart }) {
                 title={`${localizedName} | Super Napier`} 
                 description={localizedDesc} 
                 image={product.images?.[0] || '/placeholder.png'}
-                url={window.location.href}
+                url={`${baseSiteUrl}/product/${product._id}`}
+                type="product"
             />
             <Helmet>
                 <script type="application/ld+json">
-                    {JSON.stringify(productSchema)}
+                    {JSON.stringify(productSchema).replace(/</g, '\\u003c')}
                 </script>
             </Helmet>
             <div className="max-w-7xl mx-auto px-4 mt-15 sm:px-6 lg:px-8">

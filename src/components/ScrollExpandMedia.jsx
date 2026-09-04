@@ -87,29 +87,21 @@ const ScrollExpandMedia = ({
 
       const isAtTop = window.scrollY < 20;
 
-      // Only capture wheel events if we are near the top of the page.
-      // This prevents the intro from 'reverse animating' while we are scrolling
-      // other sections deeper down.
-      if (!isAtTop && mediaFullyExpanded) return;
-      if (!isAtTop && !mediaFullyExpanded) return;
+      // Once media is fully expanded, allow free scrolling down and up.
+      // Do not block scrolling or shrink the banner, preserving banner content.
+      if (mediaFullyExpanded) return;
+      if (!isAtTop) return;
 
-      if (mediaFullyExpanded && e.deltaY < 0 && !lockScroll && window.scrollY <= 5) {
-        // Only allow shrinking if scroll is NOT locked
-        setMediaFullyExpanded(false);
-        e.preventDefault();
-      } else if (mediaFullyExpanded && e.deltaY < 0 && lockScroll) {
-        // Prevent scrolling up if locked
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollDelta = e.deltaY * (isMobileState ? 0.005 : 0.0009);
-        const newProgress = Math.min(
-          Math.max(progress.get() + scrollDelta, 0),
-          1
-        );
-        progress.set(newProgress);
-      } else if (lockScroll && e.deltaY > 0) {
-        e.preventDefault();
+      if (!mediaFullyExpanded) {
+        if (e.deltaY > 0) {
+          e.preventDefault();
+          const scrollDelta = e.deltaY * (isMobileState ? 0.005 : 0.0009);
+          const newProgress = Math.min(
+            Math.max(progress.get() + scrollDelta, 0),
+            1
+          );
+          progress.set(newProgress);
+        }
       }
     };
 
@@ -120,29 +112,24 @@ const ScrollExpandMedia = ({
     const handleTouchMove = (e) => {
       if (!touchStartY) return;
 
+      // Once fully expanded, allow native touch scrolling down the page
+      if (mediaFullyExpanded) return;
+
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && !lockScroll && window.scrollY <= 5) {
-        // Only allow shrinking if scroll is NOT locked
-        setMediaFullyExpanded(false);
-        e.preventDefault();
-      } else if (mediaFullyExpanded && deltaY < -20 && lockScroll) {
-        // Prevent scrolling up if locked
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
-        const scrollDelta = deltaY * scrollFactor;
-        const newProgress = Math.min(
-          Math.max(progress.get() + scrollDelta, 0),
-          1
-        );
-        progress.set(newProgress);
-
-        setTouchStartY(touchY);
-      } else if (lockScroll && deltaY > 0) {
-        e.preventDefault();
+      if (!mediaFullyExpanded) {
+        if (deltaY > 0) {
+          e.preventDefault();
+          const scrollFactor = 0.005;
+          const scrollDelta = deltaY * scrollFactor;
+          const newProgress = Math.min(
+            Math.max(progress.get() + scrollDelta, 0),
+            1
+          );
+          progress.set(newProgress);
+          setTouchStartY(touchY);
+        }
       }
     };
 
@@ -151,9 +138,8 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = () => {
-      // Only snap to top if we are actually at the top AND either intro phase or locked.
-      // If scrollY is > 100, we are browsing down, so don't trap the user.
-      if ((!mediaFullyExpanded || lockScroll) && window.scrollY > 0 && window.scrollY < 100) {
+      // Only snap during intro phase before media is expanded
+      if (!mediaFullyExpanded && window.scrollY > 0 && window.scrollY < 100) {
         window.scrollTo(0, 0);
       }
     };
@@ -171,7 +157,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY, lockScroll]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
 
   useEffect(() => {
     const checkIfMobile = () => {

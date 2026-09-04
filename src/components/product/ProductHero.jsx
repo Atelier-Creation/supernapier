@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun, Check } from 'lucide-react';
+import { ShoppingCart, Star, CloudDownload, ChevronLeft, ChevronRight, Sprout, TrendingUp, Sun, Check, Share2 } from 'lucide-react';
 import { useCart } from '../../Context/CartContext';
+import ShareModal from '../common/ShareModal';
 
 export default function ProductHero({ product, addToCart: propAddToCart }) {
     const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
     const [qty, setQty] = useState(1);
+    const [isShareOpen, setIsShareOpen] = useState(false);
     const images = product.images?.length ? product.images : ['/placeholder.png'];
     const weightOptions = product.weightOptions || [];
     const [selectedOption, setSelectedOption] = useState(weightOptions[0] || null);
@@ -173,10 +175,18 @@ export default function ProductHero({ product, addToCart: propAddToCart }) {
 
             {/* ── Right: Product Info ── */}
             <div className="flex flex-col">
-                <div className="mb-4">
+                <div className="flex items-center justify-between mb-4">
                     <span className="bg-[#F1F8E9] text-[#1B5E20] px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
                         {product.category?.name?.en || product.category?.name || 'Category'}
                     </span>
+                    <button
+                        onClick={() => setIsShareOpen(true)}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#1B5E20] bg-[#F1F8E9] hover:bg-[#E8F5E9] border border-[#1B5E20]/20 transition-all shadow-xs cursor-pointer active:scale-95"
+                        aria-label="Share product"
+                    >
+                        <Share2 className="w-3.5 h-3.5" />
+                        <span>Share</span>
+                    </button>
                 </div>
 
                 <h1 className="text-4xl md:text-5xl font-bold text-[#1B5E20] mb-1 leading-tight">
@@ -334,6 +344,13 @@ export default function ProductHero({ product, addToCart: propAddToCart }) {
                     )}
                 </div>
             </div>
+
+            {/* Share Modal */}
+            <ShareModal
+                isOpen={isShareOpen}
+                onClose={() => setIsShareOpen(false)}
+                product={product}
+            />
         </div>
     );
 }

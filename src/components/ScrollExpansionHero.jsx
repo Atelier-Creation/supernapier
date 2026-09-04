@@ -83,7 +83,6 @@ const ScrollExpansionHero = () => {
                 onFullyExpanded={() => setIsFullyExpanded(true)}
                 onVideoEnded={() => setIsVideoEnded(true)}
                 mediaXOffset={isVideoEnded ? -2000 : 0}
-                lockScroll={isFullyExpanded && !isVideoEnded}
                 overlayContent={
                     <>
                         {/* Full-screen Background Slider */}
@@ -224,11 +223,11 @@ const ScrollExpansionHero = () => {
                                         </div>
                                     </div>
 
-                                    {/* Post-Video Scroll Hint */}
+                                    {/* Scroll to Explore Hint */}
                                     <motion.div
                                         initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: isVideoEnded ? 1 : 0, y: isVideoEnded ? 0 : 20 }}
-                                        transition={{ delay: 1, duration: 1 }}
+                                        animate={{ opacity: isFullyExpanded ? 1 : 0, y: isFullyExpanded ? 0 : 20 }}
+                                        transition={{ delay: 0.5, duration: 0.8 }}
                                         className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 pointer-events-none"
                                     >
                                         <span className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] mb-1">Scroll to Explore</span>
