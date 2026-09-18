@@ -109,6 +109,8 @@ export default function OurProduct({ addToCart }) {
                                             src={image}
                                             alt={name}
                                             className="w-full h-auto object-contain"
+                                            width="400"
+                                            height="400"
                                             loading="lazy"
                                             onClick={()=>navigate(`/product/${product._id || product.id}`)}
                                         />

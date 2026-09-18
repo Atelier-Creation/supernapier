@@ -240,9 +240,22 @@ export default function Navbar({ cartCount, onOpenCart }) {
                             </button> */}
                         </div>
 
-                        {/* ── Mobile Right: Hamburger only ── */}
+                        {/* ── Mobile Right: Cart & Hamburger ── */}
                         <div className="lg:hidden flex items-center gap-4">
                             <LanguageSwitcher />
+
+                            {/* Cart (Mobile) */}
+                            <button
+                                onClick={onOpenCart}
+                                className="relative text-gray-700 hover:text-[#1B5E20] transition-colors p-1"
+                            >
+                                <ShoppingCart className="w-6 h-6" />
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 w-4 h-4 text-[9px] font-bold text-white bg-red-500 rounded-full flex items-center justify-center">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </button>
 
                             <button
                                 onClick={() => setMenuOpen(true)}
@@ -387,7 +400,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                 </div>
 
                                 {/* Cart */}
-                                <button
+                                {/* <button
                                     onClick={() => { setMenuOpen(false); onOpenCart(); }}
                                     className="relative text-gray-500 hover:text-[#1B5E20] transition-colors"
                                 >
@@ -397,15 +410,15 @@ export default function Navbar({ cartCount, onOpenCart }) {
                                             {cartCount}
                                         </span>
                                     )}
-                                </button>
+                                </button> */}
 
                                 {/* Close / Menu icon */}
-                                <button
+                                {/* <button
                                     onClick={() => setMenuOpen(false)}
                                     className="text-gray-500 hover:text-[#1B5E20] transition-colors"
                                 >
                                     <Menu className="w-5 h-5" />
-                                </button>
+                                </button> */}
                             </div>
                         </motion.div>
                     </>

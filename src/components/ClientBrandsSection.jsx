@@ -144,6 +144,8 @@ export default function ClientBrandsSection() {
                                             src={client.logo}
                                             alt={`${client.name} logo`}
                                             className="max-h-full max-w-[85%] object-contain transition-transform duration-300 group-hover:scale-105"
+                                            width="200"
+                                            height="100"
                                             loading="lazy"
                                         />
                                     </div>

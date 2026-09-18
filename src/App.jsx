@@ -107,7 +107,7 @@ function MainContent() {
         cartItems={cartItems}
         removeFromCart={removeFromCart}
       />
-      {showLayout && <WhatsAppFloatButton />}
+      { (showLayout || location.pathname === '/partnership') && <WhatsAppFloatButton /> }
     </div>
   );
 }

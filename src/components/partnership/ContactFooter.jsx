@@ -75,17 +75,17 @@ const ContactFooter = ({ config }) => {
             <form className="space-y-4 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <label className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Full Name</label>
-                  <input type="text" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all" />
+                  <label htmlFor="fullName" className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Full Name</label>
+                  <input id="fullName" name="fullName" type="text" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all" />
                 </div>
                 <div>
-                  <label className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Company</label>
-                  <input type="text" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all" />
+                  <label htmlFor="company" className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Company</label>
+                  <input id="company" name="company" type="text" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all" />
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Proposed Acreage</label>
-                <select className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all appearance-none">
+                <label htmlFor="acreage" className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Proposed Acreage</label>
+                <select id="acreage" name="acreage" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all appearance-none">
                   <option className="bg-deep-forest">100 - 500 Acres</option>
                   <option className="bg-deep-forest">500 - 2,000 Acres</option>
                   <option className="bg-deep-forest">2,000 - 5,000 Acres</option>
@@ -93,8 +93,8 @@ const ContactFooter = ({ config }) => {
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Message</label>
-                <textarea rows="4" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all"></textarea>
+                <label htmlFor="message" className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Message</label>
+                <textarea id="message" name="message" rows="4" className="w-full bg-white/10 border border-white/20 rounded-lg md:rounded-xl px-4 py-2 md:py-3 focus:outline-none focus:border-earthy-gold transition-all"></textarea>
               </div>
               <button className="w-full bg-earthy-gold text-deep-forest font-black py-3 md:py-4 rounded-lg md:rounded-xl hover:bg-white hover:scale-[1.02] transition-all transform uppercase tracking-widest text-sm md:text-base">
                 Submit Inquiry

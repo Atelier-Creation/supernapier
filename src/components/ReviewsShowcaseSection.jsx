@@ -40,6 +40,8 @@ export default function ReviewsShowcaseSection() {
                                     src="/reviews/google-logo.svg"
                                     alt="Google"
                                     className="h-8 sm:h-9 object-contain"
+                                    width="100"
+                                    height="36"
                                     loading="lazy"
                                 />
                             </div>
@@ -107,6 +109,8 @@ export default function ReviewsShowcaseSection() {
                                     src="/reviews/justdial-logo.svg"
                                     alt="Justdial"
                                     className="h-8 sm:h-9 object-contain"
+                                    width="100"
+                                    height="36"
                                     loading="lazy"
                                 />
                             </div>

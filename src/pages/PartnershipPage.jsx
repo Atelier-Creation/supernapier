@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { pagesApi } from '../api/pagesApi';
 import SEO from '../components/SEO';
@@ -186,6 +187,15 @@ const PartnershipPage = () => {
           </script>
         )}
       </Helmet>
+
+      {/* Back to Site Button */}
+      <Link 
+        to="/" 
+        className="absolute top-6 left-4 z-50 flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md text-deep-forest hover:bg-earthy-gold hover:text-white transition-all duration-300"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span className="font-semibold hidden sm:block">Back to Site</span>
+      </Link>
 
       <PartnershipHero config={content.hero} />
       
