@@ -9,6 +9,8 @@ import { INDIAN_STATES } from '../constants/states';
 import api from '../api/authApi';
 import toast from 'react-hot-toast';
 import { uploadToCloudinary } from '../api/cloudinaryApi';
+import { validatePhone } from '../utils/phoneValidation';
+import CountrySelect from '../components/common/CountrySelect';
 
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_DUMMY_KEY';
 
@@ -45,6 +47,7 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
         name: user?.name || '',
         email: user?.email || '',
         phone: user?.phone || '',
+        countryCode: 'IN',
         address: '',
         city: '',
         state: 'TN', // Default to state code TN
@@ -382,6 +385,14 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
 
         if (cartItems.length === 0) return;
 
+        const phoneValidation = validatePhone(form.phone, form.countryCode || 'IN');
+        if (!phoneValidation.valid) {
+            toast.error(phoneValidation.message);
+            setIsLoading(false);
+            return;
+        }
+        form.phone = phoneValidation.e164; // Use E.164 format for the order
+
         if (paymentMethod === 'UPI') {
             setShowUpiModal(true);
             return;
@@ -531,7 +542,24 @@ export default function CheckoutPage({ cartItems = [], removeFromCart, clearCart
                                         <InputField label="Full Name" id="name" placeholder="e.g. Ramesh Kumar" value={form.name} onChange={handleFormChange('name')} />
                                     </div>
                                     <InputField label="Email Address" id="email" type="email" placeholder="you@example.com" value={form.email} onChange={handleFormChange('email')} />
-                                    <InputField label="Phone Number" id="phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={handleFormChange('phone')} />
+                                    <div>
+                                        <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
+                                        <div className="flex border border-gray-200 rounded-xl bg-gray-50 overflow-hidden focus-within:ring-2 focus-within:ring-[#1B5E20]/30 focus-within:border-[#1B5E20] transition-all">
+                                            <CountrySelect 
+                                                value={form.countryCode || 'IN'} 
+                                                onChange={(val) => setForm(prev => ({ ...prev, countryCode: val }))} 
+                                            />
+                                            <input
+                                                id="phone"
+                                                type="tel"
+                                                placeholder="9876543210"
+                                                value={form.phone}
+                                                onChange={handleFormChange('phone')}
+                                                required
+                                                className="w-full px-3 py-3 text-sm outline-none bg-transparent"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

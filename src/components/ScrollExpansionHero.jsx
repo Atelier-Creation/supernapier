@@ -206,11 +206,11 @@ const ScrollExpansionHero = () => {
                                                                 <img key={i} className="w-8 h-8 rounded-full border-2 border-green-900 object-cover" src={`https://i.pravatar.cc/100?img=${i + 14}`} alt="Farmer" />
                                                             ))}
                                                         </div>
-                                                        <p className="text-gray-300 text-[10px] font-bold tracking-widest uppercase ml-2 text-right">100K+ Success Stories</p>
+                                                        <p className="text-gray-300 text-[10px] font-bold tracking-widest uppercase ml-2 text-right">500+ Success Stories</p>
                                                     </div>
 
                                                     <a
-                                                        href="https://share.google/KEX9eNAIoOY1RRId0"
+                                                        href="https://www.google.com/search?q=Super+Napier"
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="w-full bg-[#fde047] hover:bg-white text-black font-black text-xs py-4 rounded-full transition-all duration-300 uppercase tracking-widest shadow-lg flex items-center justify-center gap-2"

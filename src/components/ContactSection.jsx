@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, PhoneCall, ArrowRight } from 'lucide-react';
+import api from '../api/authApi';
+import toast from 'react-hot-toast';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ContactSection() {
+    const { executeRecaptcha } = useGoogleReCaptcha();
     return (
         <section id="contact" className="py-6 md:py-24 bg-[#FAFCF8] relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -103,16 +107,42 @@ export default function ContactSection() {
                                 Always ready to <br /> answer your questions
                             </h2>
 
-                            <form className="relative z-10 space-y-6">
+                            <form className="relative z-10 space-y-6" onSubmit={async (e) => {
+                                e.preventDefault();
+                                
+                                if (!executeRecaptcha) {
+                                    toast.error('reCAPTCHA not ready. Please try again.');
+                                    return;
+                                }
+
+                                try {
+                                    const token = await executeRecaptcha('contact_form');
+                                    const formData = new FormData(e.target);
+                                    const data = Object.fromEntries(formData.entries());
+                                    data.recaptchaToken = token;
+
+                                    const res = await api.post('/contact', data);
+                                    if(res.data.success) {
+                                        toast.success('Your message has been sent successfully!');
+                                        e.target.reset();
+                                    } else {
+                                        toast.error('Failed to send message.');
+                                    }
+                                } catch (err) {
+                                    toast.error('Failed to send message. Please try again later.');
+                                }
+                            }}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <input
                                         type="text"
+                                        name="fullName"
                                         placeholder="First Name*"
                                         className="w-full bg-[#2a3c23] border border-white/5 text-white rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#fde047]/50 placeholder-white/60 transition-all"
                                         required
                                     />
                                     <input
                                         type="email"
+                                        name="email"
                                         placeholder="Your Email*"
                                         className="w-full bg-[#2a3c23] border border-white/5 text-white rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#fde047]/50 placeholder-white/60 transition-all"
                                         required
@@ -121,12 +151,14 @@ export default function ContactSection() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <input
                                         type="tel"
+                                        name="phone"
                                         placeholder="Your Phone*"
                                         className="w-full bg-[#2a3c23] border border-white/5 text-white rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#fde047]/50 placeholder-white/60 transition-all"
                                         required
                                     />
                                     <input
                                         type="text"
+                                        name="subject"
                                         placeholder="Subject*"
                                         className="w-full bg-[#2a3c23] border border-white/5 text-white rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#fde047]/50 placeholder-white/60 transition-all"
                                         required
@@ -134,6 +166,7 @@ export default function ContactSection() {
                                 </div>
 
                                 <textarea
+                                    name="message"
                                     placeholder="Comment"
                                     rows="6"
                                     className="w-full bg-[#2a3c23] border border-white/5 text-white rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#fde047]/50 placeholder-white/60 transition-all resize-none"

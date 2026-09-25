@@ -50,7 +50,7 @@ function ShareRedirect() {
 function MainContent() {
   const { cartItems, addToCart, removeFromCart, clearCart, cartOpen, setCartOpen, updateQuantity } = useCart();
   const location = useLocation();
-  const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password', '/partnership'];
+  const noLayoutPaths = ['/login', '/signup', '/forgot-password', '/reset-password', '/bio-gas'];
   const showLayout = !noLayoutPaths.includes(location.pathname);
 
   return (
@@ -73,7 +73,7 @@ function MainContent() {
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route path="/partnership" element={<PartnershipPage />} />
+            <Route path="/bio-gas" element={<PartnershipPage />} />
             <Route path="/terms" element={<TermsAndCondition />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/refund" element={<RefundReturnPolicy />} />
@@ -107,7 +107,7 @@ function MainContent() {
         cartItems={cartItems}
         removeFromCart={removeFromCart}
       />
-      { (showLayout || location.pathname === '/partnership') && <WhatsAppFloatButton /> }
+      { (showLayout || location.pathname === '/bio-gas') && <WhatsAppFloatButton /> }
     </div>
   );
 }

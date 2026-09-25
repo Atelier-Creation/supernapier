@@ -84,7 +84,7 @@ export default function ReviewsShowcaseSection() {
                         {/* Bottom: Pill Outline Action Button */}
                         <div className="w-full mt-8 flex justify-center">
                             <a
-                                href="https://share.google/0YNit6yvzqI8LszqK"
+                                href="https://www.google.com/search?q=Super+Napier"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 w-full max-w-xs py-3 px-6 rounded-full border-2 border-[#1a73e8] text-[#1a73e8] bg-white/70 hover:bg-[#1a73e8] hover:text-white font-bold text-sm sm:text-base transition-all duration-200 shadow-sm active:scale-95 group/btn"

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { productApi } from "../../api/productApi";
+import api from "../../api/authApi";
 import toast from "react-hot-toast";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function ContactSection() {
     const location = useLocation();
@@ -15,6 +17,8 @@ export default function ContactSection() {
     const [phone, setPhone] = useState('');
     const [subject, setSubject] = useState('');
     const [comment, setComment] = useState('');
+    
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const fallbackProducts = [
         { _id: '1', name: { en: 'Premium Super Napier Grass' } },
@@ -42,28 +46,44 @@ export default function ContactSection() {
         }
     }, [isBulkOrder, subject]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const submission = {
-            firstName,
-            email,
-            phone,
-            subject,
-            comment,
-            products: isBulkOrder ? selectedProducts : []
-        };
-        
-        console.log("Inquiry Submitted:", submission);
-        toast.success("Thank you for your inquiry! Our team will contact you soon.");
-        
-        // Reset form
-        setFirstName('');
-        setEmail('');
-        setPhone('');
-        setSubject('');
-        setComment('');
-        setSelectedProducts([]);
+        if (!executeRecaptcha) {
+            toast.error('reCAPTCHA not ready. Please try again.');
+            return;
+        }
+
+        try {
+            const token = await executeRecaptcha('contact_form');
+            const submission = {
+                firstName,
+                email,
+                phone,
+                subject,
+                comment,
+                products: isBulkOrder ? selectedProducts : [],
+                recaptchaToken: token
+            };
+            
+            const res = await api.post('/contact', submission);
+            
+            if(res.data.success) {
+                toast.success("Thank you for your inquiry! Our team will contact you soon.");
+                // Reset form
+                setFirstName('');
+                setEmail('');
+                setPhone('');
+                setSubject(isBulkOrder ? 'Bulk Order Inquiry' : '');
+                setComment('');
+                setSelectedProducts([]);
+            } else {
+                toast.error(res.data.message || 'Failed to send inquiry.');
+            }
+        } catch (err) {
+            console.error("Inquiry error:", err);
+            toast.error(err.response?.data?.message || 'Failed to send inquiry. Please try again later.');
+        }
     };
 
     return (

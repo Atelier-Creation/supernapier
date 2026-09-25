@@ -170,7 +170,7 @@ export default function Hero() {
                                                 <div className="flex text-[#fde047] mb-0.5">
                                                     {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
                                                 </div>
-                                                <p className="text-gray-300 text-[10px] font-medium tracking-wide">Trusted by 100K+ Farmer</p>
+                                                <p className="text-gray-300 text-[10px] font-medium tracking-wide">Trusted by 500+ Farmer</p>
                                             </div>
                                         </div>
 

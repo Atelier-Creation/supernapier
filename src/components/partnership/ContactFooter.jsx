@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Phone, Mail, Globe } from 'lucide-react';
+import api from '../../api/authApi';
+import toast from 'react-hot-toast';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const ContactFooter = ({ config }) => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const {
     title = "Let’s Build a Successful Future, Together",
     description = "Partner with Ponni Seeds to secure your biomass supply chain. Our team of experts is ready to assist you in multiple languages.",
@@ -72,7 +76,29 @@ const ContactFooter = ({ config }) => {
           <div className="bg-deep-forest p-8 md:p-10 lg:p-16 rounded-[2rem] md:rounded-[3rem] text-slate-white shadow-2xl relative overflow-hidden mt-8 lg:mt-0" data-aos="fade-left">
             <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-earthy-gold/10 rounded-bl-full"></div>
             <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Request a Partnership Proposal</h3>
-            <form className="space-y-4 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4 md:space-y-6" onSubmit={async (e) => {
+              e.preventDefault();
+              if (!executeRecaptcha) {
+                  toast.error('reCAPTCHA not ready. Please try again.');
+                  return;
+              }
+              try {
+                const token = await executeRecaptcha('bulkorder_form');
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+                data.recaptchaToken = token;
+                
+                const res = await api.post('/contact', data);
+                if(res.data.success) {
+                  toast.success('Your inquiry has been sent successfully!');
+                  e.target.reset();
+                } else {
+                  toast.error('Failed to send inquiry.');
+                }
+              } catch (err) {
+                toast.error('Failed to send inquiry. Please try again later.');
+              }
+            }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label htmlFor="fullName" className="block text-[10px] md:text-sm font-bold mb-1 md:mb-2 uppercase tracking-widest opacity-60">Full Name</label>

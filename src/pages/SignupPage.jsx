@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 import { Mail, Lock, User, Phone, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { validatePhone } from '../utils/phoneValidation';
+import CountrySelect from '../components/common/CountrySelect';
 
 const SignupPage = () => {
   const [step, setStep] = useState(1);
@@ -10,6 +12,7 @@ const SignupPage = () => {
     name: '',
     email: '',
     phone: '',
+    countryCode: 'IN',
     password: '',
     confirmPassword: '',
   });
@@ -28,6 +31,14 @@ const SignupPage = () => {
     if (!formData.name || !formData.phone) {
       return toast.error('Please fill in your name and phone number');
     }
+
+    const phoneValidation = validatePhone(formData.phone, formData.countryCode || 'IN');
+    if (!phoneValidation.valid) {
+      return toast.error(phoneValidation.message);
+    }
+    
+    // Update the phone number to E164 format before moving to next step
+    setFormData(prev => ({ ...prev, phone: phoneValidation.e164 }));
     setStep(2);
   };
 
@@ -116,17 +127,22 @@ const SignupPage = () => {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <div className="relative flex border border-gray-200 rounded-2xl bg-gray-50 overflow-hidden focus-within:ring-2 focus-within:ring-green-500 focus-within:bg-white transition-all">
+                    <div className="pl-4 flex items-center pointer-events-none">
                       <Phone className="h-5 w-5 text-gray-400" />
                     </div>
+                    <CountrySelect 
+                      value={formData.countryCode || 'IN'} 
+                      onChange={(val) => setFormData({...formData, countryCode: val})} 
+                      className="py-4"
+                    />
                     <input
                       type="tel"
                       name="phone"
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none"
+                      className="block w-full px-3 py-3.5 bg-transparent border-none outline-none placeholder-gray-400"
                       placeholder="9876543210"
                     />
                   </div>

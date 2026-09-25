@@ -21,7 +21,7 @@ import ContactFooter from '../components/partnership/ContactFooter';
 const fallbackContent = {
   hero: {
     title: "Powering Your 5,000-Acre Bio-Industrial Vision",
-    description: "Strategic feedstock partnership for Biofuel and Pulp Ventures. The Super Napier Team delivers excellence in biomass scalability.",
+    description: "Strategic feedstock partnership for Bio-Gas, Biofuel and Pulp Ventures. The Super Napier Team delivers excellence in biomass scalability.",
     button1Text: "Partner With Us",
     button1Link: "#contact",
     button2Text: "Download Proposal",
@@ -40,7 +40,7 @@ const fallbackContent = {
   statsSection: {
     title: "The Super Napier Advantage",
     description: "Our specific cultivar is optimized for maximum biomass density and nutrient extraction efficiency. It's not just grass; it's a high-performance industrial asset.",
-    highlights: ["High Biomass for Biofuel", "Optimal Fiber for Pulp (Kraft Paper)", "Rapid Scalability for 5,000+ Acres"],
+    highlights: ["High Biomass for Bio-Gas & Biofuel", "Optimal Fiber for Pulp (Kraft Paper)", "Rapid Scalability for 5,000+ Acres"],
     stats: [
       { label: "Annual Yield", value: "200", suffix: "Tons/Acre", color: "text-earthy-gold" },
       { label: "Crude Protein", value: "18", suffix: "%", color: "text-accent-lime" },
@@ -54,7 +54,7 @@ const fallbackContent = {
     badgeValue: "95%",
     badgeText: "Conversion Efficiency in Bio-Pulping",
     applications: [
-      { number: "01", title: "Biofuel Generation", description: "With a high calorific value and low ash content, our Super Napier is the ideal feedstock for second-generation ethanol production and biomass power plants." },
+      { number: "01", title: "Bio-Gas & Biofuel Generation", description: "With a high calorific value and low ash content, our Super Napier is the ideal feedstock for bio-gas plants, second-generation ethanol production, and biomass power plants." },
       { number: "02", title: "Pulp & Paper (Kraft)", description: "The optimal fiber length and cellulose-to-lignin ratio make our cultivar a superior alternative for Kraft paper production, reducing chemical consumption in pulping." }
     ]
   },

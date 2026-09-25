@@ -8,7 +8,7 @@ import LoginModal from '../Context/LoginModal';
 const NAV_LINKS = [
     { label: 'Product', to: '/products' },
     { label: 'Bulk Order', to: '/contact?source=bulk' },
-    { label: 'Partnership', to: '/partnership' },
+    { label: 'Bio Gas', to: '/bio-gas' },
     { label: 'About Us', to: '/about' },
     { label: 'Contact Us', to: '/contact' },
 ];
